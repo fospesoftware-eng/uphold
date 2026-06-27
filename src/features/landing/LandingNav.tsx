@@ -40,7 +40,7 @@ export function LandingNav() {
               <img
                 src="/uphold-logo-transparent.png"
                 alt="Uphold"
-                className="h-[52px] w-auto object-contain transition-opacity group-hover:opacity-80"
+                className="h-[64px] w-auto object-contain transition-opacity group-hover:opacity-80"
               />
             </Link>
 

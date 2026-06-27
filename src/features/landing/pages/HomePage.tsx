@@ -66,6 +66,10 @@ function DashboardPreview() {
       transition={{ duration: 1.0, delay: 0.4, ease: 'easeOut' as const }}
       className="relative hidden lg:block"
     >
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+      >
       <div className="absolute -inset-8 bg-gradient-to-br from-[#075DE8]/18 via-[#0797D8]/8 to-[#32E6A4]/12 blur-[60px] rounded-3xl pointer-events-none" />
 
       <div className="relative rounded-[18px] overflow-hidden shadow-[0_32px_100px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.06)]"
@@ -146,6 +150,7 @@ function DashboardPreview() {
           </div>
         </div>
       </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -241,20 +246,21 @@ function HeroSection() {
               </motion.h1>
             </div>
 
-            <motion.div
-              variants={fadeUp} initial="hidden" animate="visible" custom={4}
-              className="flex flex-wrap gap-2 mb-10"
-            >
-              {['STAR Assessments', 'Compliance Tracking', 'Rent & Benefits', 'GDPR Documents', 'Multi-site'].map(tag => (
-                <span
+            <div className="flex flex-wrap gap-2 mb-10">
+              {['STAR Assessments', 'Compliance Tracking', 'Rent & Benefits', 'GDPR Documents', 'Multi-site'].map((tag, i) => (
+                <motion.span
                   key={tag}
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={3.5 + i * 0.15}
                   className="px-3 py-1.5 text-[11px] font-medium text-white/55 rounded-lg"
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   {tag}
-                </span>
+                </motion.span>
               ))}
-            </motion.div>
+            </div>
 
             <motion.div
               variants={fadeUp} initial="hidden" animate="visible" custom={5}
