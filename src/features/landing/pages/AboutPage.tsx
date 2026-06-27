@@ -108,8 +108,8 @@ export function AboutPage() {
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="w-14 h-14 flex items-center justify-center mb-6">
-                <img src="/uphold-logo-transparent.png" alt="Uphold" className="w-full h-full object-contain" />
+              <div className="w-14 h-14 rounded-2xl bg-uphold-gradient-subtle border border-[#E6EEF5] flex items-center justify-center mb-6 p-2.5">
+                <img src="/uphold-icon.png" alt="Uphold" className="w-full h-full object-contain" />
               </div>
               <h2 className="text-3xl font-bold font-display text-[#0F172A] mb-4">
                 Why we exist
