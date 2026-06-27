@@ -5,6 +5,8 @@ import { AuthPage } from './features/auth/AuthPage';
 import { LandingLayout } from './features/landing/LandingLayout';
 import { HomePage } from './features/landing/pages/HomePage';
 import { FeaturesPage } from './features/landing/pages/FeaturesPage';
+import { HowItWorksPage } from './features/landing/pages/HowItWorksPage';
+import { ScheduleDemoPage } from './features/landing/pages/ScheduleDemoPage';
 import { PricingPage } from './features/landing/pages/PricingPage';
 import { AboutPage } from './features/landing/pages/AboutPage';
 import { DashboardPage } from './features/dashboard/DashboardPage';
@@ -34,6 +36,8 @@ function AppRoutes() {
       <Route element={<LandingLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/schedule-demo" element={<ScheduleDemoPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Route>

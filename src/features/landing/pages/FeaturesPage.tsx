@@ -5,6 +5,8 @@ import {
   Users, Building2, DollarSign, FileText, BarChart3, ShieldCheck,
   CheckCircle, ArrowRight, Zap,
 } from 'lucide-react';
+import { FeatureVisual } from '../FeatureVisuals';
+import type { FeatureVisualVariant } from '../FeatureVisuals';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -25,6 +27,7 @@ const features = [
     icon: <Users size={28} />,
     gradient: 'from-[#075DE8] to-[#0797D8]',
     glow: 'rgba(7,93,232,0.3)',
+    visual: 'wellbeing' as FeatureVisualVariant,
     title: 'Tenant Wellbeing & STAR',
     tagline: 'Every tenant, fully visible.',
     points: [
@@ -38,6 +41,7 @@ const features = [
     icon: <Building2 size={28} />,
     gradient: 'from-[#0797D8] to-[#15C6B8]',
     glow: 'rgba(21,198,184,0.3)',
+    visual: 'compliance' as FeatureVisualVariant,
     title: 'Property & Compliance',
     tagline: 'No certificate falls through the cracks.',
     points: [
@@ -51,6 +55,7 @@ const features = [
     icon: <DollarSign size={28} />,
     gradient: 'from-[#15C6B8] to-[#32E6A4]',
     glow: 'rgba(50,230,164,0.25)',
+    visual: 'financial' as FeatureVisualVariant,
     title: 'Rent & Financial Management',
     tagline: 'Your cash flow, crystal clear.',
     points: [
@@ -64,6 +69,7 @@ const features = [
     icon: <FileText size={28} />,
     gradient: 'from-[#6366F1] to-[#8B5CF6]',
     glow: 'rgba(99,102,241,0.3)',
+    visual: 'documents' as FeatureVisualVariant,
     title: 'GDPR-Ready Documents',
     tagline: 'Paperwork that protects everyone.',
     points: [
@@ -77,6 +83,7 @@ const features = [
     icon: <BarChart3 size={28} />,
     gradient: 'from-[#F59E0B] to-[#EF4444]',
     glow: 'rgba(239,68,68,0.25)',
+    visual: 'reports' as FeatureVisualVariant,
     title: 'Reports & Insights',
     tagline: 'Board-ready in one click.',
     points: [
@@ -90,6 +97,7 @@ const features = [
     icon: <ShieldCheck size={28} />,
     gradient: 'from-[#10B981] to-[#15C6B8]',
     glow: 'rgba(16,185,129,0.3)',
+    visual: 'access' as FeatureVisualVariant,
     title: 'Role-Based Access Control',
     tagline: 'Right people, right data.',
     points: [
@@ -191,12 +199,9 @@ export function FeaturesPage() {
                   </ul>
                 </div>
 
-                {/* Visual accent panel */}
-                <div className={`${i % 2 === 1 ? 'lg:order-1' : ''} h-48 lg:h-56 rounded-2xl bg-gradient-to-br ${f.gradient} opacity-10 relative overflow-hidden`}>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30 text-white">
-                    <div className="scale-[3]">{f.icon}</div>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                {/* Animated AI visual */}
+                <div className={i % 2 === 1 ? 'lg:order-1' : ''}>
+                  <FeatureVisual variant={f.visual} glow={f.glow} />
                 </div>
               </motion.div>
             );
