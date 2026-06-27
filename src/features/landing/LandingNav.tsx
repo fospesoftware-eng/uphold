@@ -35,12 +35,12 @@ export function LandingNav() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[72px]">
+        <div className="flex items-center justify-between h-[88px]">
             <Link to="/" className="flex items-center group flex-shrink-0">
               <img
                 src="/uphold-logo-transparent.png"
                 alt="Uphold"
-                className="h-[64px] w-auto object-contain transition-opacity group-hover:opacity-80"
+                className="h-[96px] w-auto object-contain transition-opacity group-hover:opacity-80"
               />
             </Link>
 
