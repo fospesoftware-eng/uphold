@@ -1,0 +1,283 @@
+@import 'tailwindcss';
+@import '@porsche-design-system/components-react/tailwindcss';
+
+/* Uphold Brand CSS Variables */
+:root {
+  --uphold-blue: #075DE8;
+  --uphold-sky: #0797D8;
+  --uphold-teal: #15C6B8;
+  --uphold-mint: #32E6A4;
+  --uphold-gradient: linear-gradient(135deg, #075DE8 0%, #0797D8 38%, #15C6B8 68%, #32E6A4 100%);
+  --uphold-gradient-subtle: linear-gradient(135deg, rgba(7,93,232,0.08) 0%, rgba(7,151,216,0.08) 38%, rgba(21,198,184,0.08) 68%, rgba(50,230,164,0.08) 100%);
+
+  /* App layout */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 64px;
+  --topbar-height: 64px;
+
+  /* Uphold surface colors */
+  --uphold-bg: #F8FAFC;
+  --uphold-card: #FFFFFF;
+  --uphold-border: #E6EEF5;
+  --uphold-navy: #0F172A;
+  --uphold-slate: #334155;
+  --uphold-muted: #64748B;
+
+  /* Semantic */
+  --uphold-success: #10B981;
+  --uphold-warning: #F59E0B;
+  --uphold-danger: #F43F5E;
+  --uphold-info: #3B82F6;
+}
+
+html.dark {
+  --uphold-bg: #0A0F1E;
+  --uphold-card: #111827;
+  --uphold-border: #1E2D45;
+  --uphold-navy: #F8FAFC;
+  --uphold-slate: #CBD5E1;
+  --uphold-muted: #94A3B8;
+}
+
+/* Font families */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--uphold-bg);
+  color: var(--uphold-navy);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* Uphold Gradient utilities */
+.bg-uphold-gradient {
+  background: var(--uphold-gradient);
+}
+.bg-uphold-gradient-subtle {
+  background: var(--uphold-gradient-subtle);
+}
+.text-uphold-gradient {
+  background: var(--uphold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--uphold-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--uphold-muted); }
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--uphold-border) 25%, #f1f5f9 50%, var(--uphold-border) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+html.dark .skeleton {
+  background: linear-gradient(90deg, #1E2D45 25%, #1a2744 50%, #1E2D45 75%);
+  background-size: 400px 100%;
+}
+
+/* Count-up animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.count-up { animation: countUp 0.5s ease-out forwards; }
+
+/* Gradient shift on hover */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* Hide PDS default outline on custom containers */
+.uphold-focus-ring:focus-visible {
+  outline: 2px solid var(--uphold-teal);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Transition helpers */
+.transition-uphold {
+  transition: all 0.2s ease;
+}
+
+/* Sidebar active item glow */
+.sidebar-item-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: var(--uphold-gradient);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Chart text */
+.recharts-text { font-family: 'Inter', sans-serif; }
+
+/* Table row hover */
+.table-row-hover:hover {
+  background: linear-gradient(90deg, rgba(7,93,232,0.03) 0%, rgba(50,230,164,0.03) 100%);
+}
+
+/* ── Landing page animated orbs ──────────────────────────────────────────── */
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(60px, -80px) scale(1.1); }
+  66%       { transform: translate(-40px, 40px) scale(0.95); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%       { transform: translate(-70px, 60px) scale(1.08); }
+  70%       { transform: translate(50px, -40px) scale(0.92); }
+}
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(40px, 80px) scale(1.12); }
+}
+@keyframes orbFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30%       { transform: translate(-50px, -50px) scale(0.9); }
+  70%       { transform: translate(60px, 30px) scale(1.05); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  top: -150px; left: -100px;
+  background: radial-gradient(circle, rgba(7,93,232,0.35) 0%, rgba(7,93,232,0) 70%);
+  animation: orbFloat1 20s ease-in-out infinite;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  top: 20%; right: -80px;
+  background: radial-gradient(circle, rgba(21,198,184,0.3) 0%, rgba(21,198,184,0) 70%);
+  animation: orbFloat2 25s ease-in-out infinite;
+}
+.orb-3 {
+  width: 400px; height: 400px;
+  bottom: 0; left: 30%;
+  background: radial-gradient(circle, rgba(50,230,164,0.2) 0%, rgba(50,230,164,0) 70%);
+  animation: orbFloat3 18s ease-in-out infinite;
+}
+.orb-4 {
+  width: 350px; height: 350px;
+  top: 40%; left: 50%;
+  background: radial-gradient(circle, rgba(7,151,216,0.25) 0%, rgba(7,151,216,0) 70%);
+  animation: orbFloat4 22s ease-in-out infinite;
+}
+
+/* ── Float animation for hero UI elements ─────────────────────────────────── */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+.float-anim {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+/* ── Gradient text animation ──────────────────────────────────────────────── */
+@keyframes gradientText {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.text-uphold-gradient-animated {
+  background: linear-gradient(135deg, #075DE8, #0797D8, #15C6B8, #32E6A4, #075DE8);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientText 6s ease infinite;
+}
+
+/* ── Trust bar marquee ─────────────────────────────────────────────────── */
+@keyframes marqueeLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+@keyframes marqueeRight {
+  0%   { transform: translateX(-33.333%); }
+  100% { transform: translateX(0); }
+}
+.trust-marquee-ltr {
+  animation: marqueeLeft 40s linear infinite;
+  width: max-content;
+}
+.trust-marquee-ltr:hover {
+  animation-play-state: paused;
+}
+.trust-marquee-rtl {
+  animation: marqueeRight 38s linear infinite;
+  width: max-content;
+}
+.trust-marquee-rtl:hover {
+  animation-play-state: paused;
+}
+
+/* ── Hero scan line ─────────────────────────────────────────────────────── */
+@keyframes scanMove {
+  0%   { transform: translateY(-100vh); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.6; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+.hero-scan::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, rgba(7,93,232,0.04) 40%, rgba(21,198,184,0.03) 60%, transparent);
+  animation: scanMove 12s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Feature card glow border on hover ─────────────────────────────────── */
+.feature-card-hover {
+  position: relative;
+}
+.feature-card-hover::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(7,93,232,0.3), rgba(21,198,184,0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.feature-card-hover:hover::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
