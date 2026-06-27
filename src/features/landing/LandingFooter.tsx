@@ -30,7 +30,7 @@ export function LandingFooter() {
               <img
                 src="/uphold-logo-transparent.png"
                 alt="Uphold"
-                className="w-[200px] h-auto object-contain"
+                className="h-[52px] w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-white/50 leading-relaxed mb-6 max-w-xs">
