@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   ArrowRight, CheckCircle, Building2, Users, DollarSign,
   FileText, BarChart3, ShieldCheck, TrendingUp, AlertTriangle,
-  Zap, MapPin,
+  Zap, MapPin, Sparkles, Brain,
 } from 'lucide-react';
 
 const fadeUp = {
@@ -481,6 +481,32 @@ const bentoFeatures = [
     description: 'Commissioner-ready compliance summaries, ESA audits, and STAR progress — one click to export.',
     stat: '1-click',
     statLabel: 'board packs',
+    bullets: [],
+    wide: false,
+  },
+  {
+    icon: <Sparkles size={18} />,
+    accent: '#075DE8',
+    accentFrom: '#075DE8',
+    accentTo: '#15C6B8',
+    label: 'AI INSIGHTS',
+    title: 'Predictive Risk AI',
+    description: 'AI scores every tenant for risk, surfaces who needs attention first, and recommends the next action — with the reasons behind it.',
+    stat: 'Live',
+    statLabel: 'risk scoring',
+    bullets: [],
+    wide: false,
+  },
+  {
+    icon: <Brain size={18} />,
+    accent: '#8B5CF6',
+    accentFrom: '#8B5CF6',
+    accentTo: '#0797D8',
+    label: 'AI ASSISTANT',
+    title: 'Ask Uphold AI',
+    description: 'A built-in copilot that answers questions on arrears, compliance, occupancy and wellbeing — grounded in your live data, on every page.',
+    stat: '24/7',
+    statLabel: 'data copilot',
     bullets: [],
     wide: false,
   },

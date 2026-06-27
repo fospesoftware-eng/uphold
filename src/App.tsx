@@ -8,6 +8,8 @@ import { FeaturesPage } from './features/landing/pages/FeaturesPage';
 import { PricingPage } from './features/landing/pages/PricingPage';
 import { AboutPage } from './features/landing/pages/AboutPage';
 import { DashboardPage } from './features/dashboard/DashboardPage';
+import { AIInsightsPage } from './features/ai/AIInsightsPage';
+import { CalendarPage } from './features/calendar/CalendarPage';
 import { TenantsPage } from './features/tenants/TenantsPage';
 import { TenantProfilePage } from './features/tenants/TenantProfilePage';
 import { PropertiesPage } from './features/properties/PropertiesPage';
@@ -48,6 +50,8 @@ function AppRoutes() {
         }
       >
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="ai-insights" element={<AIInsightsPage />} />
+        <Route path="calendar" element={<CalendarPage />} />
         <Route path="tenants" element={<TenantsPage />} />
         <Route path="tenants/:id" element={<TenantProfilePage />} />
         <Route path="properties" element={<PropertiesPage />} />

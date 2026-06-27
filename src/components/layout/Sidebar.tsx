@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Users, Building2, HeartHandshake, DollarSign,
   FileText, BarChart3, Settings, ChevronLeft, ChevronRight,
-  HelpCircle, LogOut, X
+  HelpCircle, LogOut, X, Sparkles, CalendarDays
 } from 'lucide-react';
 import { useAuth, useCanAccess } from '../../lib/auth';
 import { Avatar } from '../ui';
@@ -19,6 +19,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, href: '/dashboard' },
+  { id: 'ai-insights', label: 'AI Insights', icon: <Sparkles size={18} />, href: '/ai-insights' },
+  { id: 'calendar', label: 'Calendar', icon: <CalendarDays size={18} />, href: '/calendar' },
   { id: 'tenants', label: 'Tenants', icon: <Users size={18} />, href: '/tenants' },
   { id: 'properties', label: 'Properties', icon: <Building2 size={18} />, href: '/properties' },
   { id: 'support', label: 'Support', icon: <HeartHandshake size={18} />, href: '/support' },
@@ -49,6 +51,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
   const accessibleItems = navItems.filter(item => {
     const access: Record<string, string[]> = {
       dashboard: ['super_admin', 'admin', 'board'],
+      'ai-insights': ['super_admin', 'admin', 'board'],
+      calendar: ['super_admin', 'admin', 'support_staff'],
       tenants: ['super_admin', 'admin', 'support_staff'],
       properties: ['super_admin', 'admin'],
       support: ['super_admin', 'admin', 'support_staff'],

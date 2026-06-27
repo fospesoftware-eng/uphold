@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   Users, Building2, AlertTriangle, ShieldAlert, DollarSign,
-  FileX, ClipboardList, Wrench, TrendingUp, Activity, Clock
+  FileX, ClipboardList, Wrench, TrendingUp, Activity, Clock,
+  Sparkles, Brain, CircleAlert, ArrowRight
 } from 'lucide-react';
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip as RechartTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
 } from 'recharts';
-import { StatCard, Card, SkeletonCard, Avatar, StatusPill, PageHeader, ProgressBar } from '../../components/ui';
+import { StatCard, Card, SkeletonCard, Avatar, StatusPill, PageHeader, ProgressBar, Badge } from '../../components/ui';
 import { dashboardService } from '../../services';
+import { aiService } from '../../services/ai';
 import { tenants, activityFeed, notifications } from '../../data/mockData';
 import type { DashboardKPI, ActivityEvent, AppNotification } from '../../types';
+import type { RiskInsight, AIAction, AIBriefing } from '../../services/ai';
 
 const CHART_COLORS = ['#075DE8', '#0797D8', '#15C6B8', '#32E6A4', '#6366F1', '#8B5CF6'];
 
@@ -22,20 +26,27 @@ export function DashboardPage() {
   const [supportData, setSupportData] = useState<{name: string; hours: number}[]>([]);
   const [activity, setActivity] = useState<ActivityEvent[]>([]);
   const [alerts, setAlerts] = useState<AppNotification[]>([]);
+  const [briefing, setBriefing] = useState<AIBriefing | null>(null);
+  const [risks, setRisks] = useState<RiskInsight[]>([]);
+  const [aiActions, setAiActions] = useState<AIAction[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const [k, occ, rent, supp, act, alrt] = await Promise.all([
+      const [k, occ, rent, supp, act, alrt, brief, rsk, acts] = await Promise.all([
         dashboardService.getKPIs('org-1'),
         dashboardService.getOccupancyTrend('org-1'),
         dashboardService.getRentCollectionTrend('org-1'),
         dashboardService.getSupportHoursBreakdown('org-1'),
         dashboardService.getRecentActivity('org-1'),
         dashboardService.getAlerts('org-1'),
+        aiService.getBriefing(),
+        aiService.getRiskInsights(),
+        aiService.getRecommendedActions(),
       ]);
       setKpis(k); setOccupancy(occ); setRentData(rent);
       setSupportData(supp); setActivity(act); setAlerts(alrt);
+      setBriefing(brief); setRisks(rsk); setAiActions(acts);
       setLoading(false);
     };
     load();
@@ -87,6 +98,35 @@ export function DashboardPage() {
           </div>
         }
       />
+
+      {/* AI Briefing banner */}
+      {briefing && (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#06122A_0%,#0A2A4D_45%,#06302F_100%)] p-5 sm:p-6 text-white mb-6"
+        >
+          <div className="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-[#15C6B8]/20 blur-3xl" />
+          <div className="relative z-10 flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+              <Sparkles size={20} className="text-[#32E6A4]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <p className="font-semibold font-display text-sm">{briefing.greeting} — Uphold AI briefing</p>
+                <span className="text-[11px] text-white/50">live</span>
+              </div>
+              <p className="text-sm text-white/80 leading-relaxed">{briefing.summary}</p>
+            </div>
+            <Link
+              to="/ai-insights"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-colors flex-shrink-0"
+            >
+              View insights <ArrowRight size={14} />
+            </Link>
+          </div>
+        </motion.div>
+      )}
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
@@ -262,6 +302,70 @@ export function DashboardPage() {
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-[#334155] dark:text-[#CBD5E1] leading-relaxed">{event.description}</p>
                   <p className="text-[10px] text-[#94A3B8] mt-0.5">{formatTime(event.timestamp)}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* AI row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        {/* AI Risk Radar */}
+        <Card className="lg:col-span-2">
+          <div className="flex items-center gap-2 mb-5">
+            <Brain size={18} className="text-[#075DE8]" />
+            <h3 className="font-semibold font-display text-[#0F172A] dark:text-[#F8FAFC]">AI Risk Radar</h3>
+            <Badge variant="info" className="ml-1">Predictive</Badge>
+            <Link to="/ai-insights" className="ml-auto text-xs text-[#075DE8] hover:underline inline-flex items-center gap-1">
+              View all <ArrowRight size={12} />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {risks.slice(0, 4).map((r, i) => (
+              <motion.div
+                key={r.tenantId}
+                initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                className="flex items-center gap-3 p-3 rounded-xl border border-[#E6EEF5] dark:border-[#1E2D45]"
+              >
+                <div className={`w-11 h-11 rounded-xl flex flex-col items-center justify-center flex-shrink-0 font-bold font-display text-sm ${
+                  r.level === 'critical' || r.level === 'high' ? 'bg-rose-50 text-rose-600 dark:bg-rose-900/20' :
+                  r.level === 'medium' ? 'bg-amber-50 text-amber-600 dark:bg-amber-900/20' :
+                  'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20'
+                }`}>
+                  {r.score}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-semibold text-[#0F172A] dark:text-[#F8FAFC] truncate">{r.tenantName}</p>
+                    <Badge variant={r.level === 'critical' || r.level === 'high' ? 'danger' : r.level === 'medium' ? 'warning' : 'success'} className="capitalize">{r.level}</Badge>
+                  </div>
+                  <p className="text-xs text-[#64748B] truncate flex items-center gap-1">
+                    <CircleAlert size={11} className="flex-shrink-0 text-amber-500" /> {r.factors[0] ?? 'Stable — routine monitoring'}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </Card>
+
+        {/* AI Recommended Actions */}
+        <Card>
+          <div className="flex items-center gap-2 mb-5">
+            <Sparkles size={18} className="text-[#15C6B8]" />
+            <h3 className="font-semibold font-display text-[#0F172A] dark:text-[#F8FAFC]">Suggested Actions</h3>
+          </div>
+          <div className="space-y-2.5">
+            {aiActions.slice(0, 5).map((a, i) => (
+              <motion.div
+                key={a.id}
+                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                className="flex items-start gap-2.5"
+              >
+                <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${a.priority === 'high' ? 'bg-rose-500' : a.priority === 'medium' ? 'bg-amber-500' : 'bg-slate-400'}`} />
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-[#0F172A] dark:text-[#F8FAFC]">{a.title}</p>
+                  <p className="text-xs text-[#64748B] leading-relaxed">{a.detail}</p>
                 </div>
               </motion.div>
             ))}
