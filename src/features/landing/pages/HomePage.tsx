@@ -154,7 +154,7 @@ function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#03070F] pt-[220px]">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#03070F] pt-[88px]">
       {/* Animated gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
