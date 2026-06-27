@@ -516,8 +516,49 @@ function FeatureBentoSection() {
   const { ref, isInView } = useReveal();
 
   return (
-    <section className="py-28 lg:py-36" style={{ background: '#060C1A' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative overflow-hidden py-28 lg:py-36" style={{ background: '#060C1A' }}>
+      {/* Minimal animated backdrop — top right blank space */}
+      <div className="absolute top-0 right-0 w-[55%] lg:w-[45%] h-[460px] pointer-events-none hidden md:block" aria-hidden>
+        <motion.div
+          animate={{ x: [0, -28, 0], y: [0, 22, 0], scale: [1, 1.1, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' as const }}
+          className="absolute -top-24 -right-16 w-[380px] h-[380px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(7,93,232,0.16) 0%, transparent 70%)' }}
+        />
+        <motion.div
+          animate={{ x: [0, 26, 0], y: [0, -18, 0], scale: [1, 0.9, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' as const, delay: 4 }}
+          className="absolute top-10 right-32 w-[280px] h-[280px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(21,198,184,0.12) 0%, transparent 70%)' }}
+        />
+        {/* Constellation */}
+        <svg viewBox="0 0 480 460" className="absolute inset-0 w-full h-full">
+          {[
+            ['m', 360, 70, 300, 150], ['m', 300, 150, 410, 190], ['m', 410, 190, 360, 290],
+            ['m', 300, 150, 230, 250], ['m', 360, 290, 230, 250],
+          ].map(([, x1, y1, x2, y2], i) => (
+            <motion.line
+              key={i} x1={x1 as number} y1={y1 as number} x2={x2 as number} y2={y2 as number}
+              stroke="#15C6B8" strokeWidth="1"
+              animate={{ strokeOpacity: [0.08, 0.28, 0.08] }}
+              transition={{ duration: 4, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' as const }}
+            />
+          ))}
+          {[
+            [360, 70, '#0797D8'], [300, 150, '#15C6B8'], [410, 190, '#32E6A4'],
+            [360, 290, '#075DE8'], [230, 250, '#15C6B8'],
+          ].map(([cx, cy, c], i) => (
+            <motion.circle
+              key={i} cx={cx as number} cy={cy as number} r="3" fill={c as string}
+              animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' as const }}
+              style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+            />
+          ))}
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div ref={ref} className="mb-16">
           <motion.div
             variants={fadeUp} initial="hidden" animate={isInView ? 'visible' : 'hidden'}
