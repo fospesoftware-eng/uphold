@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, ShieldCheck, ArrowRight, Building2, HeartHandshake, FileCheck2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input, Card } from '../../components/ui';
 import { useAuth } from '../../lib/auth';
@@ -85,7 +85,9 @@ export function AuthPage() {
         <div className="relative z-10 flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-16">
-            <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-9 w-auto object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+            <div className="inline-flex items-center rounded-xl bg-white px-3.5 py-2.5 shadow-lg shadow-black/10">
+              <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-7 w-auto object-contain" />
+            </div>
           </div>
 
           {/* Tagline */}
@@ -101,17 +103,30 @@ export function AuthPage() {
           {/* Feature cards */}
           <div className="space-y-3 mb-auto">
             {[
-              { icon: '🏠', title: 'Property & Compliance', desc: 'Certificates, rooms, and inspections in one place.' },
-              { icon: '👤', title: 'Tenant Wellbeing', desc: 'STAR assessments, support logs, and risk tracking.' },
-              { icon: '📋', title: 'GDPR-Ready Documents', desc: 'Templated, signed, and version-controlled.' },
-            ].map(item => (
-              <div key={item.title} className="flex items-start gap-3 p-3.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
-                <span className="text-xl">{item.icon}</span>
+              { Icon: Building2, title: 'Property & Compliance', desc: 'Certificates, rooms, and inspections in one place.' },
+              { Icon: HeartHandshake, title: 'Tenant Wellbeing', desc: 'STAR assessments, support logs, and risk tracking.' },
+              { Icon: FileCheck2, title: 'GDPR-Ready Documents', desc: 'Templated, signed, and version-controlled.' },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.12, duration: 0.4 }}
+                whileHover={{ scale: 1.02, x: 4 }}
+                className="flex items-center gap-3.5 p-3.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10"
+              >
+                <motion.div
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
+                  className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center"
+                >
+                  <item.Icon size={20} strokeWidth={2} className="text-white" />
+                </motion.div>
                 <div>
                   <p className="text-sm font-semibold text-white">{item.title}</p>
                   <p className="text-xs text-white/70">{item.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
