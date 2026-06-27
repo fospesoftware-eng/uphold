@@ -35,12 +35,12 @@ export function LandingNav() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[120px]">
+        <div className="flex items-center justify-between h-16 lg:h-20">
             <Link to="/" className="flex items-center group flex-shrink-0">
               <img
-                src="/uphold-logo-transparent.png"
+                src="/uphold-logo-wordmark.png"
                 alt="Uphold"
-                className="h-[180px] w-auto object-contain transition-opacity group-hover:opacity-80"
+                className="h-7 lg:h-8 w-auto object-contain transition-opacity group-hover:opacity-80"
               />
             </Link>
 
@@ -102,7 +102,7 @@ export function LandingNav() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed top-[72px] left-0 right-0 z-40 bg-[#060B18]/96 backdrop-blur-xl border-b border-white/10"
+            className="fixed top-16 left-0 right-0 z-40 bg-[#060B18]/96 backdrop-blur-xl border-b border-white/10"
           >
             <div className="px-6 py-4 space-y-1">
               {navLinks.map(link => (

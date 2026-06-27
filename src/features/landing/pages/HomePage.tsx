@@ -159,7 +159,7 @@ function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#03070F] pt-[72px]">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#03070F] pt-16 lg:pt-20">
       {/* Animated gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -217,7 +217,7 @@ function HeroSection() {
 
             <div className="overflow-hidden mb-8">
               <motion.h1
-                className="text-[3.2rem] sm:text-[4rem] lg:text-[4.75rem] font-bold text-white leading-[1.0] tracking-[-0.02em]"
+                className="text-[2.5rem] sm:text-[4rem] lg:text-[4.75rem] font-bold text-white leading-[1.05] sm:leading-[1.0] tracking-[-0.02em]"
               >
                 <motion.span
                   initial={{ opacity: 0, y: 70 }}
