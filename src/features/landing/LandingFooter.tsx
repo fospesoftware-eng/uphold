@@ -28,9 +28,9 @@ export function LandingFooter() {
           <div className="lg:col-span-2">
             <Link to="/" className="inline-flex mb-5 hover:opacity-80 transition-opacity">
               <img
-                src="/uphold-logo-transparent.png"
+                src="/uphold-logo-wordmark.png"
                 alt="Uphold"
-                className="h-[180px] w-auto object-contain"
+                className="h-8 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-white/50 leading-relaxed mb-6 max-w-xs">
