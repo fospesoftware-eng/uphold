@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { PorscheDesignSystemProvider } from '@porsche-design-system/components-react';
 import App from './App';
 import './index.css';
+import { enforceFavicon } from './lib/favicon';
+
+enforceFavicon();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
