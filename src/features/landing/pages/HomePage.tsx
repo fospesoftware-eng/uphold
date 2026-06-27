@@ -247,7 +247,7 @@ function HeroSection() {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-10">
-              {['STAR Assessments', 'Compliance Tracking', 'Rent & Benefits', 'GDPR Documents', 'Multi-site'].map((tag, i) => (
+              {['STAR Assessments', 'Compliance Tracking', 'Rent & Benefits', 'GDPR Documents'].map((tag, i) => (
                 <motion.span
                   key={tag}
                   variants={fadeUp}
