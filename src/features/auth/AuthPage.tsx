@@ -73,7 +73,7 @@ export function AuthPage() {
         variants={heroPanelVariants}
         initial="hidden"
         animate="visible"
-        className="hidden lg:flex flex-col w-[480px] xl:w-[560px] bg-uphold-gradient p-10 text-white relative overflow-hidden flex-shrink-0"
+        className="hidden lg:flex flex-col w-[480px] xl:w-[560px] bg-[linear-gradient(150deg,#06122A_0%,#082140_42%,#06302F_100%)] p-10 text-white relative overflow-hidden flex-shrink-0"
       >
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden">
@@ -85,9 +85,7 @@ export function AuthPage() {
         <div className="relative z-10 flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-16">
-            <div className="inline-flex items-center rounded-xl bg-white px-3.5 py-2.5 shadow-lg shadow-black/10">
-              <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-7 w-auto object-contain" />
-            </div>
+            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-8 w-auto object-contain" />
           </div>
 
           {/* Tagline */}
@@ -147,7 +145,7 @@ export function AuthPage() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center gap-3 mb-8">
-            <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-8 w-auto object-contain" />
+            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-7 w-auto object-contain" />
           </div>
 
           {step === 'login' && (
