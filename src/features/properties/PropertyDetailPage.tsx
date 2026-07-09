@@ -146,7 +146,7 @@ function AnimatedNumber({ value, prefix = '', suffix = '', decimals = 0 }: { val
 
   return (
     <span>
-      {prefix}{display.toFixed(decimals)}{suffix}
+      {prefix}{decimals > 0 ? display.toFixed(decimals) : Math.round(display).toLocaleString('en-GB')}{suffix}
     </span>
   );
 }
@@ -250,7 +250,7 @@ export function PropertyDetailPage() {
         className="rounded-2xl overflow-hidden border border-[#E6EEF5] dark:border-[#1E2D45] mb-6 shadow-sm"
       >
         {/* hero gradient */}
-        <div className="relative h-32 sm:h-40"
+        <div className="relative h-36 sm:h-44"
           style={{ background: 'linear-gradient(135deg, #06122A 0%, #082140 50%, #0A2E4A 100%)' }}>
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#075DE8]/20 blur-[80px]" />
@@ -274,14 +274,16 @@ export function PropertyDetailPage() {
         </div>
 
         {/* property meta row */}
-        <div className="bg-white dark:bg-[#111827] px-6 sm:px-8 pt-0 pb-5">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 -mt-6">
-            {/* icon + name */}
-            <div className="flex items-end gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#075DE8] to-[#0EA5E9] flex items-center justify-center shadow-xl shadow-blue-500/30 border-4 border-white dark:border-[#111827] flex-shrink-0">
+        <div className="bg-white dark:bg-[#111827] px-6 sm:px-8 pt-3 pb-5">
+          {/* icon floats up into the hero; text + actions stay in white section */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex items-start gap-4">
+              {/* icon — only this element overlaps the hero with negative margin */}
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#075DE8] to-[#0EA5E9] flex items-center justify-center shadow-xl shadow-blue-500/30 border-4 border-white dark:border-[#111827] flex-shrink-0 -mt-10">
                 <Building2 size={28} className="text-white" />
               </div>
-              <div className="pb-0.5">
+              {/* name + address — always inside the white panel */}
+              <div className="pt-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="text-xl font-bold text-[#0F172A] dark:text-white">{property.address}</h1>
                   <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${property.status === 'active' ? 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20' : 'text-amber-700 bg-amber-50 border-amber-200 dark:bg-amber-900/20'}`}>
@@ -297,7 +299,7 @@ export function PropertyDetailPage() {
             </div>
 
             {/* quick actions */}
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap pt-1">
               <button className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#E6EEF5] dark:border-[#1E2D45] text-[#334155] dark:text-[#CBD5E1] text-sm font-medium hover:border-[#075DE8]/40 hover:bg-[#EFF6FF] dark:hover:bg-[#1E2D45] transition-all">
                 <Edit2 size={14} /> Edit
               </button>
@@ -335,22 +337,22 @@ export function PropertyDetailPage() {
       </motion.div>
 
       {/* ── KPI Stats ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-6">
+      <div className="grid grid-cols-4 xl:grid-cols-8 gap-3 mb-6">
         {STATS.map((s, i) => (
           <motion.div
             key={s.label}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="rounded-xl bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] p-4 hover:border-[#075DE8]/30 hover:shadow-sm transition-all group"
+            className="rounded-xl bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] p-3.5 hover:border-[#075DE8]/30 hover:shadow-sm transition-all group"
           >
-            <div className={`w-8 h-8 rounded-xl ${s.bg} flex items-center justify-center mb-2.5`}>
-              <s.icon size={15} className={s.color} />
+            <div className={`w-7 h-7 rounded-xl ${s.bg} flex items-center justify-center mb-2`}>
+              <s.icon size={13} className={s.color} />
             </div>
-            <p className={`text-xl font-bold ${s.color} leading-tight`}>
+            <p className={`text-lg font-bold ${s.color} leading-tight truncate`}>
               <AnimatedNumber value={s.value} prefix={s.prefix ?? ''} suffix={s.suffix ?? ''} />
             </p>
-            <p className="text-[11px] text-[#94A3B8] mt-0.5 leading-tight">{s.label}</p>
+            <p className="text-[10px] text-[#94A3B8] mt-0.5 leading-tight truncate">{s.label}</p>
           </motion.div>
         ))}
       </div>

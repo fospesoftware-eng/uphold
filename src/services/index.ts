@@ -409,7 +409,7 @@ export const assetService = {
     const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const rows = assets ?? [];
+    const rows = (assets ?? []) as Asset[];
     return {
       total: rows.length,
       assigned: rows.filter(a => a.status === 'assigned').length,
@@ -419,7 +419,7 @@ export const assetService = {
         a.warranty_expiry && new Date(a.warranty_expiry) <= thirtyDaysOut && new Date(a.warranty_expiry) >= now
       ).length,
       damaged: rows.filter(a => a.status === 'damaged' || a.condition === 'broken').length,
-      total_value: rows.reduce((s, a) => s + (a.current_value ?? a.purchase_cost ?? 0), 0),
+      total_value: rows.reduce((s: number, a) => s + (a.current_value ?? a.purchase_cost ?? 0), 0),
       maintenance_cost: 0,
       added_this_month: rows.filter(a => new Date(a.created_at) >= firstOfMonth).length,
     };
