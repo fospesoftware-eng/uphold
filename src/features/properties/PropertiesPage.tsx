@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Building2, Plus, MapPin, Users, ShieldCheck, ShieldAlert, ShieldX } from 'lucide-react';
 import { Card, PageHeader, FilterBar, StatusPill, Badge, Button, ProgressBar, EmptyState } from '../../components/ui';
 import { propertyService } from '../../services';
@@ -28,6 +29,7 @@ export function PropertiesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [view, setView] = useState<'grid' | 'list'>('grid');
+  const navigate = useNavigate();
 
   useEffect(() => {
     propertyService.getAll('org-1').then(p => { setProperties(p); setLoading(false); });
@@ -99,6 +101,7 @@ export function PropertiesPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
+                onClick={() => navigate(`/properties/${prop.id}`)}
               >
                 <Card hover className="h-full cursor-pointer">
                   {/* Header */}

@@ -11,6 +11,7 @@ import { DashboardPage } from './features/dashboard/DashboardPage';
 import { TenantsPage } from './features/tenants/TenantsPage';
 import { TenantProfilePage } from './features/tenants/TenantProfilePage';
 import { PropertiesPage } from './features/properties/PropertiesPage';
+import { PropertyDetailPage } from './features/properties/PropertyDetailPage';
 import { SupportPage } from './features/support/SupportPage';
 import { FinancialsPage } from './features/financials/FinancialsPage';
 import { DocumentsPage } from './features/documents/DocumentsPage';
@@ -72,6 +73,7 @@ function AppRoutes() {
         <Route path="tenants" element={<TenantsPage />} />
         <Route path="tenants/:id" element={<TenantProfilePage />} />
         <Route path="properties" element={<PropertiesPage />} />
+        <Route path="properties/:id" element={<PropertyDetailPage />} />
         <Route path="support" element={<SupportPage />} />
         <Route path="financials" element={<FinancialsPage />} />
         <Route path="documents" element={<DocumentsPage />} />
