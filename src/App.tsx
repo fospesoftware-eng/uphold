@@ -18,6 +18,25 @@ import { ReportsPage } from './features/reports/ReportsPage';
 import { AdministrationPage } from './features/administration/AdministrationPage';
 import { AssetsPage } from './features/assets/AssetsPage';
 import { AssetDetailPage } from './features/assets/AssetDetailPage';
+// Tenant Portal
+import { TenantPortalProvider } from './features/portal/context';
+import { PortalLayout } from './features/portal/PortalLayout';
+import { PortalLoginPage } from './features/portal/PortalLoginPage';
+import { PortalDashboard } from './features/portal/pages/DashboardPage';
+import { PropertyPage } from './features/portal/pages/PropertyPage';
+import { AssetsPage as PortalAssetsPage } from './features/portal/pages/AssetsPage';
+import { QRScannerPage } from './features/portal/pages/QRScannerPage';
+import { MaintenancePage } from './features/portal/pages/MaintenancePage';
+import { PaymentsPage } from './features/portal/pages/PaymentsPage';
+import { DocumentsPage as PortalDocumentsPage } from './features/portal/pages/DocumentsPage';
+import { NoticesPage } from './features/portal/pages/NoticesPage';
+import { CommunityPage } from './features/portal/pages/CommunityPage';
+import { VisitorsPage } from './features/portal/pages/VisitorsPage';
+import { ParcelsPage } from './features/portal/pages/ParcelsPage';
+import { UtilitiesPage } from './features/portal/pages/UtilitiesPage';
+import { MessagesPage } from './features/portal/pages/MessagesPage';
+import { SupportPage as PortalSupportPage } from './features/portal/pages/SupportPage';
+import { ProfilePage } from './features/portal/pages/ProfilePage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -62,6 +81,28 @@ function AppRoutes() {
         <Route path="administration" element={<AdministrationPage />} />
       </Route>
 
+      {/* Tenant Portal */}
+      <Route path="/portal/login" element={<PortalLoginPage />} />
+      <Route path="/portal" element={<PortalLayout />}>
+        <Route index element={<Navigate to="/portal/dashboard" replace />} />
+        <Route path="dashboard"   element={<PortalDashboard />} />
+        <Route path="property"    element={<PropertyPage />} />
+        <Route path="assets"      element={<PortalAssetsPage />} />
+        <Route path="qr-scanner"  element={<QRScannerPage />} />
+        <Route path="maintenance" element={<MaintenancePage />} />
+        <Route path="payments"    element={<PaymentsPage />} />
+        <Route path="documents"   element={<PortalDocumentsPage />} />
+        <Route path="notices"     element={<NoticesPage />} />
+        <Route path="community"   element={<CommunityPage />} />
+        <Route path="visitors"    element={<VisitorsPage />} />
+        <Route path="parcels"     element={<ParcelsPage />} />
+        <Route path="utilities"   element={<UtilitiesPage />} />
+        <Route path="messages"    element={<MessagesPage />} />
+        <Route path="support"     element={<PortalSupportPage />} />
+        <Route path="profile"     element={<ProfilePage />} />
+        <Route path="notifications" element={<NoticesPage />} />
+      </Route>
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -71,7 +112,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <TenantPortalProvider>
+          <AppRoutes />
+        </TenantPortalProvider>
       </AuthProvider>
     </BrowserRouter>
   );
