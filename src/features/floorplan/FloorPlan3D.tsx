@@ -113,7 +113,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
             return (
               <div
                 key={room.id}
-                onClick={(e) => { e.stopPropagation(); setSelected(room.id); setShowModal(true); }}
+                onClick={(e) => { e.stopPropagation(); setSelected(s => s === room.id ? null : room.id); }}
                 className="absolute cursor-pointer"
                 style={{
                   left: room.x * CELL, top: room.y * CELL,
@@ -186,6 +186,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
           animate={{ opacity: 1, y: 0 }}
           className="absolute bottom-3 left-3 px-3.5 py-2.5 rounded-xl bg-white/90 dark:bg-[#0F172A]/85 backdrop-blur border border-white/60 dark:border-white/10 shadow-lg hover:shadow-xl hover:bg-white dark:hover:bg-[#1A2640] transition-all cursor-pointer"
           onClick={() => setShowModal(true)}
+          type="button"
         >
           <p className="text-xs font-bold text-[#0F172A] dark:text-white text-left">{activeRoom.name}</p>
           <p className="text-[10px] text-[#64748B] dark:text-[#94A3B8] capitalize text-left">
