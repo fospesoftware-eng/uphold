@@ -1,6 +1,8 @@
-import { useRef, useState, useCallback } from 'react';
-import { RotateCcw, RotateCw, ZoomIn, ZoomOut, Maximize2, Move3d } from 'lucide-react';
+import { useRef, useState, useCallback, useEffect } from 'react';
+import { RotateCcw, RotateCw, ZoomIn, ZoomOut, Maximize2, Move3d, X, Package } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getFloorPlan, ROOM_STYLE, type Furniture } from './floorPlanData';
+import { assetService } from '../../services';
 
 const CELL = 30; // px per grid cell
 
@@ -34,7 +36,17 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
   const [tilt, setTilt] = useState(56);
   const [zoom, setZoom] = useState(1);
   const [selected, setSelected] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [allAssets, setAllAssets] = useState<any[]>([]);
   const drag = useRef<{ x: number; y: number; rot: number; tilt: number } | null>(null);
+
+  useEffect(() => {
+    const fetchAssets = async () => {
+      const assets = await assetService.getAssets();
+      setAllAssets(assets);
+    };
+    fetchAssets();
+  }, []);
 
   const boardW = plan.gridW * CELL;
   const boardH = plan.gridH * CELL;
@@ -58,10 +70,11 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
 
   const onPointerUp = useCallback(() => { drag.current = null; }, []);
 
-  const reset = () => { setRot(-32); setTilt(56); setZoom(1); setSelected(null); };
+  const reset = () => { setRot(-32); setTilt(56); setZoom(1); setSelected(null); setShowModal(false); };
 
   const active = selected ?? highlightId ?? null;
   const activeRoom = plan.rooms.find(r => r.id === active);
+  const roomAssets = activeRoom ? allAssets.filter((a: any) => a.room === activeRoom.name) : [];
 
   return (
     <div className="relative select-none rounded-2xl overflow-hidden border border-[#E6EEF5] dark:border-[#1E2D45]"
@@ -166,16 +179,129 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
         ))}
       </div>
 
-      {/* selected-room info card */}
+      {/* selected-room info card — clickable to open modal */}
       {activeRoom && (
-        <div className="absolute bottom-3 left-3 px-3.5 py-2.5 rounded-xl bg-white/90 dark:bg-[#0F172A]/85 backdrop-blur border border-white/60 dark:border-white/10 shadow-lg">
-          <p className="text-xs font-bold text-[#0F172A] dark:text-white">{activeRoom.name}</p>
-          <p className="text-[10px] text-[#64748B] dark:text-[#94A3B8] capitalize">
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-3 left-3 px-3.5 py-2.5 rounded-xl bg-white/90 dark:bg-[#0F172A]/85 backdrop-blur border border-white/60 dark:border-white/10 shadow-lg hover:shadow-xl hover:bg-white dark:hover:bg-[#1A2640] transition-all cursor-pointer"
+          onClick={() => setShowModal(true)}
+        >
+          <p className="text-xs font-bold text-[#0F172A] dark:text-white text-left">{activeRoom.name}</p>
+          <p className="text-[10px] text-[#64748B] dark:text-[#94A3B8] capitalize text-left">
             {ROOM_STYLE[activeRoom.type].label}{activeRoom.area != null ? ` · ${activeRoom.area} m²` : ''}
             {highlightId === activeRoom.id ? ' · Your room' : ''}
           </p>
-        </div>
+          <p className="text-[9px] text-[#075DE8] font-semibold mt-1">Click to see assets →</p>
+        </motion.button>
       )}
+
+      {/* Beautiful Assets Modal */}
+      <AnimatePresence>
+        {showModal && activeRoom && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowModal(false)}
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            >
+              <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl">
+                {/* Header gradient */}
+                <div className="absolute inset-0 h-32 bg-gradient-to-br from-[#075DE8] via-[#0797D8] to-[#0EA5E9]" />
+
+                {/* Content */}
+                <div className="relative z-10 bg-white dark:bg-[#111827] px-6 pt-8 pb-6">
+                  {/* Close button */}
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-[#F1F5F9] dark:hover:bg-[#1E2D45] text-[#64748B] hover:text-[#0F172A] transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+
+                  {/* Room icon and name */}
+                  <div className="flex items-center gap-3 mb-6 pt-2">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#075DE8] to-[#0EA5E9] flex items-center justify-center text-white shadow-lg">
+                      <Package size={20} />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-bold text-[#0F172A] dark:text-white">{activeRoom.name}</h2>
+                      <p className="text-xs text-[#64748B] dark:text-[#94A3B8]">
+                        {ROOM_STYLE[activeRoom.type].label} {activeRoom.area && `· ${activeRoom.area} m²`}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Asset count summary */}
+                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-[#075DE8]/10 to-[#0EA5E9]/10 dark:from-[#075DE8]/20 dark:to-[#0EA5E9]/20 border border-[#075DE8]/20 dark:border-[#075DE8]/30">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-[#075DE8]">{roomAssets.length}</span>
+                      <span className="text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
+                        {roomAssets.length === 1 ? 'asset' : 'assets'} in this room
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Asset list */}
+                  {roomAssets.length > 0 ? (
+                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                      {roomAssets.map((asset: any, i: number) => (
+                        <motion.div
+                          key={asset.id}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          className="flex items-start gap-3 p-3 rounded-lg bg-[#F8FAFC] dark:bg-[#1A2640] border border-[#E6EEF5] dark:border-[#1E2D45] hover:bg-[#EFF6FF] dark:hover:bg-[#1E2D45]"
+                        >
+                          <div className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center text-sm font-bold text-white"
+                            style={{ background: 'linear-gradient(135deg, #075DE8, #0EA5E9)' }}>
+                            {i + 1}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-[#0F172A] dark:text-white truncate">{asset.name}</p>
+                            <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">{asset.category}</p>
+                            <div className="flex items-center gap-2 mt-1.5">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                                asset.condition === 'excellent' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
+                                : asset.condition === 'good' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'
+                              }`}>
+                                {asset.condition}
+                              </span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Package size={32} className="mx-auto mb-2 text-[#CBD5E1]" opacity={0.5} />
+                      <p className="text-sm text-[#64748B] dark:text-[#94A3B8]">No assets in this room</p>
+                    </div>
+                  )}
+
+                  {/* Close button at bottom */}
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="w-full mt-6 px-4 py-2 rounded-lg bg-[#075DE8] hover:bg-[#0650CC] text-white text-sm font-medium transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
