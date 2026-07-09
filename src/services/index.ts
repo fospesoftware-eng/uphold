@@ -1,7 +1,8 @@
 import type {
   Tenant, Property, Certificate, SupportLog, StarAssessment,
   Invoice, Transaction, TenantDocument, AppNotification, ActivityEvent,
-  DashboardKPI, Organisation, User, DocumentTemplate, Report
+  DashboardKPI, Organisation, User, DocumentTemplate, Report,
+  Asset, AssetCategory, AssetMaintenance, AssetAssignment, AssetLog, AssetKPIs,
 } from '../types';
 import {
   tenants, properties, certificates, supportLogs, starAssessments,
@@ -307,5 +308,218 @@ export const notificationService = {
     await delay(200);
     const n = notifications.find(n => n.id === id);
     if (n) n.read = true;
+  },
+};
+
+// ── Asset Service (Supabase-backed) ──────────────────────────────────────────
+import { supabase } from '../lib/supabase';
+
+export const assetService = {
+  async getCategories(): Promise<AssetCategory[]> {
+    const { data, error } = await supabase
+      .from('asset_categories')
+      .select('*')
+      .order('name');
+    if (error) throw error;
+    return (data ?? []) as AssetCategory[];
+  },
+
+  async getAssets(filters?: {
+    status?: string;
+    category_id?: string;
+    search?: string;
+    property?: string;
+  }): Promise<Asset[]> {
+    let query = supabase
+      .from('assets')
+      .select('*, category:asset_categories(id,name,icon,color)')
+      .order('created_at', { ascending: false });
+
+    if (filters?.status) query = query.eq('status', filters.status);
+    if (filters?.category_id) query = query.eq('category_id', filters.category_id);
+    if (filters?.property) query = query.eq('property_name', filters.property);
+    if (filters?.search) {
+      query = query.or(
+        `name.ilike.%${filters.search}%,asset_code.ilike.%${filters.search}%,serial_number.ilike.%${filters.search}%`
+      );
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data ?? []) as Asset[];
+  },
+
+  async getAssetById(id: string): Promise<Asset | null> {
+    const { data, error } = await supabase
+      .from('assets')
+      .select('*, category:asset_categories(id,name,icon,color)')
+      .eq('id', id)
+      .maybeSingle();
+    if (error) throw error;
+    return data as Asset | null;
+  },
+
+  async createAsset(
+    payload: Omit<Asset, 'id' | 'asset_code' | 'qr_code' | 'created_at' | 'updated_at'>,
+    createdBy: string
+  ): Promise<Asset> {
+    // Generate next asset code
+    const { count } = await supabase
+      .from('assets')
+      .select('*', { count: 'exact', head: true });
+    const assetCode = `AST-${String((count ?? 0) + 1).padStart(4, '0')}`;
+
+    const { data, error } = await supabase
+      .from('assets')
+      .insert({ ...payload, asset_code: assetCode, created_by: createdBy })
+      .select()
+      .single();
+    if (error) throw error;
+
+    await assetService.logAction(data.id, 'created', createdBy, `Asset "${payload.name}" created`);
+    return data as Asset;
+  },
+
+  async updateAsset(id: string, payload: Partial<Asset>, updatedBy: string): Promise<Asset> {
+    const { data, error } = await supabase
+      .from('assets')
+      .update({ ...payload, updated_by: updatedBy, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+
+    await assetService.logAction(id, 'updated', updatedBy, `Asset updated`);
+    return data as Asset;
+  },
+
+  async deleteAsset(id: string, deletedBy: string): Promise<void> {
+    await assetService.logAction(id, 'deleted', deletedBy, 'Asset deleted');
+    const { error } = await supabase.from('assets').delete().eq('id', id);
+    if (error) throw error;
+  },
+
+  async getKPIs(): Promise<AssetKPIs> {
+    const { data: assets, error } = await supabase
+      .from('assets')
+      .select('status, condition, purchase_cost, current_value, created_at, warranty_expiry');
+    if (error) throw error;
+
+    const now = new Date();
+    const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const rows = assets ?? [];
+    return {
+      total: rows.length,
+      assigned: rows.filter(a => a.status === 'assigned').length,
+      available: rows.filter(a => a.status === 'available').length,
+      maintenance_due: rows.filter(a => a.status === 'in_maintenance').length,
+      warranty_expiring: rows.filter(a =>
+        a.warranty_expiry && new Date(a.warranty_expiry) <= thirtyDaysOut && new Date(a.warranty_expiry) >= now
+      ).length,
+      damaged: rows.filter(a => a.status === 'damaged' || a.condition === 'broken').length,
+      total_value: rows.reduce((s, a) => s + (a.current_value ?? a.purchase_cost ?? 0), 0),
+      maintenance_cost: 0,
+      added_this_month: rows.filter(a => new Date(a.created_at) >= firstOfMonth).length,
+    };
+  },
+
+  // ── Maintenance ────────────────────────────────────────────────────────────
+
+  async getMaintenance(assetId: string): Promise<AssetMaintenance[]> {
+    const { data, error } = await supabase
+      .from('asset_maintenance')
+      .select('*')
+      .eq('asset_id', assetId)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as AssetMaintenance[];
+  },
+
+  async addMaintenance(
+    payload: Omit<AssetMaintenance, 'id' | 'created_at'>,
+    performedBy: string
+  ): Promise<AssetMaintenance> {
+    const { data, error } = await supabase
+      .from('asset_maintenance')
+      .insert(payload)
+      .select()
+      .single();
+    if (error) throw error;
+    await assetService.logAction(
+      payload.asset_id, 'maintenance_added', performedBy,
+      `${payload.maintenance_type} maintenance: ${payload.description}`
+    );
+    return data as AssetMaintenance;
+  },
+
+  async updateMaintenance(id: string, payload: Partial<AssetMaintenance>): Promise<AssetMaintenance> {
+    const { data, error } = await supabase
+      .from('asset_maintenance')
+      .update(payload)
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return data as AssetMaintenance;
+  },
+
+  // ── Assignments ────────────────────────────────────────────────────────────
+
+  async getAssignments(assetId: string): Promise<AssetAssignment[]> {
+    const { data, error } = await supabase
+      .from('asset_assignments')
+      .select('*')
+      .eq('asset_id', assetId)
+      .order('assigned_date', { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as AssetAssignment[];
+  },
+
+  async assignAsset(
+    assetId: string,
+    payload: Omit<AssetAssignment, 'id' | 'asset_id' | 'created_at'>,
+    performedBy: string
+  ): Promise<AssetAssignment> {
+    const { data, error } = await supabase
+      .from('asset_assignments')
+      .insert({ ...payload, asset_id: assetId })
+      .select()
+      .single();
+    if (error) throw error;
+
+    await assetService.updateAsset(assetId, { status: 'assigned', assigned_to: payload.assigned_to }, performedBy);
+    await assetService.logAction(assetId, 'assigned', performedBy, `Assigned to ${payload.assigned_to}`);
+    return data as AssetAssignment;
+  },
+
+  // ── Logs ───────────────────────────────────────────────────────────────────
+
+  async getLogs(assetId: string): Promise<AssetLog[]> {
+    const { data, error } = await supabase
+      .from('asset_logs')
+      .select('*')
+      .eq('asset_id', assetId)
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (error) throw error;
+    return (data ?? []) as AssetLog[];
+  },
+
+  async logAction(assetId: string, action: string, performedBy: string, details?: string): Promise<void> {
+    await supabase.from('asset_logs').insert({ asset_id: assetId, action, performed_by: performedBy, details });
+  },
+
+  // ── Category helpers ───────────────────────────────────────────────────────
+
+  async createCategory(payload: Omit<AssetCategory, 'id' | 'created_at'>): Promise<AssetCategory> {
+    const { data, error } = await supabase
+      .from('asset_categories')
+      .insert(payload)
+      .select()
+      .single();
+    if (error) throw error;
+    return data as AssetCategory;
   },
 };

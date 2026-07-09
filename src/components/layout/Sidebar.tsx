@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Users, Building2, HeartHandshake, DollarSign,
   FileText, BarChart3, Settings, ChevronLeft, ChevronRight,
-  HelpCircle, LogOut, X
+  HelpCircle, LogOut, X, Package
 } from 'lucide-react';
 import { useAuth, useCanAccess } from '../../lib/auth';
 import { Avatar } from '../ui';
@@ -18,14 +18,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, href: '/dashboard' },
-  { id: 'tenants', label: 'Tenants', icon: <Users size={18} />, href: '/tenants' },
-  { id: 'properties', label: 'Properties', icon: <Building2 size={18} />, href: '/properties' },
-  { id: 'support', label: 'Support', icon: <HeartHandshake size={18} />, href: '/support' },
-  { id: 'financials', label: 'Financials', icon: <DollarSign size={18} />, href: '/financials' },
-  { id: 'documents', label: 'Documents', icon: <FileText size={18} />, href: '/documents' },
-  { id: 'reports', label: 'Reports', icon: <BarChart3 size={18} />, href: '/reports' },
-  { id: 'administration', label: 'Administration', icon: <Settings size={18} />, href: '/administration' },
+  { id: 'dashboard',      label: 'Dashboard',       icon: <LayoutDashboard size={18} />, href: '/dashboard' },
+  { id: 'tenants',        label: 'Tenants',          icon: <Users size={18} />,           href: '/tenants' },
+  { id: 'properties',     label: 'Properties',       icon: <Building2 size={18} />,       href: '/properties' },
+  { id: 'assets',         label: 'Asset Inventory',  icon: <Package size={18} />,         href: '/assets' },
+  { id: 'support',        label: 'Support',          icon: <HeartHandshake size={18} />,  href: '/support' },
+  { id: 'financials',     label: 'Financials',       icon: <DollarSign size={18} />,      href: '/financials' },
+  { id: 'documents',      label: 'Documents',        icon: <FileText size={18} />,        href: '/documents' },
+  { id: 'reports',        label: 'Reports',          icon: <BarChart3 size={18} />,       href: '/reports' },
+  { id: 'administration', label: 'Administration',   icon: <Settings size={18} />,        href: '/administration' },
 ];
 
 interface SidebarProps {
@@ -48,13 +49,14 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
 
   const accessibleItems = navItems.filter(item => {
     const access: Record<string, string[]> = {
-      dashboard: ['super_admin', 'admin', 'board'],
-      tenants: ['super_admin', 'admin', 'support_staff'],
-      properties: ['super_admin', 'admin'],
-      support: ['super_admin', 'admin', 'support_staff'],
-      financials: ['super_admin', 'admin'],
-      documents: ['super_admin', 'admin', 'support_staff'],
-      reports: ['super_admin', 'admin', 'board'],
+      dashboard:      ['super_admin', 'admin', 'board'],
+      tenants:        ['super_admin', 'admin', 'support_staff'],
+      properties:     ['super_admin', 'admin'],
+      assets:         ['super_admin', 'admin', 'support_staff'],
+      support:        ['super_admin', 'admin', 'support_staff'],
+      financials:     ['super_admin', 'admin'],
+      documents:      ['super_admin', 'admin', 'support_staff'],
+      reports:        ['super_admin', 'admin', 'board'],
       administration: ['super_admin'],
     };
     return (access[item.id] ?? []).includes(effectiveRole);

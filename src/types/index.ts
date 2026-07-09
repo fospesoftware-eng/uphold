@@ -328,6 +328,130 @@ export interface DashboardKPI {
   openMaintenanceItems: number;
 }
 
+// ── Asset Inventory ──────────────────────────────────────────────────────────
+
+export type AssetStatus =
+  | 'available' | 'installed' | 'assigned' | 'in_maintenance'
+  | 'out_of_service' | 'disposed' | 'lost' | 'damaged' | 'reserved' | 'archived';
+
+export type AssetCondition =
+  | 'excellent' | 'good' | 'fair' | 'poor' | 'broken' | 'needs_replacement';
+
+export type MaintenanceType =
+  | 'preventive' | 'corrective' | 'emergency' | 'warranty_service'
+  | 'inspection' | 'cleaning' | 'calibration';
+
+export type MaintenanceStatus =
+  | 'scheduled' | 'in_progress' | 'completed' | 'overdue' | 'cancelled';
+
+export interface AssetCategory {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+  description?: string;
+  count?: number;
+  created_at?: string;
+}
+
+export interface Asset {
+  id: string;
+  asset_code: string;
+  name: string;
+  category_id?: string;
+  category?: AssetCategory;
+  subcategory?: string;
+  description?: string;
+  property_name?: string;
+  building?: string;
+  floor?: string;
+  unit_number?: string;
+  room?: string;
+  serial_number?: string;
+  manufacturer?: string;
+  brand?: string;
+  model?: string;
+  purchase_date?: string;
+  installation_date?: string;
+  supplier?: string;
+  vendor?: string;
+  invoice_number?: string;
+  purchase_cost?: number;
+  current_value?: number;
+  depreciation_method?: string;
+  warranty_expiry?: string;
+  useful_life_years?: number;
+  replacement_date?: string;
+  condition: AssetCondition;
+  status: AssetStatus;
+  assigned_to?: string;
+  qr_code?: string;
+  images?: string[];
+  notes?: string;
+  custom_fields?: Record<string, unknown>;
+  created_by?: string;
+  updated_by?: string;
+  created_at: string;
+  updated_at: string;
+  // computed from joins
+  maintenance_count?: number;
+  next_maintenance?: string;
+  last_maintenance?: string;
+}
+
+export interface AssetMaintenance {
+  id: string;
+  asset_id: string;
+  maintenance_type: MaintenanceType;
+  scheduled_date?: string;
+  completed_date?: string;
+  technician?: string;
+  vendor_name?: string;
+  description: string;
+  cost?: number;
+  parts_replaced?: string;
+  status: MaintenanceStatus;
+  next_due_date?: string;
+  photos?: string[];
+  notes?: string;
+  created_at: string;
+}
+
+export interface AssetAssignment {
+  id: string;
+  asset_id: string;
+  assigned_to: string;
+  property_name?: string;
+  unit_number?: string;
+  assigned_date: string;
+  returned_date?: string;
+  condition_on_assign?: string;
+  condition_on_return?: string;
+  notes?: string;
+  created_at: string;
+}
+
+export interface AssetLog {
+  id: string;
+  asset_id: string;
+  action: string;
+  performed_by: string;
+  details?: string;
+  created_at: string;
+}
+
+export interface AssetKPIs {
+  total: number;
+  assigned: number;
+  available: number;
+  maintenance_due: number;
+  warranty_expiring: number;
+  damaged: number;
+  total_value: number;
+  maintenance_cost: number;
+  added_this_month: number;
+}
+
 // ── License ───────────────────────────────────────────────────────────────────
 export interface LicensePlan {
   id: string;

@@ -16,6 +16,8 @@ import { FinancialsPage } from './features/financials/FinancialsPage';
 import { DocumentsPage } from './features/documents/DocumentsPage';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { AdministrationPage } from './features/administration/AdministrationPage';
+import { AssetsPage } from './features/assets/AssetsPage';
+import { AssetDetailPage } from './features/assets/AssetDetailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -55,6 +57,8 @@ function AppRoutes() {
         <Route path="financials" element={<FinancialsPage />} />
         <Route path="documents" element={<DocumentsPage />} />
         <Route path="reports" element={<ReportsPage />} />
+        <Route path="assets" element={<AssetsPage />} />
+        <Route path="assets/:id" element={<AssetDetailPage />} />
         <Route path="administration" element={<AdministrationPage />} />
       </Route>
 

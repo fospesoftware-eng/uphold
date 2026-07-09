@@ -61,15 +61,16 @@ export function useAuth() {
 export function useCanAccess(feature: string): boolean {
   const { effectiveRole } = useAuth();
   const access: Record<string, UserRole[]> = {
-    dashboard: ['super_admin', 'admin', 'board'],
-    tenants: ['super_admin', 'admin', 'support_staff'],
-    properties: ['super_admin', 'admin'],
-    support: ['super_admin', 'admin', 'support_staff'],
-    financials: ['super_admin', 'admin'],
-    documents: ['super_admin', 'admin', 'support_staff'],
-    reports: ['super_admin', 'admin', 'board'],
+    dashboard:      ['super_admin', 'admin', 'board'],
+    tenants:        ['super_admin', 'admin', 'support_staff'],
+    properties:     ['super_admin', 'admin'],
+    assets:         ['super_admin', 'admin', 'support_staff'],
+    support:        ['super_admin', 'admin', 'support_staff'],
+    financials:     ['super_admin', 'admin'],
+    documents:      ['super_admin', 'admin', 'support_staff'],
+    reports:        ['super_admin', 'admin', 'board'],
     administration: ['super_admin'],
-    edit: ['super_admin', 'admin', 'support_staff'],
+    edit:           ['super_admin', 'admin', 'support_staff'],
   };
   return (access[feature] ?? []).includes(effectiveRole);
 }
