@@ -507,7 +507,7 @@ function AuditTab() {
   const events = [
     { id: 1, action: 'Support log added', user: 'Marcus Webb', time: '27 Jun 2026, 11:30', type: 'create' },
     { id: 2, action: 'Document uploaded: Risk Assessment v2', user: 'Fatima Al-Rashid', time: '27 Jun 2026, 10:15', type: 'upload' },
-    { id: 3, action: 'Status changed: active → active', user: 'Sarah Johnson', time: '25 Jun 2026, 14:00', type: 'update' },
+    { id: 3, action: 'Status changed: active → active', user: 'Dorota Dominika', time: '25 Jun 2026, 14:00', type: 'update' },
     { id: 4, action: 'STAR Assessment completed', user: 'Marcus Webb', time: '22 Jun 2026, 09:30', type: 'create' },
   ];
   return (

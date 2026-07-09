@@ -73,8 +73,8 @@ export const organisations: Organisation[] = [
 export const users: User[] = [
   {
     id: 'user-1',
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@granvillehomes.org.uk',
+    name: 'Dorota Dominika',
+    email: 'Dorota.Dominika@granvillehomes.org.uk',
     role: 'admin',
     organisationId: 'org-1',
     twoFactorEnabled: true,
@@ -635,12 +635,12 @@ export const notifications: AppNotification[] = [
 export const activityFeed: ActivityEvent[] = [
   { id: 'act-1', type: 'support_log', userId: 'user-2', userName: 'Marcus Webb', description: 'Logged 2h health & wellbeing support for Thomas Bennett', timestamp: '2026-06-27T11:30:00Z', tenantId: 'tenant-5' },
   { id: 'act-2', type: 'upload', userId: 'user-3', userName: 'Fatima Al-Rashid', description: 'Uploaded Risk Assessment v2 for Daniel Hughes', timestamp: '2026-06-27T10:15:00Z', tenantId: 'tenant-2' },
-  { id: 'act-3', type: 'login', userId: 'user-1', userName: 'Sarah Johnson', description: 'Signed in to Uphold', timestamp: '2026-06-27T08:45:00Z' },
-  { id: 'act-4', type: 'payment', userId: 'user-1', userName: 'Sarah Johnson', description: 'Marked June invoice as paid for Emily Carter', timestamp: '2026-06-26T16:00:00Z', tenantId: 'tenant-7' },
+  { id: 'act-3', type: 'login', userId: 'user-1', userName: 'Dorota Dominika', description: 'Signed in to Uphold', timestamp: '2026-06-27T08:45:00Z' },
+  { id: 'act-4', type: 'payment', userId: 'user-1', userName: 'Dorota Dominika', description: 'Marked June invoice as paid for Emily Carter', timestamp: '2026-06-26T16:00:00Z', tenantId: 'tenant-7' },
   { id: 'act-5', type: 'support_log', userId: 'user-2', userName: 'Marcus Webb', description: 'Logged tenancy sustainment session for Priya Nair', timestamp: '2026-06-26T12:30:00Z', tenantId: 'tenant-3' },
   { id: 'act-6', type: 'assessment_update', userId: 'user-2', userName: 'Marcus Webb', description: 'Completed STAR Assessment for Thomas Bennett (Score: 31/80)', timestamp: '2026-06-25T15:00:00Z', tenantId: 'tenant-5' },
-  { id: 'act-7', type: 'certificate_update', userId: 'user-1', userName: 'Sarah Johnson', description: 'Updated gas safety cert for 22 Station Road', timestamp: '2026-06-24T11:00:00Z', propertyId: 'prop-2' },
-  { id: 'act-8', type: 'tenant_change', userId: 'user-1', userName: 'Sarah Johnson', description: "Created tenant record for James O'Connor", timestamp: '2026-06-22T09:30:00Z', tenantId: 'tenant-6' },
+  { id: 'act-7', type: 'certificate_update', userId: 'user-1', userName: 'Dorota Dominika', description: 'Updated gas safety cert for 22 Station Road', timestamp: '2026-06-24T11:00:00Z', propertyId: 'prop-2' },
+  { id: 'act-8', type: 'tenant_change', userId: 'user-1', userName: 'Dorota Dominika', description: "Created tenant record for James O'Connor", timestamp: '2026-06-22T09:30:00Z', tenantId: 'tenant-6' },
 ];
 
 // ── Dashboard KPIs ────────────────────────────────────────────────────────────

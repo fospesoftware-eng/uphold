@@ -12,7 +12,7 @@ type AuthStep = 'login' | 'twofa' | 'org';
 
 export function AuthPage() {
   const [step, setStep] = useState<AuthStep>('login');
-  const [email, setEmail] = useState('sarah.johnson@granvillehomes.org.uk');
+  const [email, setEmail] = useState('Dorota.Dominika@granvillehomes.org.uk');
   const [password, setPassword] = useState('Password123!');
   const [code, setCode] = useState('');
   const [showPass, setShowPass] = useState(false);
