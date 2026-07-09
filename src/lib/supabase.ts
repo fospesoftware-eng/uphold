@@ -2,7 +2,7 @@
 // This prevents build errors when @supabase/supabase-js is not installed.
 
 interface QueryBuilder {
-  select: (cols?: string) => QueryBuilder;
+  select: (cols?: string, opts?: { count?: 'exact' | 'planned' | 'estimated'; head?: boolean }) => QueryBuilder;
   insert: (data: any) => QueryBuilder;
   update: (data: any) => QueryBuilder;
   upsert: (data: any) => QueryBuilder;
@@ -19,6 +19,10 @@ interface QueryBuilder {
   in: (col: string, vals: any[]) => QueryBuilder;
   contains: (col: string, val: any) => QueryBuilder;
   containedBy: (col: string, val: any) => QueryBuilder;
+  or: (filters: string, opts?: { foreignTable?: string; referencedTable?: string }) => QueryBuilder;
+  not: (col: string, op: string, val: any) => QueryBuilder;
+  filter: (col: string, op: string, val: any) => QueryBuilder;
+  match: (query: Record<string, any>) => QueryBuilder;
   order: (col: string, opts?: { ascending?: boolean; nullsFirst?: boolean }) => QueryBuilder;
   limit: (n: number) => QueryBuilder;
   range: (from: number, to: number) => QueryBuilder;
@@ -51,6 +55,10 @@ function buildQueryBuilder(table: string): QueryBuilder {
     in: () => self,
     contains: () => self,
     containedBy: () => self,
+    or: () => self,
+    not: () => self,
+    filter: () => self,
+    match: () => self,
     order: () => self,
     limit: () => self,
     range: () => self,
