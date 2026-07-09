@@ -85,7 +85,7 @@ export function AuthPage() {
         <div className="relative z-10 flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-16">
-            <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-8 w-auto object-contain" />
+            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-8 w-auto object-contain" />
           </div>
 
           {/* Tagline */}
@@ -145,7 +145,7 @@ export function AuthPage() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center gap-3 mb-8">
-            <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-7 w-auto object-contain" />
+            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-7 w-auto object-contain" />
           </div>
 
           {step === 'login' && (

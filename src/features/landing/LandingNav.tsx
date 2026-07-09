@@ -38,8 +38,8 @@ export function LandingNav() {
         <div className="flex items-center justify-between h-[120px]">
             <Link to="/" className="flex items-center group flex-shrink-0">
               <img
-                src="/granville-logo.svg"
-                alt="Granville Community Homes"
+                src="/uphold-logo-transparent.png"
+                alt="Uphold"
                 className="h-[180px] w-auto object-contain transition-opacity group-hover:opacity-80"
               />
             </Link>
