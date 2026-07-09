@@ -251,25 +251,24 @@ export function PropertyDetailPage() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl overflow-hidden border border-[#E6EEF5] dark:border-[#1E2D45] mb-6 shadow-sm"
       >
-        {/* hero gradient */}
-        <div className="relative h-36 sm:h-44"
-          style={{ background: 'linear-gradient(135deg, #06122A 0%, #082140 50%, #0A2E4A 100%)' }}>
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#075DE8]/20 blur-[80px]" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#0EA5E9]/12 blur-[60px]" />
-            <div className="absolute inset-0 opacity-[0.04]"
-              style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
-          </div>
+        {/* hero image */}
+        <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden bg-gradient-to-br from-[#E5EEF6] to-[#D5E3F2]">
+          <img
+            src={property.imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"%3E%3Crect fill="%23e5eef6" width="1200" height="400"/%3E%3C/svg%3E'}
+            alt={property.address}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
           {/* top actions */}
           <div className="absolute top-4 right-4 flex items-center gap-2">
             {[Share2, Star, Printer].map((Icon, i) => (
-              <button key={i} className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-all">
+              <button key={i} className="w-8 h-8 rounded-xl bg-white/20 hover:bg-white/30 border border-white/25 flex items-center justify-center text-white/80 hover:text-white transition-all backdrop-blur-sm">
                 <Icon size={15} />
               </button>
             ))}
             <button onClick={() => navigate('/properties')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white/80 hover:text-white text-xs font-medium transition-all">
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 border border-white/25 text-white/80 hover:text-white text-xs font-medium transition-all backdrop-blur-sm">
               <ArrowLeft size={14} /> Back
             </button>
           </div>
