@@ -42,7 +42,7 @@ const testimonials = [
   {
     initials: 'CW',
     name: 'Claire Whitmore',
-    role: 'Operations Manager · NorthBridge Supported Living',
+    role: 'Operations Manager · Granville Community Homes',
     color: 'from-[#075DE8] to-[#0797D8]',
     quote: "Uphold completely transformed how we track STAR assessments and housing benefit. What used to take hours of spreadsheet work is now a two-minute daily check. Our compliance rate went from 74% to 98% in three months.",
   },
@@ -109,7 +109,7 @@ export function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="w-14 h-14 flex items-center justify-center mb-6">
-                <img src="/uphold-logo-transparent.png" alt="Uphold" className="w-full h-full object-contain" />
+                <img src="/granville-logo.svg" alt="Granville Community Homes" className="w-full h-full object-contain" />
               </div>
               <h2 className="text-3xl font-bold font-display text-[#0F172A] mb-4">
                 Why we exist

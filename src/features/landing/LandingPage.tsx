@@ -174,7 +174,7 @@ function HeroSection() {
 function TrustBar() {
   const { ref, isInView } = useScrollReveal();
   const orgs = [
-    'NorthBridge Living', 'HavenPath Housing', 'Oakmere Support', 'Unity Housing Care',
+    'Granville Community Homes', 'HavenPath Housing', 'Oakmere Support', 'Unity Housing Care',
     'Meridian Trust', 'Castleford Group', 'Beacon Supported Living', 'Compass Housing',
   ];
 
@@ -421,7 +421,7 @@ const testimonials = [
   {
     name: 'Claire Whitmore',
     role: 'Operations Manager',
-    org: 'NorthBridge Supported Living',
+    org: 'Granville Community Homes',
     initials: 'CW',
     quote: "Uphold completely transformed how we track STAR assessments and housing benefit. What used to take hours of spreadsheet work is now a two-minute daily check. Our compliance rate went from 74% to 98% in three months.",
     color: 'from-[#075DE8] to-[#0797D8]',

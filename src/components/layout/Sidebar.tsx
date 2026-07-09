@@ -68,10 +68,10 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
       <div className={`flex items-center gap-3 px-4 py-5 border-b border-[#E6EEF5] dark:border-[#1E2D45] ${collapsed ? 'justify-center' : ''}`}>
         {collapsed ? (
           <div className="w-9 h-9 flex-shrink-0">
-            <img src="/uphold-icon.png" alt="Uphold" className="w-full h-full object-contain" />
+            <img src="/granville-logo.svg" alt="Granville Community Homes" className="w-full h-full object-contain" />
           </div>
         ) : (
-          <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-10 w-auto object-contain" />
+          <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-10 w-auto object-contain" />
         )}
         <button
           onClick={onToggle}
@@ -88,7 +88,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
       {/* Org & Role */}
       {!collapsed && (
         <div className="px-4 py-3 border-b border-[#E6EEF5] dark:border-[#1E2D45]">
-          <p className="text-xs font-medium text-[#0F172A] dark:text-[#F8FAFC] truncate">NorthBridge Supported Living</p>
+          <p className="text-xs font-medium text-[#0F172A] dark:text-[#F8FAFC] truncate">Granville Community Homes</p>
           <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-uphold-gradient-subtle text-[#075DE8]">
             {roleLabels[effectiveRole] ?? effectiveRole}
           </span>

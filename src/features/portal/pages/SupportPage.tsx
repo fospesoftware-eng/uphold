@@ -3,9 +3,9 @@ import { Phone, Mail, MessageSquare, HelpCircle, AlertTriangle, FileText } from 
 import { useNavigate } from 'react-router-dom';
 
 const CONTACTS = [
-  { name: 'Property Manager', desc: 'Sarah Mitchell', phone: '0161 555 0101', email: 'sarah.mitchell@northbridge.org', color: 'from-emerald-400 to-teal-500', initials: 'SM', available: 'Mon–Fri 9am–5pm' },
-  { name: 'Maintenance', desc: 'Urgent repairs', phone: '0161 555 0102', email: 'maintenance@northbridge.org', color: 'from-amber-400 to-orange-500', initials: 'MT', available: 'Mon–Fri 8am–6pm' },
-  { name: '24/7 Emergency', desc: 'Property emergencies', phone: '0161 555 0199', email: 'emergency@northbridge.org', color: 'from-rose-500 to-red-600', initials: '24', available: 'Always available' },
+  { name: 'Property Manager', desc: 'Sarah Mitchell', phone: '0161 555 0101', email: 'sarah.mitchell@granvillehomes.org', color: 'from-emerald-400 to-teal-500', initials: 'SM', available: 'Mon–Fri 9am–5pm' },
+  { name: 'Maintenance', desc: 'Urgent repairs', phone: '0161 555 0102', email: 'maintenance@granvillehomes.org', color: 'from-amber-400 to-orange-500', initials: 'MT', available: 'Mon–Fri 8am–6pm' },
+  { name: '24/7 Emergency', desc: 'Property emergencies', phone: '0161 555 0199', email: 'emergency@granvillehomes.org', color: 'from-rose-500 to-red-600', initials: '24', available: 'Always available' },
 ];
 
 const FAQ_QUICK = [
@@ -115,8 +115,8 @@ export function SupportPage() {
 
       {/* App info */}
       <div className="text-center text-[10px] text-[#94A3B8] space-y-1 pb-2">
-        <p>NorthBridge Resident Portal · Version 1.0.0</p>
-        <p>© 2026 NorthBridge Housing Ltd. All rights reserved.</p>
+        <p>Granville Resident Portal · Version 1.0.0</p>
+        <p>© 2026 Granville Community Homes Ltd. All rights reserved.</p>
       </div>
     </div>
   );

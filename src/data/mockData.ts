@@ -21,7 +21,7 @@ import type {
 export const organisations: Organisation[] = [
   {
     id: 'org-1',
-    name: 'NorthBridge Supported Living',
+    name: 'Granville Community Homes',
     plan: 'enterprise',
     activeUsers: 14,
     tenantCount: 38,
@@ -74,7 +74,7 @@ export const users: User[] = [
   {
     id: 'user-1',
     name: 'Sarah Johnson',
-    email: 'sarah.johnson@northbridge.org.uk',
+    email: 'sarah.johnson@granvillehomes.org.uk',
     role: 'admin',
     organisationId: 'org-1',
     twoFactorEnabled: true,
@@ -84,7 +84,7 @@ export const users: User[] = [
   {
     id: 'user-2',
     name: 'Marcus Webb',
-    email: 'marcus.webb@northbridge.org.uk',
+    email: 'marcus.webb@granvillehomes.org.uk',
     role: 'support_staff',
     organisationId: 'org-1',
     twoFactorEnabled: true,
@@ -94,7 +94,7 @@ export const users: User[] = [
   {
     id: 'user-3',
     name: 'Fatima Al-Rashid',
-    email: 'fatima.al-rashid@northbridge.org.uk',
+    email: 'fatima.al-rashid@granvillehomes.org.uk',
     role: 'support_staff',
     organisationId: 'org-1',
     twoFactorEnabled: false,
@@ -104,7 +104,7 @@ export const users: User[] = [
   {
     id: 'user-4',
     name: 'David Thornton',
-    email: 'david.thornton@northbridge.org.uk',
+    email: 'david.thornton@granvillehomes.org.uk',
     role: 'board',
     organisationId: 'org-1',
     twoFactorEnabled: true,

@@ -234,10 +234,10 @@ export function AdministrationPage() {
             <div className="space-y-3">
               {[
                 { action: 'Organisation created: Unity Housing Care', user: 'Alex Patel', time: '22 Jun 2026, 09:00', type: 'create' },
-                { action: 'User invited: david.thornton@northbridge.org.uk', user: 'Sarah Johnson', time: '20 Jun 2026, 14:30', type: 'create' },
+                { action: 'User invited: david.thornton@granvillehomes.org.uk', user: 'Sarah Johnson', time: '20 Jun 2026, 14:30', type: 'create' },
                 { action: 'Plan upgraded: HavenPath Housing → Professional', user: 'Alex Patel', time: '15 Jun 2026, 11:00', type: 'update' },
                 { action: 'Role changed: marcus.webb → Support Staff', user: 'Sarah Johnson', time: '10 Jun 2026, 10:15', type: 'update' },
-                { action: '2FA enforced for organisation: NorthBridge', user: 'Alex Patel', time: '1 Jun 2026, 08:00', type: 'security' },
+                { action: '2FA enforced for organisation: Granville', user: 'Alex Patel', time: '1 Jun 2026, 08:00', type: 'security' },
               ].map((e, i) => (
                 <div key={i} className="flex items-start gap-4 py-3 border-b border-[#E6EEF5] dark:border-[#1E2D45] last:border-0">
                   <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${e.type === 'create' ? 'bg-emerald-500' : e.type === 'security' ? 'bg-rose-500' : 'bg-amber-500'}`} />

@@ -28,8 +28,8 @@ export function LandingFooter() {
           <div className="lg:col-span-2">
             <Link to="/" className="inline-flex mb-5 hover:opacity-80 transition-opacity">
               <img
-                src="/uphold-logo-transparent.png"
-                alt="Uphold"
+                src="/granville-logo.svg"
+                alt="Granville Community Homes"
                 className="h-[180px] w-auto object-contain"
               />
             </Link>

@@ -315,7 +315,7 @@ function HeroSection() {
 
 // ── Trust bar with animated marquee cards ────────────────────────────────────
 const trustOrgs = [
-  { name: 'NorthBridge Living',      initials: 'NB', color: '#075DE8', location: 'Manchester' },
+  { name: 'Granville Community Homes',      initials: 'NB', color: '#075DE8', location: 'Manchester' },
   { name: 'HavenPath Housing',       initials: 'HP', color: '#6366F1', location: 'Bristol' },
   { name: 'Oakmere Support',         initials: 'OS', color: '#10B981', location: 'Leeds' },
   { name: 'Unity Housing Care',      initials: 'UH', color: '#F59E0B', location: 'Birmingham' },

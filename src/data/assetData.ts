@@ -1,4 +1,4 @@
-// Demo asset inventory for NorthBridge Supported Living (org-1).
+// Demo asset inventory for Granville Community Homes (org-1).
 // Backs assetService with in-memory data, matching the pattern of the other
 // mock services (the Supabase client is a stub in this build).
 

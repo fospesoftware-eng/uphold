@@ -101,7 +101,7 @@ export function CommunityPage() {
             { q: 'When is my rent due?', a: 'Rent is due on the 1st of each month. You\'ll receive a reminder 5 days before.', cat: 'Payments' },
             { q: 'How do I add a visitor?', a: 'Go to Visitors and tap "Create Pass". Your visitor will receive a QR code by SMS.', cat: 'Visitors' },
             { q: 'How do I collect a parcel?', a: 'Check the Parcels section for your collection code. Bring it to reception (Mon–Fri 8am–6pm).', cat: 'Parcels' },
-            { q: 'What\'s the Wi-Fi password?', a: 'Connect to "NorthBridge-Residents". The password is in your welcome pack.', cat: 'Internet' },
+            { q: 'What\'s the Wi-Fi password?', a: 'Connect to "Granville-Residents". The password is in your welcome pack.', cat: 'Internet' },
             { q: 'Who do I call in an emergency?', a: 'Call 0161 555 0199 (24/7). For fire or medical emergencies call 999 first.', cat: 'Emergency' },
           ].map((faq, i) => (
             <motion.details

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Granville Community Homes">
+  <circle cx="200" cy="200" r="200" fill="#1B54BD"/>
+  <g fill="none" stroke="#ffffff" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+    <!-- left (smaller) house -->
+    <path d="M118 150 L150 108 L182 150 L182 182 L118 182 Z"/>
+    <!-- right (taller) house -->
+    <path d="M196 132 L236 82 L276 132 L276 182 L196 182 Z"/>
+    <!-- chimney on right house -->
+    <path d="M256 100 L256 80 L268 80 L268 108"/>
+    <!-- foundation / steps -->
+    <path d="M112 198 L288 198"/>
+    <path d="M112 220 L288 220"/>
+  </g>
+  <text x="200" y="272" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800" letter-spacing="1.5" fill="#ffffff">GRANVILLE</text>
+  <text x="200" y="316" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="400" fill="#ffffff">Community</text>
+  <text x="200" y="358" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="400" fill="#ffffff">Homes</text>
+</svg>

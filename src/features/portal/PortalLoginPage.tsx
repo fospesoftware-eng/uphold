@@ -52,7 +52,7 @@ export function PortalLoginPage() {
       return;
     }
     if (result.redirect) {
-      const adminUser = users.find(u => u.email === 'admin@northbridge.org') ?? users[0];
+      const adminUser = users.find(u => u.email === 'admin@granvillehomes.org') ?? users[0];
       adminLogin(adminUser);
       navigate(result.redirect, { replace: true });
     } else {
@@ -102,7 +102,7 @@ export function PortalLoginPage() {
 
           {/* Logo */}
           <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }} className="mb-8">
-            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-12 xl:h-14 w-auto object-contain" />
+            <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-12 xl:h-14 w-auto object-contain" />
             <div className="flex items-center gap-2.5 mt-2">
               <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.07)' }} />
               <span className="text-[9px] font-bold text-white/25 uppercase tracking-[0.22em]">Resident Portal</span>
@@ -272,7 +272,7 @@ export function PortalLoginPage() {
 
             {/* Mobile logo */}
             <div className="flex lg:hidden flex-col items-center mb-6">
-              <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-11 w-auto object-contain mb-2" />
+              <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-11 w-auto object-contain mb-2" />
               <span className="text-[9px] font-bold text-white/25 uppercase tracking-[0.2em]">Resident Portal</span>
             </div>
 
@@ -383,7 +383,7 @@ export function PortalLoginPage() {
             </div>
 
             <p className="mt-3 text-[11px] text-center text-white/12">
-              © 2026 Uphold Technologies Ltd · NorthBridge Housing
+              © 2026 Uphold Technologies Ltd · Granville Community Homes
             </p>
           </div>
         </div>

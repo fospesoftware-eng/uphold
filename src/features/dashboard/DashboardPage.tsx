@@ -65,7 +65,7 @@ export function DashboardPage() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="Dashboard" subtitle="NorthBridge Supported Living" />
+        <PageHeader title="Dashboard" subtitle="Granville Community Homes" />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
           {[...Array(8)].map((_, i) => <SkeletonCard key={i} />)}
         </div>
@@ -79,7 +79,7 @@ export function DashboardPage() {
     <div className="max-w-[1400px] mx-auto">
       <PageHeader
         title="Dashboard"
-        subtitle="NorthBridge Supported Living — June 2026"
+        subtitle="Granville Community Homes — June 2026"
         actions={
           <div className="flex items-center gap-2 text-xs text-[#64748B]">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
