@@ -311,17 +311,26 @@ export const notificationService = {
   },
 };
 
-// ── Asset Service (Supabase-backed) ──────────────────────────────────────────
-import { supabase } from '../lib/supabase';
+// ── Asset Service (in-memory demo data) ──────────────────────────────────────
+// The Supabase client is stubbed in this build, so assets are served from
+// src/data/assetData.ts — mutations persist for the current session.
+import { assets, assetCategories, assetMaintenance, assetLogs } from '../data/assetData';
+
+function nextAssetCode(): string {
+  const max = assets.reduce((m, a) => {
+    const n = parseInt((a.asset_code || '').replace(/\D/g, ''), 10);
+    return Number.isFinite(n) && n > m ? n : m;
+  }, 0);
+  return `AST-${String(max + 1).padStart(4, '0')}`;
+}
 
 export const assetService = {
   async getCategories(): Promise<AssetCategory[]> {
-    const { data, error } = await supabase
-      .from('asset_categories')
-      .select('*')
-      .order('name');
-    if (error) throw error;
-    return (data ?? []) as AssetCategory[];
+    await delay(300);
+    return assetCategories.map(c => ({
+      ...c,
+      count: assets.filter(a => a.category_id === c.id).length,
+    }));
   },
 
   async getAssets(filters?: {
@@ -330,86 +339,81 @@ export const assetService = {
     search?: string;
     property?: string;
   }): Promise<Asset[]> {
-    let query = supabase
-      .from('assets')
-      .select('*, category:asset_categories(id,name,icon,color)')
-      .order('created_at', { ascending: false });
-
-    if (filters?.status) query = query.eq('status', filters.status);
-    if (filters?.category_id) query = query.eq('category_id', filters.category_id);
-    if (filters?.property) query = query.eq('property_name', filters.property);
+    await delay();
+    let rows = [...assets];
+    if (filters?.status) rows = rows.filter(a => a.status === filters.status);
+    if (filters?.category_id) rows = rows.filter(a => a.category_id === filters.category_id);
+    if (filters?.property) rows = rows.filter(a => a.property_name === filters.property);
     if (filters?.search) {
-      query = query.or(
-        `name.ilike.%${filters.search}%,asset_code.ilike.%${filters.search}%,serial_number.ilike.%${filters.search}%`
+      const q = filters.search.toLowerCase();
+      rows = rows.filter(a =>
+        a.name.toLowerCase().includes(q) ||
+        (a.asset_code || '').toLowerCase().includes(q) ||
+        (a.serial_number || '').toLowerCase().includes(q)
       );
     }
-
-    const { data, error } = await query;
-    if (error) throw error;
-    return (data ?? []) as Asset[];
+    return rows.sort((a, b) => (b.created_at > a.created_at ? 1 : -1));
   },
 
   async getAssetById(id: string): Promise<Asset | null> {
-    const { data, error } = await supabase
-      .from('assets')
-      .select('*, category:asset_categories(id,name,icon,color)')
-      .eq('id', id)
-      .maybeSingle();
-    if (error) throw error;
-    return data as Asset | null;
+    await delay(300);
+    return assets.find(a => a.id === id) ?? null;
   },
 
   async createAsset(
     payload: Omit<Asset, 'id' | 'asset_code' | 'qr_code' | 'created_at' | 'updated_at'>,
     createdBy: string
   ): Promise<Asset> {
-    // Generate next asset code
-    const { count } = await supabase
-      .from('assets')
-      .select('*', { count: 'exact', head: true });
-    const assetCode = `AST-${String((count ?? 0) + 1).padStart(4, '0')}`;
-
-    const { data, error } = await supabase
-      .from('assets')
-      .insert({ ...payload, asset_code: assetCode, created_by: createdBy })
-      .select()
-      .single();
-    if (error) throw error;
-
-    await assetService.logAction(data.id, 'created', createdBy, `Asset "${payload.name}" created`);
-    return data as Asset;
+    await delay(700);
+    const now = new Date().toISOString();
+    const code = nextAssetCode();
+    const asset: Asset = {
+      ...payload,
+      id: `ast-${Date.now()}`,
+      asset_code: code,
+      qr_code: code,
+      category: payload.category_id ? assetCategories.find(c => c.id === payload.category_id) : undefined,
+      created_by: createdBy,
+      created_at: now,
+      updated_at: now,
+    };
+    assets.unshift(asset);
+    await assetService.logAction(asset.id, 'created', createdBy, `Asset "${payload.name}" created`);
+    return asset;
   },
 
   async updateAsset(id: string, payload: Partial<Asset>, updatedBy: string): Promise<Asset> {
-    const { data, error } = await supabase
-      .from('assets')
-      .update({ ...payload, updated_by: updatedBy, updated_at: new Date().toISOString() })
-      .eq('id', id)
-      .select()
-      .single();
-    if (error) throw error;
-
-    await assetService.logAction(id, 'updated', updatedBy, `Asset updated`);
-    return data as Asset;
+    await delay(600);
+    const idx = assets.findIndex(a => a.id === id);
+    if (idx === -1) throw new Error('Asset not found');
+    const merged: Asset = {
+      ...assets[idx],
+      ...payload,
+      category: payload.category_id
+        ? assetCategories.find(c => c.id === payload.category_id)
+        : assets[idx].category,
+      updated_by: updatedBy,
+      updated_at: new Date().toISOString(),
+    };
+    assets[idx] = merged;
+    await assetService.logAction(id, 'updated', updatedBy, 'Asset updated');
+    return merged;
   },
 
   async deleteAsset(id: string, deletedBy: string): Promise<void> {
+    await delay(500);
+    const idx = assets.findIndex(a => a.id === id);
+    if (idx === -1) throw new Error('Asset not found');
     await assetService.logAction(id, 'deleted', deletedBy, 'Asset deleted');
-    const { error } = await supabase.from('assets').delete().eq('id', id);
-    if (error) throw error;
+    assets.splice(idx, 1);
   },
 
   async getKPIs(): Promise<AssetKPIs> {
-    const { data: assets, error } = await supabase
-      .from('assets')
-      .select('status, condition, purchase_cost, current_value, created_at, warranty_expiry');
-    if (error) throw error;
-
+    await delay(300);
     const now = new Date();
     const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    const rows = (assets ?? []) as Asset[];
+    const rows = assets;
     return {
       total: rows.length,
       assigned: rows.filter(a => a.status === 'assigned').length,
@@ -419,8 +423,8 @@ export const assetService = {
         a.warranty_expiry && new Date(a.warranty_expiry) <= thirtyDaysOut && new Date(a.warranty_expiry) >= now
       ).length,
       damaged: rows.filter(a => a.status === 'damaged' || a.condition === 'broken').length,
-      total_value: rows.reduce((s: number, a) => s + (a.current_value ?? a.purchase_cost ?? 0), 0),
-      maintenance_cost: 0,
+      total_value: rows.reduce((s, a) => s + (a.current_value ?? a.purchase_cost ?? 0), 0),
+      maintenance_cost: assetMaintenance.reduce((s, m) => s + (m.cost ?? 0), 0),
       added_this_month: rows.filter(a => new Date(a.created_at) >= firstOfMonth).length,
     };
   },
@@ -428,53 +432,39 @@ export const assetService = {
   // ── Maintenance ────────────────────────────────────────────────────────────
 
   async getMaintenance(assetId: string): Promise<AssetMaintenance[]> {
-    const { data, error } = await supabase
-      .from('asset_maintenance')
-      .select('*')
-      .eq('asset_id', assetId)
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-    return (data ?? []) as AssetMaintenance[];
+    await delay(300);
+    return assetMaintenance
+      .filter(m => m.asset_id === assetId)
+      .sort((a, b) => (b.created_at > a.created_at ? 1 : -1));
   },
 
   async addMaintenance(
     payload: Omit<AssetMaintenance, 'id' | 'created_at'>,
     performedBy: string
   ): Promise<AssetMaintenance> {
-    const { data, error } = await supabase
-      .from('asset_maintenance')
-      .insert(payload)
-      .select()
-      .single();
-    if (error) throw error;
+    await delay(500);
+    const record: AssetMaintenance = { ...payload, id: `am-${Date.now()}`, created_at: new Date().toISOString() };
+    assetMaintenance.unshift(record);
     await assetService.logAction(
       payload.asset_id, 'maintenance_added', performedBy,
       `${payload.maintenance_type} maintenance: ${payload.description}`
     );
-    return data as AssetMaintenance;
+    return record;
   },
 
   async updateMaintenance(id: string, payload: Partial<AssetMaintenance>): Promise<AssetMaintenance> {
-    const { data, error } = await supabase
-      .from('asset_maintenance')
-      .update(payload)
-      .eq('id', id)
-      .select()
-      .single();
-    if (error) throw error;
-    return data as AssetMaintenance;
+    await delay(400);
+    const idx = assetMaintenance.findIndex(m => m.id === id);
+    if (idx === -1) throw new Error('Maintenance record not found');
+    assetMaintenance[idx] = { ...assetMaintenance[idx], ...payload };
+    return assetMaintenance[idx];
   },
 
   // ── Assignments ────────────────────────────────────────────────────────────
 
-  async getAssignments(assetId: string): Promise<AssetAssignment[]> {
-    const { data, error } = await supabase
-      .from('asset_assignments')
-      .select('*')
-      .eq('asset_id', assetId)
-      .order('assigned_date', { ascending: false });
-    if (error) throw error;
-    return (data ?? []) as AssetAssignment[];
+  async getAssignments(_assetId: string): Promise<AssetAssignment[]> {
+    await delay(300);
+    return [];
   },
 
   async assignAsset(
@@ -482,44 +472,40 @@ export const assetService = {
     payload: Omit<AssetAssignment, 'id' | 'asset_id' | 'created_at'>,
     performedBy: string
   ): Promise<AssetAssignment> {
-    const { data, error } = await supabase
-      .from('asset_assignments')
-      .insert({ ...payload, asset_id: assetId })
-      .select()
-      .single();
-    if (error) throw error;
-
+    await delay(500);
+    const record: AssetAssignment = { ...payload, id: `aa-${Date.now()}`, asset_id: assetId, created_at: new Date().toISOString() };
     await assetService.updateAsset(assetId, { status: 'assigned', assigned_to: payload.assigned_to }, performedBy);
     await assetService.logAction(assetId, 'assigned', performedBy, `Assigned to ${payload.assigned_to}`);
-    return data as AssetAssignment;
+    return record;
   },
 
   // ── Logs ───────────────────────────────────────────────────────────────────
 
   async getLogs(assetId: string): Promise<AssetLog[]> {
-    const { data, error } = await supabase
-      .from('asset_logs')
-      .select('*')
-      .eq('asset_id', assetId)
-      .order('created_at', { ascending: false })
-      .limit(50);
-    if (error) throw error;
-    return (data ?? []) as AssetLog[];
+    await delay(300);
+    return assetLogs
+      .filter(l => l.asset_id === assetId)
+      .sort((a, b) => (b.created_at > a.created_at ? 1 : -1))
+      .slice(0, 50);
   },
 
   async logAction(assetId: string, action: string, performedBy: string, details?: string): Promise<void> {
-    await supabase.from('asset_logs').insert({ asset_id: assetId, action, performed_by: performedBy, details });
+    assetLogs.unshift({
+      id: `al-${Date.now()}`,
+      asset_id: assetId,
+      action,
+      performed_by: performedBy,
+      details,
+      created_at: new Date().toISOString(),
+    });
   },
 
   // ── Category helpers ───────────────────────────────────────────────────────
 
   async createCategory(payload: Omit<AssetCategory, 'id' | 'created_at'>): Promise<AssetCategory> {
-    const { data, error } = await supabase
-      .from('asset_categories')
-      .insert(payload)
-      .select()
-      .single();
-    if (error) throw error;
-    return data as AssetCategory;
+    await delay(400);
+    const category: AssetCategory = { ...payload, id: `cat-${Date.now()}`, created_at: new Date().toISOString() };
+    assetCategories.push(category);
+    return category;
   },
 };
