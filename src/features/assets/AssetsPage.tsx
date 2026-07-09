@@ -68,6 +68,12 @@ function AssetCardView({ asset, onView, onEdit, onQR, onDelete }: {
       className="bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] rounded-2xl p-4 hover:shadow-md hover:border-[#CBD5E1] dark:hover:border-[#2D3F5C] transition-all duration-200 group cursor-pointer"
       onClick={onView}
     >
+      {asset.images?.[0] && (
+        <div className="-mx-4 -mt-4 mb-3 h-28 overflow-hidden rounded-t-2xl bg-[#F1F5F9] dark:bg-[#1E2D45]">
+          <img src={asset.images[0]} alt={asset.name} loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        </div>
+      )}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-xl bg-[#F1F5F9] dark:bg-[#1E2D45] flex items-center justify-center flex-shrink-0">

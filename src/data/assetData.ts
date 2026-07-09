@@ -185,6 +185,7 @@ const seeds: Seed[] = [
 export const assets: Asset[] = seeds.map(s => ({
   ...s,
   category: s.category_id ? catMap[s.category_id] : undefined,
+  images: s.images ?? [`/assets/${s.id}.svg`],
 }));
 
 export const assetMaintenance: AssetMaintenance[] = [

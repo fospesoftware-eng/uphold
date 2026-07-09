@@ -257,6 +257,13 @@ export function AssetDetailPage() {
         </div>
       </div>
 
+      {/* Hero image */}
+      {asset.images?.[0] && (
+        <div className="h-48 sm:h-64 overflow-hidden rounded-2xl border border-[#E6EEF5] dark:border-[#1E2D45]">
+          <img src={asset.images[0]} alt={asset.name} className="w-full h-full object-cover" />
+        </div>
+      )}
+
       {/* Quick info strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
