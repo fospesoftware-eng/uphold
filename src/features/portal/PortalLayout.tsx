@@ -219,7 +219,7 @@ export function PortalLayout() {
         {/* Brand */}
         <div className="px-4 pt-5 pb-4" style={{ borderBottom: `1px solid ${t.divider}` }}>
           <div className="mb-4">
-            <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-[56px] xl:h-[64px] w-auto object-contain" />
+            <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-12 xl:h-14 w-auto object-contain" />
             <div className="flex items-center gap-2 mt-1.5">
               <div className="h-px flex-1" style={{ background: t.divider }} />
               <span className={`text-[9px] font-bold uppercase tracking-[0.2em] ${t.textSubtle}`}>Resident Portal</span>
