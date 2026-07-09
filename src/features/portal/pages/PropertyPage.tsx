@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Building2, MapPin, Calendar, Key, Phone, Mail, ChevronDown, ChevronUp, Star } from 'lucide-react';
 import { useTenantPortal } from '../context';
 import { getTenantData } from '../data';
+import { getLeaseInfo } from '../lease';
+import { LeaseStatusBadge } from '../components/LeaseStatusBadge';
 
 function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -35,7 +37,8 @@ export function PropertyPage() {
   const { unit } = getTenantData(tenantUser.id);
   if (!unit) return null;
 
-  const daysLeft = Math.ceil((new Date(unit.leaseEnd).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  const lease = getLeaseInfo(unit.leaseEnd);
+  const daysLeft = lease.daysLeft;
 
   return (
     <div className="max-w-2xl mx-auto px-4 pt-6 pb-8 lg:max-w-none lg:px-6 space-y-4">
@@ -59,9 +62,11 @@ export function PropertyPage() {
             <span className="px-3 py-1.5 rounded-full bg-white/15 text-xs font-medium">{unit.bathrooms} Bathroom</span>
             <span className="px-3 py-1.5 rounded-full bg-white/15 text-xs font-medium">{unit.areaSqft} sq ft</span>
             <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-              daysLeft < 90 ? 'bg-amber-400/20 text-amber-300' : 'bg-emerald-400/20 text-emerald-300'
+              lease.state === 'expired' ? 'bg-rose-400/20 text-rose-200'
+              : lease.state === 'expiring_soon' ? 'bg-amber-400/20 text-amber-200'
+              : 'bg-emerald-400/20 text-emerald-200'
             }`}>
-              {daysLeft > 0 ? `${daysLeft} days left on lease` : 'Lease expired'}
+              {lease.state === 'expired' ? lease.detail : `${daysLeft} days left on lease`}
             </span>
           </div>
         </div>
@@ -69,14 +74,17 @@ export function PropertyPage() {
 
       {/* Lease Details */}
       <Section title="Lease Details">
+        <div className="flex items-center justify-between pb-4 mb-1 border-b border-[#F1F5F9] dark:border-[#1E2D45]">
+          <span className="text-xs text-[#64748B] font-medium">Current Status</span>
+          <LeaseStatusBadge leaseEnd={unit.leaseEnd} />
+        </div>
         <InfoRow label="Lease Start" value={new Date(unit.leaseStart).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} />
-        <InfoRow label="Lease End" value={new Date(unit.leaseEnd).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} highlight={daysLeft < 90} />
+        <InfoRow label="Lease End" value={new Date(unit.leaseEnd).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} highlight={lease.state !== 'active'} />
         <InfoRow label="Move-in Date" value={new Date(unit.moveInDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} />
         <InfoRow label="Monthly Rent" value={`£${unit.rentAmount.toFixed(2)}`} />
         <InfoRow label="Rent Due" value={`1st of each month`} />
         <InfoRow label="Security Deposit" value={`£${unit.deposit.toFixed(2)}`} />
         <InfoRow label="Outstanding Balance" value={unit.outstandingBalance > 0 ? `£${unit.outstandingBalance.toFixed(2)}` : '£0.00 – all clear'} highlight={unit.outstandingBalance > 0} />
-        <InfoRow label="Lease Status" value={unit.leaseStatus === 'active' ? 'Active ✓' : unit.leaseStatus} />
       </Section>
 
       {/* Unit Details */}
