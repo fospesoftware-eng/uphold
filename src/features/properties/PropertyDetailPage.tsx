@@ -16,6 +16,7 @@ import {
 } from 'recharts';
 import { properties, certificates, rooms, tenants, users } from '../../data/mockData';
 import { Badge, Button } from '../../components/ui';
+import { FloorPlan3D } from '../floorplan/FloorPlan3D';
 import type { Property } from '../../types';
 
 // ── palette ───────────────────────────────────────────────────────────────────
@@ -154,6 +155,7 @@ function AnimatedNumber({ value, prefix = '', suffix = '', decimals = 0 }: { val
 // ── Tab list ──────────────────────────────────────────────────────────────────
 const TABS = [
   { id: 'overview',    label: 'Overview',    icon: Home },
+  { id: 'floorplan',   label: 'Floor Plan',  icon: Layers },
   { id: 'tenants',     label: 'Tenants',     icon: Users },
   { id: 'assets',      label: 'Assets',      icon: Package },
   { id: 'maintenance', label: 'Maintenance', icon: Wrench },
@@ -427,6 +429,17 @@ export function PropertyDetailPage() {
           transition={{ duration: 0.2 }}
         >
           {activeTab === 'overview'    && <OverviewTab    property={property} rooms={propRooms} amenities={AMENITIES} />}
+          {activeTab === 'floorplan'   && (
+            <div className="bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] rounded-2xl p-4 sm:p-5">
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                <div>
+                  <h3 className="text-sm font-semibold text-[#0F172A] dark:text-white">3D Floor Plan</h3>
+                  <p className="text-xs text-[#64748B] dark:text-[#94A3B8]">Interactive dollhouse view · drag to rotate, tap a room for details</p>
+                </div>
+              </div>
+              <FloorPlan3D propertyId={property.id} height={520} />
+            </div>
+          )}
           {activeTab === 'tenants'     && <TenantsTab     tenants={propTenants} rooms={propRooms} />}
           {activeTab === 'assets'      && <AssetsTab      assets={DEMO_ASSETS} />}
           {activeTab === 'maintenance' && <MaintenanceTab tickets={DEMO_TICKETS} monthly={MAINTENANCE_MONTHLY} byType={MAINTENANCE_BY_TYPE} />}

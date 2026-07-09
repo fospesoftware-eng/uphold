@@ -5,6 +5,7 @@ import { useTenantPortal } from '../context';
 import { getTenantData } from '../data';
 import { getLeaseInfo } from '../lease';
 import { LeaseStatusBadge } from '../components/LeaseStatusBadge';
+import { FloorPlan3D } from '../../floorplan/FloorPlan3D';
 
 function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -71,6 +72,18 @@ export function PropertyPage() {
           </div>
         </div>
       </motion.div>
+
+      {/* 3D Floor Plan */}
+      <Section title="3D Floor Plan">
+        <FloorPlan3D
+          propertyId={unit.propertyId}
+          highlightRoom={unit.unitNumber.match(/\d+/) ? `Bedroom ${unit.unitNumber.match(/\d+/)![0]}` : undefined}
+          height={360}
+        />
+        <p className="text-xs text-[#64748B] mt-3">
+          Explore your home in 3D — drag to rotate, use the buttons to zoom, and tap a room for details. Your room is highlighted in blue.
+        </p>
+      </Section>
 
       {/* Lease Details */}
       <Section title="Lease Details">
