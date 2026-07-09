@@ -71,7 +71,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
             <img src="/uphold-icon.png" alt="Uphold" className="w-full h-full object-contain" />
           </div>
         ) : (
-          <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-7 w-auto object-contain" />
+          <img src="/uphold-logo-wordmark.png" alt="Uphold" className="h-10 w-auto object-contain" />
         )}
         <button
           onClick={onToggle}
