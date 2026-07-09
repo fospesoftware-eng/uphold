@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { LeaseStatusBadge } from '../components/LeaseStatusBadge';
+import { getLeaseInfo } from '../lease';
 import {
   CreditCard, Wrench, FileText, Bell, Package, MapPin,
   ChevronRight, AlertTriangle, Clock, ArrowUpRight,
@@ -23,6 +25,15 @@ const stagger = {
     show:   { opacity: 1, y: 0, transition: { duration: 0.32, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] } },
   },
 };
+
+// Animated number that springs from 0 up to `value` on mount.
+function CountUp({ value }: { value: number }) {
+  const mv = useMotionValue(0);
+  const spring = useSpring(mv, { stiffness: 90, damping: 18, mass: 0.6 });
+  const text = useTransform(spring, v => Math.round(v).toString());
+  useEffect(() => { mv.set(value); }, [value, mv]);
+  return <motion.span>{text}</motion.span>;
+}
 
 const STATUS_META: Record<string, { label: string; color: string; bg: string }> = {
   submitted:         { label: 'Submitted',    color: 'text-slate-400',  bg: 'rgba(148,163,184,0.12)' },
@@ -75,8 +86,6 @@ export function PortalDashboard() {
   const noticeUrgentBorder = isLight ? 'rgba(244,63,94,0.18)' : 'rgba(244,63,94,0.2)';
   const noticeNormalBg = isLight ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.03)';
   const noticeNormalBorder = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.07)';
-  const activeLeaseDot = isLight ? '#10B981' : '#32E6A4';
-  const activeLeaseText = isLight ? 'text-emerald-600' : 'text-[#32E6A4]';
 
   const kpis = [
     { label: 'Open Tickets',    value: openTickets.length,    icon: Wrench,   accent: '#F59E0B', accentBg: 'rgba(245,158,11,0.12)',   href: '/portal/maintenance' },
@@ -100,10 +109,14 @@ export function PortalDashboard() {
       {/* ── Hero Banner ── */}
       <motion.div {...fade(0)} className="relative overflow-hidden" style={{ background: heroGrad }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-16 right-0 w-80 h-80 rounded-full"
-            style={{ background: `radial-gradient(circle, ${isLight ? 'rgba(7,93,232,0.06)' : 'rgba(255,255,255,0.05)'} 0%, transparent 70%)` }} />
-          <div className="absolute bottom-0 left-1/3 w-64 h-48 rounded-full"
-            style={{ background: `radial-gradient(circle, ${isLight ? 'rgba(21,198,184,0.06)' : 'rgba(50,230,164,0.08)'} 0%, transparent 70%)` }} />
+          <motion.div className="absolute -top-16 right-0 w-80 h-80 rounded-full"
+            style={{ background: `radial-gradient(circle, ${isLight ? 'rgba(7,93,232,0.06)' : 'rgba(255,255,255,0.05)'} 0%, transparent 70%)` }}
+            animate={{ x: [0, -28, 0], y: [0, 22, 0], scale: [1, 1.12, 1] }}
+            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute bottom-0 left-1/3 w-64 h-48 rounded-full"
+            style={{ background: `radial-gradient(circle, ${isLight ? 'rgba(21,198,184,0.06)' : 'rgba(50,230,164,0.08)'} 0%, transparent 70%)` }}
+            animate={{ x: [0, 34, 0], y: [0, -18, 0], scale: [1, 1.18, 1] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }} />
           <div className="absolute inset-0 opacity-[0.04]"
             style={{ backgroundImage: `radial-gradient(${heroDot} 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
         </div>
@@ -123,10 +136,7 @@ export function PortalDashboard() {
                   <span className={isLight ? 'text-slate-300' : 'text-blue-200/30'}>·</span>
                   <span className="text-sm">{unit?.unitNumber}</span>
                   <span className={isLight ? 'text-slate-300' : 'text-blue-200/30'}>·</span>
-                  <span className="inline-flex items-center gap-1.5 text-sm">
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: activeLeaseDot, boxShadow: `0 0 6px ${activeLeaseDot}80` }} />
-                    <span className={`font-semibold ${activeLeaseText}`}>Lease Active</span>
-                  </span>
+                  {unit && <LeaseStatusBadge leaseEnd={unit.leaseEnd} variant="inline" tone={isLight ? 'auto' : 'light'} />}
                 </div>
 
                 {/* Alert pills */}
@@ -221,7 +231,7 @@ export function PortalDashboard() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: kpi.accentBg }}>
                 <kpi.icon size={18} style={{ color: kpi.accent }} />
               </div>
-              <p className={`text-3xl font-bold ${isLight ? 'text-slate-800' : 'text-white'}`}>{kpi.value}</p>
+              <p className={`text-3xl font-bold ${isLight ? 'text-slate-800' : 'text-white'}`}><CountUp value={kpi.value} /></p>
               <p className={`text-sm mt-1 leading-tight ${textMuted}`}>{kpi.label}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <ArrowUpRight size={14} className={textFaint} />
@@ -400,7 +410,7 @@ export function PortalDashboard() {
                       {[
                         { label: 'Monthly Rent', value: `£${unit.rentAmount.toFixed(2)}`, danger: false },
                         { label: 'Balance', value: unit.outstandingBalance > 0 ? `£${unit.outstandingBalance.toFixed(2)}` : 'All clear ✓', danger: unit.outstandingBalance > 0 },
-                        { label: 'Lease Expires', value: new Date(unit.leaseEnd).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }), danger: false },
+                        { label: 'Lease Expires', value: new Date(unit.leaseEnd).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }), danger: getLeaseInfo(unit.leaseEnd).state !== 'active' },
                         { label: 'Deposit Held', value: `£${unit.deposit.toFixed(2)}`, danger: false },
                       ].map(item => (
                         <div key={item.label} className="p-3 rounded-xl"
