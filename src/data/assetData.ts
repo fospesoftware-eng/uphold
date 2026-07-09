@@ -23,7 +23,7 @@ const seeds: Seed[] = [
   {
     id: 'ast-1', asset_code: 'AST-0001', name: 'Profiling Care Bed', category_id: 'cat-care',
     subcategory: 'Adjustable Bed', description: 'Electric 4-section profiling bed with side rails',
-    property_name: '14 Elm Grove', unit_number: 'Room 1', room: 'Bedroom',
+    property_name: '14 Elm Grove', unit_number: 'Room 1', room: "Bedroom 1",
     serial_number: 'CB-2024-014', manufacturer: 'Drive Medical', brand: 'Drive', model: 'Profiling Bed Pro',
     purchase_date: '2024-01-08', installation_date: '2024-01-10', supplier: 'CareCo', invoice_number: 'INV-CC-8841',
     purchase_cost: 1450, current_value: 1160, warranty_expiry: '2027-01-08', useful_life_years: 7,
@@ -33,7 +33,7 @@ const seeds: Seed[] = [
   {
     id: 'ast-2', asset_code: 'AST-0002', name: 'Ceiling Track Hoist', category_id: 'cat-care',
     subcategory: 'Hoist', description: 'Arjo Maxi Sky 2 Plus ceiling-mounted hoist',
-    property_name: '14 Elm Grove', unit_number: 'Room 1', room: 'Bedroom',
+    property_name: '14 Elm Grove', unit_number: 'Room 1', room: "Bedroom 1",
     serial_number: 'MH-24-001', manufacturer: 'Arjo', model: 'Maxi Sky 2 Plus',
     purchase_date: '2024-01-08', installation_date: '2024-01-10', supplier: 'Arjo UK', invoice_number: 'INV-AR-2210',
     purchase_cost: 3200, current_value: 2720, warranty_expiry: '2027-01-08', useful_life_years: 10,
@@ -43,7 +43,7 @@ const seeds: Seed[] = [
   {
     id: 'ast-3', asset_code: 'AST-0003', name: '65" Smart TV', category_id: 'cat-electronics',
     subcategory: 'Television', description: 'Samsung 65" 4K QLED communal lounge TV',
-    property_name: '14 Elm Grove', room: 'Communal Lounge',
+    property_name: '14 Elm Grove', room: "Living / Dining",
     serial_number: 'TV-23-0012', manufacturer: 'Samsung', model: 'QE65Q80C',
     purchase_date: '2023-05-12', installation_date: '2023-05-14', supplier: 'Currys Business', invoice_number: 'INV-CB-5521',
     purchase_cost: 999, current_value: 620, warranty_expiry: '2026-07-22', useful_life_years: 5,
@@ -53,7 +53,7 @@ const seeds: Seed[] = [
   {
     id: 'ast-4', asset_code: 'AST-0004', name: 'Wi-Fi Router', category_id: 'cat-networking',
     subcategory: 'Router', description: 'BT Business Hub 6 whole-building coverage',
-    property_name: '14 Elm Grove', room: 'Utility',
+    property_name: '14 Elm Grove', room: "Laundry",
     serial_number: 'RTR-22-001', manufacturer: 'BT', model: 'Business Hub 6',
     purchase_date: '2022-10-05', installation_date: '2022-10-06', supplier: 'BT Business',
     purchase_cost: 180, current_value: 60, warranty_expiry: '2025-10-05', useful_life_years: 4,
@@ -63,7 +63,7 @@ const seeds: Seed[] = [
   {
     id: 'ast-5', asset_code: 'AST-0005', name: 'Fire Alarm Control Panel', category_id: 'cat-safety',
     subcategory: 'Fire Safety', description: 'Addressable fire alarm panel, 8-zone',
-    property_name: '14 Elm Grove', room: 'Entrance Hall',
+    property_name: '14 Elm Grove', room: "Entry",
     serial_number: 'FA-21-118', manufacturer: 'Kentec', model: 'Syncro AS',
     purchase_date: '2021-06-20', installation_date: '2021-06-22', supplier: 'SafeGuard Fire',
     purchase_cost: 1250, current_value: 700, warranty_expiry: '2026-06-20', useful_life_years: 10,

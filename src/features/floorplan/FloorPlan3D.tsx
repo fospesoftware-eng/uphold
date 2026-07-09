@@ -113,7 +113,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
             return (
               <div
                 key={room.id}
-                onClick={(e) => { e.stopPropagation(); setSelected(s => s === room.id ? null : room.id); }}
+                onClick={(e) => { e.stopPropagation(); setSelected(room.id); setShowModal(true); }}
                 className="absolute cursor-pointer"
                 style={{
                   left: room.x * CELL, top: room.y * CELL,
