@@ -354,7 +354,7 @@ export const properties: Property[] = [
     nextInspectionDate: '2026-09-15',
     localAuthority: 'Manchester City Council',
     region: 'North West',
-    imageUrl: "/properties/prop-1.svg"
+    imageUrl: "/properties/residential-street.jpg"
   },
   {
     id: 'prop-2',
@@ -371,7 +371,7 @@ export const properties: Property[] = [
     nextInspectionDate: '2026-08-20',
     localAuthority: 'Birmingham City Council',
     region: 'West Midlands',
-    imageUrl: "/properties/prop-2.svg"
+    imageUrl: "/properties/residential-street.jpg"
   },
   {
     id: 'prop-3',
@@ -388,7 +388,7 @@ export const properties: Property[] = [
     nextInspectionDate: '2026-07-10',
     localAuthority: 'Leeds City Council',
     region: 'Yorkshire',
-    imageUrl: "/properties/prop-3.svg"
+    imageUrl: "/properties/residential-street.jpg"
   },
   {
     id: 'prop-4',
@@ -405,7 +405,7 @@ export const properties: Property[] = [
     nextInspectionDate: '2026-10-05',
     localAuthority: 'Liverpool City Council',
     region: 'North West',
-    imageUrl: "/properties/prop-4.svg"
+    imageUrl: "/properties/residential-street.jpg"
   },
   {
     id: 'prop-5',
@@ -422,7 +422,7 @@ export const properties: Property[] = [
     nextInspectionDate: '2026-06-18',
     localAuthority: 'Bristol City Council',
     region: 'South West',
-    imageUrl: "/properties/prop-5.svg"
+    imageUrl: "/properties/residential-street.jpg"
   },
 ];
 
