@@ -1,368 +1,267 @@
 import type {
-  TenantPortalUser, TenantUnit, PortalAsset, MaintenanceTicket,
-  PortalPayment, PortalDocument, Notice, VisitorPass, Parcel,
-  UtilityMonth, Conversation, CommunityEvent, FAQ,
-} from './types';
+    TenantPortalUser, TenantUnit, PortalAsset, MaintenanceTicket,
+    PortalPayment, PortalDocument, Notice, VisitorPass, Parcel,
+    UtilityMonth, Conversation, CommunityEvent, FAQ,
+  } from './types';
 
-// ── Demo credentials ──────────────────────────────────────────────────────────
-export const DEMO_CREDENTIALS: Record<string, { password: string; userId: string }> = {
-  'tenant1@demo.com':  { password: 'password123', userId: 'tenant-1' },
-  'tenant2@demo.com':  { password: 'password123', userId: 'tenant-2' },
-  'manager@demo.com':  { password: 'password123', userId: 'manager-1' },
-  'admin@demo.com':    { password: 'password123', userId: 'admin-1' },
-};
+  // -- Demo credentials ----------------------------------------------------------
+  export const DEMO_CREDENTIALS: Record<string, { password: string; userId: string }> = {
+    'tenant1@demo.com': { password: 'password123', userId: 'tenant-1' },
+    'tenant2@demo.com': { password: 'password123', userId: 'tenant-2' },
+    'tenant3@demo.com': { password: 'password123', userId: 'tenant-3' },
+    'tenant4@demo.com': { password: 'password123', userId: 'tenant-4' },
+    'tenant5@demo.com': { password: 'password123', userId: 'tenant-5' },
+    'tenant6@demo.com': { password: 'password123', userId: 'tenant-6' },
+    'manager@demo.com': { password: 'password123', userId: 'manager-1' },
+    'admin@demo.com':   { password: 'password123', userId: 'admin-1' },
+    'support@demo.com': { password: 'password123', userId: 'support-1' },
+  };
 
-export const PORTAL_USERS: TenantPortalUser[] = [
-  {
-    id: 'tenant-1', name: 'James Thornton', email: 'tenant1@demo.com',
-    phone: '+44 7700 900123', unitId: 'unit-1', propertyId: 'prop-1',
-    role: 'tenant', joinedAt: '2024-01-10',
-  },
-  {
-    id: 'tenant-2', name: 'Emily Chang', email: 'tenant2@demo.com',
-    phone: '+44 7700 900456', unitId: 'unit-2', propertyId: 'prop-2',
-    role: 'tenant', joinedAt: '2023-11-02',
-  },
-  {
-    id: 'manager-1', name: 'Sarah Mitchell', email: 'manager@demo.com',
-    phone: '+44 7700 900789', unitId: '', propertyId: '',
-    role: 'manager', joinedAt: '2022-06-01',
-  },
-  {
-    id: 'admin-1', name: 'Admin User', email: 'admin@demo.com',
-    phone: '+44 7700 900000', unitId: '', propertyId: '',
-    role: 'admin', joinedAt: '2021-01-01',
-  },
-];
+  export const PORTAL_USERS: TenantPortalUser[] = [
+    { id:'tenant-1', name:'James Thornton',  email:'tenant1@demo.com', phone:'+44 7700 900123', unitId:'unit-1', propertyId:'prop-1', role:'tenant', joinedAt:'2024-01-10' },
+    { id:'tenant-2', name:'Emily Chang',     email:'tenant2@demo.com', phone:'+44 7700 900456', unitId:'unit-2', propertyId:'prop-2', role:'tenant', joinedAt:'2023-11-02' },
+    { id:'tenant-3', name:'Aisha Patel',     email:'tenant3@demo.com', phone:'+44 7700 900789', unitId:'unit-3', propertyId:'prop-3', role:'tenant', joinedAt:'2025-03-15' },
+    { id:'tenant-4', name:'David Okafor',    email:'tenant4@demo.com', phone:'+44 7700 900321', unitId:'unit-4', propertyId:'prop-4', role:'tenant', joinedAt:'2024-08-20' },
+    { id:'tenant-5', name:'Margaret Wilson', email:'tenant5@demo.com', phone:'+44 7700 900654', unitId:'unit-5', propertyId:'prop-5', role:'tenant', joinedAt:'2022-04-01' },
+    { id:'tenant-6', name:'Raj Mehta',       email:'tenant6@demo.com', phone:'+44 7700 900987', unitId:'unit-6', propertyId:'prop-6', role:'tenant', joinedAt:'2025-01-05' },
+    { id:'manager-1', name:'Sarah Mitchell', email:'manager@demo.com', phone:'+44 7700 900111', unitId:'', propertyId:'', role:'manager', joinedAt:'2022-06-01' },
+    { id:'admin-1',   name:'Admin User',     email:'admin@demo.com',   phone:'+44 7700 900000', unitId:'', propertyId:'', role:'admin', joinedAt:'2021-01-01' },
+    { id:'support-1', name:'Lisa Carter',    email:'support@demo.com', phone:'+44 7700 900222', unitId:'', propertyId:'', role:'manager', joinedAt:'2023-09-01' },
+  ];
 
-// ── Units ─────────────────────────────────────────────────────────────────────
-export const TENANT_UNITS: TenantUnit[] = [
-  {
-    id: 'unit-1', tenantId: 'tenant-1', unitNumber: 'Room 1', floor: 'Ground Floor',
-    building: 'Main Building', propertyId: 'prop-1', propertyName: 'Maple House',
-    propertyAddress: '14 Maple Avenue', city: 'Manchester', postcode: 'M4 1AB',
-    bedrooms: 1, bathrooms: 1, areaSqft: 285, parking: 'Bay 3 - Accessible',
-    storage: 'Locker 12', moveInDate: '2024-01-10', leaseStart: '2024-01-10',
-    leaseEnd: '2025-12-31', deposit: 1700.00, rentAmount: 850.00,
-    rentDueDay: 1, outstandingBalance: 0,
-    landlordName: 'NorthBridge Housing Ltd', landlordPhone: '0161 555 0100',
-    landlordEmail: 'landlord@northbridge.org', managerName: 'Sarah Mitchell',
-    managerPhone: '0161 555 0101', managerEmail: 'sarah.mitchell@northbridge.org',
-    emergencyPhone: '0161 555 0199',
-    amenities: ['On-site Laundry', 'Garden', 'Communal Lounge', 'Bike Storage', 'CCTV', 'Key Fob Entry', 'Broadband Included', 'Weekly Cleaning'],
-    leaseStatus: 'active',
-    photos: [],
-    features: ['Double Bed', 'En-suite Wet Room', 'Built-in Wardrobe', 'Smart TV', 'Mini Fridge', 'Desk & Chair', 'Heating Controls'],
-  },
-  {
-    id: 'unit-2', tenantId: 'tenant-2', unitNumber: 'Unit 5', floor: 'Ground Floor',
-    building: 'Main Building', propertyId: 'prop-2', propertyName: 'Birch Court',
-    propertyAddress: '8 Birch Lane', city: 'Manchester', postcode: 'M14 5XB',
-    bedrooms: 1, bathrooms: 1, areaSqft: 310, parking: 'Bay 7',
-    storage: 'Locker 5', moveInDate: '2023-11-02', leaseStart: '2023-11-02',
-    leaseEnd: '2025-10-31', deposit: 1590.00, rentAmount: 795.00,
-    rentDueDay: 1, outstandingBalance: 150.00,
-    landlordName: 'NorthBridge Housing Ltd', landlordPhone: '0161 555 0100',
-    landlordEmail: 'landlord@northbridge.org', managerName: 'Sarah Mitchell',
-    managerPhone: '0161 555 0101', managerEmail: 'sarah.mitchell@northbridge.org',
-    emergencyPhone: '0161 555 0199',
-    amenities: ['On-site Laundry', 'Garden', 'Communal Lounge', 'CCTV', 'Key Fob Entry', 'Broadband Included'],
-    leaseStatus: 'active',
-    photos: [],
-    features: ['Double Bed', 'Shower Room', 'Built-in Wardrobe', 'TV Point', 'Fridge', 'Desk', 'Heating Controls'],
-  },
-];
+  // -- Units --------------------------------------------------------------------
+  export const TENANT_UNITS: TenantUnit[] = [
+    { id:'unit-1', tenantId:'tenant-1', unitNumber:'Room 1', floor:'Ground Floor', building:'Main Building', propertyId:'prop-1', propertyName:'Maple House', propertyAddress:'14 Maple Avenue', city:'Manchester', postcode:'M4 1AB', bedrooms:1, bathrooms:1, areaSqft:285, parking:'Bay 3 - Accessible', storage:'Locker 12', moveInDate:'2024-01-10', leaseStart:'2024-01-10', leaseEnd:'2025-12-31', deposit:1700, rentAmount:850, rentDueDay:1, outstandingBalance:0, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','Bike Storage','CCTV','Key Fob Entry','Broadband Included','Weekly Cleaning'], leaseStatus:'active', photos:[], features:['Double Bed','En-suite Wet Room','Built-in Wardrobe','Smart TV','Mini Fridge','Desk & Chair','Heating Controls'] },
+    { id:'unit-2', tenantId:'tenant-2', unitNumber:'Unit 5', floor:'Ground Floor', building:'Main Building', propertyId:'prop-2', propertyName:'Birch Court', propertyAddress:'8 Birch Lane', city:'Manchester', postcode:'M14 5XB', bedrooms:1, bathrooms:1, areaSqft:310, parking:'Bay 7', storage:'Locker 5', moveInDate:'2023-11-02', leaseStart:'2023-11-02', leaseEnd:'2025-10-31', deposit:1590, rentAmount:795, rentDueDay:1, outstandingBalance:150, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','CCTV','Key Fob Entry','Broadband Included'], leaseStatus:'active', photos:[], features:['Double Bed','Shower Room','Built-in Wardrobe','TV Point','Fridge','Desk','Heating Controls'] },
+    { id:'unit-3', tenantId:'tenant-3', unitNumber:'Flat 2A', floor:'First Floor', building:'Annexe', propertyId:'prop-3', propertyName:'Oak Lodge', propertyAddress:'22 Oak Street', city:'Manchester', postcode:'M1 3WE', bedrooms:2, bathrooms:1, areaSqft:420, parking:'Bay 12', storage:'Store 3A', moveInDate:'2025-03-15', leaseStart:'2025-03-15', leaseEnd:'2026-03-14', deposit:2100, rentAmount:1050, rentDueDay:1, outstandingBalance:0, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','Bike Storage','CCTV','Key Fob Entry','Broadband Included','Weekly Cleaning','Lift Access'], leaseStatus:'active', photos:[], features:['Double Bed','Walk-in Shower','Built-in Wardrobe','Smart TV','Full Kitchen','Desk & Chair','Heating Controls','Balcony'] },
+    { id:'unit-4', tenantId:'tenant-4', unitNumber:'Room 7', floor:'First Floor', building:'Main Building', propertyId:'prop-4', propertyName:'Willow Grove', propertyAddress:'5 Willow Road', city:'Manchester', postcode:'M20 2TP', bedrooms:1, bathrooms:1, areaSqft:295, parking:'Bay 15 - Accessible', storage:'Locker 18', moveInDate:'2024-08-20', leaseStart:'2024-08-20', leaseEnd:'2025-08-19', deposit:1650, rentAmount:825, rentDueDay:1, outstandingBalance:825, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','CCTV','Key Fob Entry','Broadband Included','Weekly Cleaning'], leaseStatus:'expiring_soon', photos:[], features:['Double Bed','En-suite Wet Room','Built-in Wardrobe','Smart TV','Mini Fridge','Desk & Chair','Heating Controls'] },
+    { id:'unit-5', tenantId:'tenant-5', unitNumber:'Studio 3', floor:'Ground Floor', building:'Garden Block', propertyId:'prop-5', propertyName:'Cedar View', propertyAddress:'11 Cedar Drive', city:'Manchester', postcode:'M13 9PL', bedrooms:1, bathrooms:1, areaSqft:340, parking:'Bay 2', storage:'Locker 3', moveInDate:'2022-04-01', leaseStart:'2022-04-01', leaseEnd:'2027-03-31', deposit:1800, rentAmount:900, rentDueDay:1, outstandingBalance:0, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','Bike Storage','CCTV','Key Fob Entry','Broadband Included','Weekly Cleaning','Private Patio'], leaseStatus:'active', photos:[], features:['King Bed','Roll-in Shower','Built-in Wardrobe','Smart TV','Full Kitchenette','Desk & Chair','Heating Controls','Patio Doors'] },
+    { id:'unit-6', tenantId:'tenant-6', unitNumber:'Flat 1B', floor:'Ground Floor', building:'Annexe', propertyId:'prop-6', propertyName:'Pine House', propertyAddress:'33 Pine Close', city:'Manchester', postcode:'M15 4QR', bedrooms:1, bathrooms:1, areaSqft:300, parking:'Bay 8', storage:'Locker 7', moveInDate:'2025-01-05', leaseStart:'2025-01-05', leaseEnd:'2026-01-04', deposit:1500, rentAmount:750, rentDueDay:1, outstandingBalance:0, landlordName:'NorthBridge Housing Ltd', landlordPhone:'0161 555 0100', landlordEmail:'landlord@northbridge.org', managerName:'Sarah Mitchell', managerPhone:'0161 555 0101', managerEmail:'sarah.mitchell@northbridge.org', emergencyPhone:'0161 555 0199', amenities:['On-site Laundry','Garden','Communal Lounge','CCTV','Key Fob Entry','Broadband Included'], leaseStatus:'active', photos:[], features:['Double Bed','Shower Room','Built-in Wardrobe','TV Point','Fridge','Desk','Heating Controls'] },
+  ];
 
-// ── Assets ────────────────────────────────────────────────────────────────────
-export const PORTAL_ASSETS: PortalAsset[] = [
-  {
-    id: 'pa-01', tenantId: 'tenant-1', assetCode: 'AST-0003', name: 'Adjustable Care Bed',
-    category: 'Furniture', categoryIcon: 'bed-double', description: 'Electrically adjustable profiling care bed',
-    model: 'Profiling Bed Pro', manufacturer: 'Drive Medical', serialNumber: 'CB-2024-004',
-    condition: 'excellent', warrantyExpiry: '2027-01-10', installationDate: '2024-01-10',
-    status: 'working', lastService: '2026-04-10', nextService: '2026-07-10',
-    qrCode: 'AST-0003', color: 'blue',
-  },
-  {
-    id: 'pa-02', tenantId: 'tenant-1', assetCode: 'AST-0011', name: '65" Smart TV',
-    category: 'Electronics', categoryIcon: 'tv', description: 'Samsung 65" 4K QLED Smart TV',
-    model: 'QE65Q80CATXXU', manufacturer: 'Samsung', serialNumber: 'TV-23-0012',
-    condition: 'good', warrantyExpiry: '2026-05-12', installationDate: '2023-05-12',
-    status: 'working', lastService: '2025-12-01', nextService: '2026-12-01',
-    qrCode: 'AST-0011', color: 'slate',
-  },
-  {
-    id: 'pa-03', tenantId: 'tenant-1', assetCode: 'AST-0015', name: 'Wi-Fi Router',
-    category: 'Networking', categoryIcon: 'wifi', description: 'BT Business Hub 6 for whole-building coverage',
-    model: 'Business Hub 6', manufacturer: 'BT', serialNumber: 'RTR-22-001',
-    condition: 'good', warrantyExpiry: '2025-10-05', installationDate: '2022-10-05',
-    status: 'working', qrCode: 'AST-0015', color: 'violet',
-  },
-  {
-    id: 'pa-04', tenantId: 'tenant-1', assetCode: 'AST-0028', name: 'Ceiling Track Hoist',
-    category: 'Care Equipment', categoryIcon: 'accessibility', description: 'Arjo Maxi Sky 2 Plus ceiling hoist',
-    model: 'Maxi Sky 2 Plus', manufacturer: 'Arjo', serialNumber: 'MH-24-001',
-    condition: 'excellent', warrantyExpiry: '2027-01-10', installationDate: '2024-01-10',
-    status: 'working', lastService: '2026-01-15', nextService: '2026-07-15',
-    qrCode: 'AST-0028', color: 'emerald',
-  },
-  {
-    id: 'pa-05', tenantId: 'tenant-1', assetCode: 'AST-0001', name: 'Adjustable Desk',
-    category: 'Furniture', categoryIcon: 'layout-panel-top', description: 'Height-adjustable study desk',
-    model: 'Classic Double', manufacturer: 'Argos', serialNumber: 'BF-23001',
-    condition: 'good', installationDate: '2024-01-10',
-    status: 'working', qrCode: 'AST-0001', color: 'amber',
-  },
-  {
-    id: 'pa-06', tenantId: 'tenant-1', assetCode: 'PA-R01-006', name: 'Smoke Detector',
-    category: 'Safety', categoryIcon: 'bell-ring', description: 'Interconnected smoke detector',
-    model: 'Optical LD1', manufacturer: 'Kidde', serialNumber: 'SD-R01-001',
-    condition: 'excellent', warrantyExpiry: '2028-03-01', installationDate: '2024-01-10',
-    status: 'working', nextService: '2026-12-01',
-    qrCode: 'PA-R01-006', color: 'rose',
-  },
-  // Emily's assets
-  {
-    id: 'pa-07', tenantId: 'tenant-2', assetCode: 'AST-0008', name: 'Washing Machine',
-    category: 'Kitchen Appliances', categoryIcon: 'washing-machine', description: 'Samsung front-loading washing machine',
-    model: 'WW90T634DHH', manufacturer: 'Samsung', serialNumber: 'WM-22-0055',
-    condition: 'good', warrantyExpiry: '2025-08-30', installationDate: '2022-08-30',
-    status: 'working', qrCode: 'AST-0008', color: 'sky',
-  },
-  {
-    id: 'pa-08', tenantId: 'tenant-2', assetCode: 'AST-0029', name: 'Wheelchair',
-    category: 'Care Equipment', categoryIcon: 'accessibility', description: 'Drive Medical Enigma Lite transport wheelchair',
-    model: 'Enigma Lite', manufacturer: 'Drive Medical', serialNumber: 'WC-23-001',
-    condition: 'good', warrantyExpiry: '2026-11-02', installationDate: '2023-11-02',
-    status: 'working', qrCode: 'AST-0029', color: 'indigo',
-  },
-  {
-    id: 'pa-09', tenantId: 'tenant-2', assetCode: 'PA-U5-003', name: 'Electric Hob',
-    category: 'Kitchen Appliances', categoryIcon: 'flame', description: '4-ring electric ceramic hob',
-    model: 'CEI6P21X', manufacturer: 'Smeg', serialNumber: 'EH-U5-001',
-    condition: 'good', warrantyExpiry: '2026-11-15', installationDate: '2023-11-02',
-    status: 'working', qrCode: 'PA-U5-003', color: 'orange',
-  },
-  {
-    id: 'pa-10', tenantId: 'tenant-2', assetCode: 'PA-U5-004', name: 'Refrigerator',
-    category: 'Kitchen Appliances', categoryIcon: 'thermometer', description: 'Under-counter fridge',
-    model: 'HRZ336BSAA', manufacturer: 'Haier', serialNumber: 'RF-U5-001',
-    condition: 'fair', warrantyExpiry: '2025-11-02', installationDate: '2023-11-02',
-    status: 'needs_service', nextService: '2026-09-01',
-    qrCode: 'PA-U5-004', color: 'teal',
-  },
-];
+  // -- Assets -------------------------------------------------------------------
+  export const PORTAL_ASSETS: PortalAsset[] = [
+    { id:'pa-01', tenantId:'tenant-1', assetCode:'AST-0003', name:'Adjustable Care Bed', category:'Furniture', categoryIcon:'bed-double', description:'Electrically adjustable profiling care bed', model:'Profiling Bed Pro', manufacturer:'Drive Medical', serialNumber:'CB-2024-004', condition:'excellent', warrantyExpiry:'2027-01-10', installationDate:'2024-01-10', status:'working', lastService:'2026-04-10', nextService:'2026-07-10', qrCode:'AST-0003', color:'blue' },
+    { id:'pa-02', tenantId:'tenant-1', assetCode:'AST-0011', name:'65" Smart TV', category:'Electronics', categoryIcon:'tv', description:'Samsung 65" 4K QLED Smart TV', model:'QE65Q80CATXXU', manufacturer:'Samsung', serialNumber:'TV-23-0012', condition:'good', warrantyExpiry:'2026-05-12', installationDate:'2023-05-12', status:'working', lastService:'2025-12-01', nextService:'2026-12-01', qrCode:'AST-0011', color:'slate' },
+    { id:'pa-03', tenantId:'tenant-1', assetCode:'AST-0015', name:'Wi-Fi Router', category:'Networking', categoryIcon:'wifi', description:'BT Business Hub 6 for whole-building coverage', model:'Business Hub 6', manufacturer:'BT', serialNumber:'RTR-22-001', condition:'good', warrantyExpiry:'2025-10-05', installationDate:'2022-10-05', status:'working', qrCode:'AST-0015', color:'violet' },
+    { id:'pa-04', tenantId:'tenant-1', assetCode:'AST-0028', name:'Ceiling Track Hoist', category:'Care Equipment', categoryIcon:'accessibility', description:'Arjo Maxi Sky 2 Plus ceiling hoist', model:'Maxi Sky 2 Plus', manufacturer:'Arjo', serialNumber:'MH-24-001', condition:'excellent', warrantyExpiry:'2027-01-10', installationDate:'2024-01-10', status:'working', lastService:'2026-01-15', nextService:'2026-07-15', qrCode:'AST-0028', color:'emerald' },
+    { id:'pa-05', tenantId:'tenant-1', assetCode:'AST-0001', name:'Adjustable Desk', category:'Furniture', categoryIcon:'layout-panel-top', description:'Height-adjustable study desk', model:'Classic Double', manufacturer:'Argos', serialNumber:'BF-23001', condition:'good', installationDate:'2024-01-10', status:'working', qrCode:'AST-0001', color:'amber' },
+    { id:'pa-06', tenantId:'tenant-1', assetCode:'PA-R01-006', name:'Smoke Detector', category:'Safety', categoryIcon:'bell-ring', description:'Interconnected smoke detector', model:'Optical LD1', manufacturer:'Kidde', serialNumber:'SD-R01-001', condition:'excellent', warrantyExpiry:'2028-03-01', installationDate:'2024-01-10', status:'working', nextService:'2026-12-01', qrCode:'PA-R01-006', color:'rose' },
+    { id:'pa-07', tenantId:'tenant-2', assetCode:'AST-0008', name:'Washing Machine', category:'Kitchen Appliances', categoryIcon:'washing-machine', description:'Samsung front-loading washing machine', model:'WW90T634DHH', manufacturer:'Samsung', serialNumber:'WM-22-0055', condition:'good', warrantyExpiry:'2025-08-30', installationDate:'2022-08-30', status:'working', qrCode:'AST-0008', color:'sky' },
+    { id:'pa-08', tenantId:'tenant-2', assetCode:'AST-0029', name:'Wheelchair', category:'Care Equipment', categoryIcon:'accessibility', description:'Drive Medical Enigma Lite transport wheelchair', model:'Enigma Lite', manufacturer:'Drive Medical', serialNumber:'WC-23-001', condition:'good', warrantyExpiry:'2026-11-02', installationDate:'2023-11-02', status:'working', qrCode:'AST-0029', color:'indigo' },
+    { id:'pa-09', tenantId:'tenant-2', assetCode:'PA-U5-003', name:'Electric Hob', category:'Kitchen Appliances', categoryIcon:'flame', description:'4-ring electric ceramic hob', model:'CEI6P21X', manufacturer:'Smeg', serialNumber:'EH-U5-001', condition:'good', warrantyExpiry:'2026-11-15', installationDate:'2023-11-02', status:'working', qrCode:'PA-U5-003', color:'orange' },
+    { id:'pa-10', tenantId:'tenant-2', assetCode:'PA-U5-004', name:'Refrigerator', category:'Kitchen Appliances', categoryIcon:'thermometer', description:'Under-counter fridge', model:'HRZ336BSAA', manufacturer:'Haier', serialNumber:'RF-U5-001', condition:'fair', warrantyExpiry:'2025-11-02', installationDate:'2023-11-02', status:'needs_service', nextService:'2026-09-01', qrCode:'PA-U5-004', color:'teal' },
+    { id:'pa-11', tenantId:'tenant-3', assetCode:'AST-0031', name:'Power Recliner', category:'Furniture', categoryIcon:'sofa', description:'Electric power lift recliner chair', model:'Comfort Lift XL', manufacturer:'Drive Medical', serialNumber:'PL-24-002', condition:'excellent', warrantyExpiry:'2027-03-15', installationDate:'2025-03-15', status:'working', qrCode:'AST-0031', color:'blue' },
+    { id:'pa-12', tenantId:'tenant-3', assetCode:'AST-0032', name:'55" Smart TV', category:'Electronics', categoryIcon:'tv', description:'LG 55" 4K OLED Smart TV', model:'OLED55C34LA', manufacturer:'LG', serialNumber:'TV-24-008', condition:'excellent', warrantyExpiry:'2027-03-15', installationDate:'2025-03-15', status:'working', qrCode:'AST-0032', color:'slate' },
+    { id:'pa-13', tenantId:'tenant-3', assetCode:'AST-0033', name:'Microwave Oven', category:'Kitchen Appliances', categoryIcon:'chef-hat', description:'Combination microwave with grill', model:'MS23K3515AS', manufacturer:'Samsung', serialNumber:'MW-24-003', condition:'good', warrantyExpiry:'2027-03-15', installationDate:'2025-03-15', status:'working', qrCode:'AST-0033', color:'orange' },
+    { id:'pa-14', tenantId:'tenant-3', assetCode:'AST-0034', name:'Pressure Mattress', category:'Care Equipment', categoryIcon:'bed-double', description:'Alternating pressure relief mattress system', model:'AeroCare Pro', manufacturer:'Arjo', serialNumber:'PM-24-004', condition:'excellent', warrantyExpiry:'2027-03-15', installationDate:'2025-03-15', status:'working', lastService:'2026-06-01', nextService:'2026-12-01', qrCode:'AST-0034', color:'emerald' },
+    { id:'pa-15', tenantId:'tenant-4', assetCode:'AST-0041', name:'Oxygen Concentrator', category:'Medical', categoryIcon:'heart-pulse', description:'Home oxygen concentrator 5L/min', model:'EverFlo', manufacturer:'Philips Respironics', serialNumber:'OC-23-005', condition:'good', warrantyExpiry:'2026-08-20', installationDate:'2024-08-20', status:'working', lastService:'2026-05-10', nextService:'2026-08-10', qrCode:'AST-0041', color:'blue' },
+    { id:'pa-16', tenantId:'tenant-4', assetCode:'AST-0042', name:'Patient Monitor', category:'Medical', categoryIcon:'activity', description:'Vital signs monitor with BP, SpO2, pulse', model:'VS-800', manufacturer:'Mindray', serialNumber:'PM-23-006', condition:'good', warrantyExpiry:'2026-08-20', installationDate:'2024-08-20', status:'working', lastService:'2026-05-10', nextService:'2026-08-10', qrCode:'AST-0042', color:'rose' },
+    { id:'pa-17', tenantId:'tenant-4', assetCode:'AST-0043', name:'Over-bed Table', category:'Furniture', categoryIcon:'table', description:'Height-adjustable over-bed table with wheels', model:'OT-200', manufacturer:'Drive Medical', serialNumber:'OT-24-007', condition:'good', installationDate:'2024-08-20', status:'working', qrCode:'AST-0043', color:'amber' },
+    { id:'pa-18', tenantId:'tenant-5', assetCode:'AST-0051', name:'Walker Frame', category:'Mobility', categoryIcon:'accessibility', description:'Folding walker frame with wheels', model:'EasyWalk', manufacturer:'NRS Healthcare', serialNumber:'WF-22-008', condition:'good', warrantyExpiry:'2027-04-01', installationDate:'2022-04-01', status:'working', qrCode:'AST-0051', color:'indigo' },
+    { id:'pa-19', tenantId:'tenant-5', assetCode:'AST-0052', name:'Shower Chair', category:'Care Equipment', categoryIcon:'droplets', description:'Height-adjustable shower chair with back', model:'Splash', manufacturer:'NRS Healthcare', serialNumber:'SC-22-009', condition:'excellent', warrantyExpiry:'2027-04-01', installationDate:'2022-04-01', status:'working', qrCode:'AST-0052', color:'sky' },
+    { id:'pa-20', tenantId:'tenant-5', assetCode:'AST-0053', name:'Grab Rails (Set)', category:'Safety', categoryIcon:'shield', description:'Stainless steel grab rails, bathroom set of 3', model:'GR-100', manufacturer:'NRS Healthcare', serialNumber:'GR-22-010', condition:'good', installationDate:'2022-04-01', status:'working', qrCode:'AST-0053', color:'teal' },
+    { id:'pa-21', tenantId:'tenant-6', assetCode:'AST-0061', name:'Commode Chair', category:'Care Equipment', categoryIcon:'armchair', description:'Height-adjustable commode chair with padded seat', model:'ComfortCommode', manufacturer:'NRS Healthcare', serialNumber:'CC-25-011', condition:'excellent', warrantyExpiry:'2028-01-05', installationDate:'2025-01-05', status:'working', qrCode:'AST-0061', color:'violet' },
+    { id:'pa-22', tenantId:'tenant-6', assetCode:'AST-0062', name:'Bedside Cabinet', category:'Furniture', categoryIcon:'cabinet', description:'Lockable bedside cabinet with drawer', model:'BC-300', manufacturer:'NRS Healthcare', serialNumber:'BC-25-012', condition:'good', installationDate:'2025-01-05', status:'working', qrCode:'AST-0062', color:'amber' },
+  ];
 
-// ── Maintenance Tickets ───────────────────────────────────────────────────────
-export const MAINTENANCE_TICKETS: MaintenanceTicket[] = [
-  {
-    id: 'tkt-001', tenantId: 'tenant-1', ticketNumber: 'TKT-2026-0041',
-    title: 'Bathroom radiator not heating up', description: 'The radiator in my bathroom has stopped working. The pipes are warm but the radiator stays cold.',
-    category: 'plumbing', priority: 'medium', status: 'in_progress',
-    location: 'Bathroom', relatedAssetId: undefined, relatedAssetName: undefined,
-    createdAt: '2026-06-28T09:30:00Z', updatedAt: '2026-07-02T11:00:00Z',
-    assignedTo: 'Tom Harris (Plumber)', estimatedResolution: '2026-07-15',
-    updates: [
-      { id: 'u1', author: 'James Thornton', authorRole: 'tenant', message: 'The bathroom radiator has completely stopped heating. Both valves are open.', timestamp: '2026-06-28T09:30:00Z' },
-      { id: 'u2', author: 'Sarah Mitchell', authorRole: 'staff', message: 'Thanks James, we\'ve logged this as medium priority. A plumber will be with you by 2nd July.', timestamp: '2026-06-28T10:15:00Z' },
-      { id: 'u3', author: 'Tom Harris', authorRole: 'technician', message: 'Visited and diagnosed a faulty thermostatic valve. Parts ordered. Will return to fit within 5 working days.', timestamp: '2026-07-02T11:00:00Z' },
+  // -- Maintenance Tickets -------------------------------------------------------
+  export const MAINTENANCE_TICKETS: MaintenanceTicket[] = [
+    { id:'tkt-001', tenantId:'tenant-1', ticketNumber:'TKT-2026-0041', title:'Bathroom radiator not heating up', description:'The radiator in my bathroom has stopped working. The pipes are warm but the radiator stays cold.', category:'plumbing', priority:'medium', status:'in_progress', location:'Bathroom', createdAt:'2026-06-28T09:30:00Z', updatedAt:'2026-07-02T11:00:00Z', assignedTo:'Tom Harris (Plumber)', estimatedResolution:'2026-07-15', updates:[ {id:'u1',author:'James Thornton',authorRole:'tenant',message:'The bathroom radiator has completely stopped heating. Both valves are open.',timestamp:'2026-06-28T09:30:00Z'}, {id:'u2',author:'Sarah Mitchell',authorRole:'staff',message:"Thanks James, we've logged this as medium priority. A plumber will be with you by 2nd July.",timestamp:'2026-06-28T10:15:00Z'}, {id:'u3',author:'Tom Harris',authorRole:'technician',message:'Visited and diagnosed a faulty thermostatic valve. Parts ordered. Will return to fit within 5 working days.',timestamp:'2026-07-02T11:00:00Z'} ] },
+    { id:'tkt-002', tenantId:'tenant-1', ticketNumber:'TKT-2026-0018', title:'Bedroom light flickers intermittently', description:'The ceiling light in my bedroom flickers every few minutes. Could be a loose connection.', category:'electrical', priority:'low', status:'resolved', location:'Bedroom', createdAt:'2026-05-14T14:00:00Z', updatedAt:'2026-05-20T16:30:00Z', resolvedAt:'2026-05-20T16:30:00Z', assignedTo:'Paul Evans (Electrician)', estimatedResolution:'2026-05-20', updates:[ {id:'u4',author:'James Thornton',authorRole:'tenant',message:'The bedroom ceiling light flickers randomly for about 30 seconds then stops.',timestamp:'2026-05-14T14:00:00Z'}, {id:'u5',author:'Sarah Mitchell',authorRole:'staff',message:'Scheduled for Paul Evans on 20th May.',timestamp:'2026-05-15T09:00:00Z'}, {id:'u6',author:'Paul Evans',authorRole:'technician',message:'Fixed a loose connection in the ceiling rose. All working normally.',timestamp:'2026-05-20T16:30:00Z'} ], rating:5, feedback:'Quick and professional repair. Very happy with the service.' },
+    { id:'tkt-003', tenantId:'tenant-1', ticketNumber:'TKT-2026-0052', title:'Door hinge squeaking loudly', description:'The hinge on my room door has started squeaking very loudly whenever I open or close it.', category:'maintenance', priority:'low', status:'submitted', location:'Room Door', createdAt:'2026-07-07T18:00:00Z', updatedAt:'2026-07-07T18:00:00Z', updates:[ {id:'u7',author:'James Thornton',authorRole:'tenant',message:'The door squeaks very loudly, particularly at night. Please could someone oil the hinge?',timestamp:'2026-07-07T18:00:00Z'} ] },
+    { id:'tkt-004', tenantId:'tenant-2', ticketNumber:'TKT-2026-0044', title:'Kitchen tap dripping', description:'The cold water kitchen tap has been dripping constantly for about a week now.', category:'plumbing', priority:'medium', status:'assigned', location:'Kitchen', createdAt:'2026-07-01T10:00:00Z', updatedAt:'2026-07-03T09:00:00Z', assignedTo:'Tom Harris (Plumber)', estimatedResolution:'2026-07-12', updates:[ {id:'u8',author:'Emily Chang',authorRole:'tenant',message:'Kitchen tap has been dripping for a week. Washer needs replacing.',timestamp:'2026-07-01T10:00:00Z'}, {id:'u9',author:'Sarah Mitchell',authorRole:'staff',message:'Acknowledged. Assigned to Tom Harris who will visit on 12th July between 10am-12pm.',timestamp:'2026-07-03T09:00:00Z'} ] },
+    { id:'tkt-005', tenantId:'tenant-2', ticketNumber:'TKT-2025-0098', title:'Wi-Fi router not working', description:'Internet went down completely. Router shows no broadband light.', category:'internet', priority:'high', status:'closed', location:'Living Area', createdAt:'2025-11-10T08:00:00Z', updatedAt:'2025-11-11T15:00:00Z', resolvedAt:'2025-11-11T15:00:00Z', assignedTo:'IT Support', updates:[ {id:'u10',author:'Emily Chang',authorRole:'tenant',message:'No internet since this morning. Router shows solid red light on broadband.',timestamp:'2025-11-10T08:00:00Z'}, {id:'u11',author:'Sarah Mitchell',authorRole:'staff',message:'ISP fault in the area. Should be resolved by end of day.',timestamp:'2025-11-10T11:00:00Z'}, {id:'u12',author:'Sarah Mitchell',authorRole:'staff',message:'ISP has resolved the fault. Please let us know if the issue persists.',timestamp:'2025-11-11T15:00:00Z'} ], rating:4, feedback:'Good communication throughout.' },
+    { id:'tkt-006', tenantId:'tenant-4', ticketNumber:'TKT-2026-0061', title:'Oxygen concentrator alarm beeping', description:'The oxygen concentrator keeps beeping with a yellow warning light. Filter may need changing.', category:'maintenance', priority:'high', status:'in_progress', location:'Bedroom', relatedAssetId:'pa-15', relatedAssetName:'Oxygen Concentrator', createdAt:'2026-07-05T08:00:00Z', updatedAt:'2026-07-06T10:00:00Z', assignedTo:'CareFirst Technician', estimatedResolution:'2026-07-10', updates:[ {id:'u13',author:'David Okafor',authorRole:'tenant',message:'Oxygen machine beeping every few hours. Yellow light on the filter indicator.',timestamp:'2026-07-05T08:00:00Z'}, {id:'u14',author:'Sarah Mitchell',authorRole:'staff',message:'Urgent - CareFirst technician assigned. Will visit tomorrow morning to replace the filter.',timestamp:'2026-07-05T09:00:00Z'}, {id:'u15',author:'CareFirst Tech',authorRole:'technician',message:'Filter replaced and machine calibrated. All alarms cleared. Please monitor for 24 hours.',timestamp:'2026-07-06T10:00:00Z'} ] },
+    { id:'tkt-007', tenantId:'tenant-5', ticketNumber:'TKT-2026-0033', title:'Garden gate latch broken', description:"The latch on my patio garden gate has snapped off. The gate won't stay closed.", category:'maintenance', priority:'low', status:'resolved', location:'Private Patio', createdAt:'2026-06-15T11:00:00Z', updatedAt:'2026-06-18T14:00:00Z', resolvedAt:'2026-06-18T14:00:00Z', assignedTo:'Maintenance Team', updates:[ {id:'u16',author:'Margaret Wilson',authorRole:'tenant',message:'Patio gate latch has broken. Can someone replace it?',timestamp:'2026-06-15T11:00:00Z'}, {id:'u17',author:'Sarah Mitchell',authorRole:'staff',message:'Maintenance will visit on Thursday 18th.',timestamp:'2026-06-16T09:00:00Z'}, {id:'u18',author:'Maintenance',authorRole:'technician',message:'New latch fitted and gate re-aligned. Should close smoothly now.',timestamp:'2026-06-18T14:00:00Z'} ], rating:5 },
+    { id:'tkt-008', tenantId:'tenant-6', ticketNumber:'TKT-2026-0071', title:'Toilet flush handle loose', description:"The flush handle on the toilet is very loose and sometimes doesn't activate the flush.", category:'plumbing', priority:'low', status:'submitted', location:'Bathroom', createdAt:'2026-07-08T10:00:00Z', updatedAt:'2026-07-08T10:00:00Z', updates:[ {id:'u19',author:'Raj Mehta',authorRole:'tenant',message:'Toilet handle loose - needs tightening or replacing.',timestamp:'2026-07-08T10:00:00Z'} ] },
+  ];
+
+  // -- Payments -----------------------------------------------------------------
+  export const PORTAL_PAYMENTS: PortalPayment[] = [
+    { id:'pay-001', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - July 2026', amount:850, dueDate:'2026-07-01', paidDate:'2026-07-01', status:'paid', method:'direct_debit', reference:'REF-2026-07', invoiceNumber:'INV-2026-07' },
+    { id:'pay-002', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - June 2026', amount:850, dueDate:'2026-06-01', paidDate:'2026-06-01', status:'paid', method:'direct_debit', reference:'REF-2026-06', invoiceNumber:'INV-2026-06' },
+    { id:'pay-003', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - May 2026', amount:850, dueDate:'2026-05-01', paidDate:'2026-05-01', status:'paid', method:'direct_debit', reference:'REF-2026-05', invoiceNumber:'INV-2026-05' },
+    { id:'pay-004', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - April 2026', amount:850, dueDate:'2026-04-01', paidDate:'2026-04-01', status:'paid', method:'direct_debit', reference:'REF-2026-04', invoiceNumber:'INV-2026-04' },
+    { id:'pay-005', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - March 2026', amount:850, dueDate:'2026-03-01', paidDate:'2026-03-01', status:'paid', method:'direct_debit', reference:'REF-2026-03', invoiceNumber:'INV-2026-03' },
+    { id:'pay-006', tenantId:'tenant-1', type:'rent', description:'Monthly Rent - August 2026', amount:850, dueDate:'2026-08-01', status:'upcoming' },
+    { id:'pay-007', tenantId:'tenant-1', type:'utility', description:'Utility Bill - Q2 2026', amount:45.50, dueDate:'2026-07-15', status:'pending', invoiceNumber:'UTL-2026-Q2' },
+    { id:'pay-101', tenantId:'tenant-2', type:'rent', description:'Monthly Rent - July 2026', amount:795, dueDate:'2026-07-01', status:'overdue', invoiceNumber:'INV-E-2026-07' },
+    { id:'pay-102', tenantId:'tenant-2', type:'rent', description:'Monthly Rent - June 2026', amount:795, dueDate:'2026-06-01', paidDate:'2026-06-03', status:'paid', method:'bank_transfer', reference:'REF-E-2026-06', invoiceNumber:'INV-E-2026-06' },
+    { id:'pay-103', tenantId:'tenant-2', type:'rent', description:'Monthly Rent - May 2026', amount:795, dueDate:'2026-05-01', paidDate:'2026-05-01', status:'paid', method:'direct_debit', reference:'REF-E-2026-05', invoiceNumber:'INV-E-2026-05' },
+    { id:'pay-104', tenantId:'tenant-2', type:'rent', description:'Monthly Rent - April 2026', amount:795, dueDate:'2026-04-01', paidDate:'2026-04-01', status:'paid', method:'direct_debit', reference:'REF-E-2026-04', invoiceNumber:'INV-E-2026-04' },
+    { id:'pay-105', tenantId:'tenant-2', type:'late_fee', description:'Late Payment Fee - July 2026', amount:25, dueDate:'2026-07-10', status:'overdue', invoiceNumber:'LF-E-2026-07' },
+    { id:'pay-106', tenantId:'tenant-2', type:'rent', description:'Monthly Rent - August 2026', amount:795, dueDate:'2026-08-01', status:'upcoming' },
+    { id:'pay-201', tenantId:'tenant-3', type:'rent', description:'Monthly Rent - July 2026', amount:1050, dueDate:'2026-07-01', paidDate:'2026-07-01', status:'paid', method:'direct_debit', reference:'REF-A-2026-07', invoiceNumber:'INV-A-2026-07' },
+    { id:'pay-202', tenantId:'tenant-3', type:'rent', description:'Monthly Rent - June 2026', amount:1050, dueDate:'2026-06-01', paidDate:'2026-06-01', status:'paid', method:'direct_debit', reference:'REF-A-2026-06', invoiceNumber:'INV-A-2026-06' },
+    { id:'pay-203', tenantId:'tenant-3', type:'rent', description:'Monthly Rent - May 2026', amount:1050, dueDate:'2026-05-01', paidDate:'2026-05-01', status:'paid', method:'direct_debit', reference:'REF-A-2026-05', invoiceNumber:'INV-A-2026-05' },
+    { id:'pay-204', tenantId:'tenant-3', type:'rent', description:'Monthly Rent - August 2026', amount:1050, dueDate:'2026-08-01', status:'upcoming' },
+    { id:'pay-205', tenantId:'tenant-3', type:'deposit', description:'Security Deposit', amount:2100, dueDate:'2025-03-15', paidDate:'2025-03-15', status:'paid', method:'bank_transfer', reference:'DEP-A-2025', invoiceNumber:'DEP-A-2025' },
+    { id:'pay-301', tenantId:'tenant-4', type:'rent', description:'Monthly Rent - July 2026', amount:825, dueDate:'2026-07-01', status:'overdue', invoiceNumber:'INV-D-2026-07' },
+    { id:'pay-302', tenantId:'tenant-4', type:'rent', description:'Monthly Rent - June 2026', amount:825, dueDate:'2026-06-01', paidDate:'2026-06-05', status:'paid', method:'bank_transfer', reference:'REF-D-2026-06', invoiceNumber:'INV-D-2026-06' },
+    { id:'pay-303', tenantId:'tenant-4', type:'rent', description:'Monthly Rent - May 2026', amount:825, dueDate:'2026-05-01', paidDate:'2026-05-01', status:'paid', method:'direct_debit', reference:'REF-D-2026-05', invoiceNumber:'INV-D-2026-05' },
+    { id:'pay-304', tenantId:'tenant-4', type:'rent', description:'Monthly Rent - August 2026', amount:825, dueDate:'2026-08-01', status:'upcoming' },
+    { id:'pay-401', tenantId:'tenant-5', type:'rent', description:'Monthly Rent - July 2026', amount:900, dueDate:'2026-07-01', paidDate:'2026-07-01', status:'paid', method:'direct_debit', reference:'REF-M-2026-07', invoiceNumber:'INV-M-2026-07' },
+    { id:'pay-402', tenantId:'tenant-5', type:'rent', description:'Monthly Rent - June 2026', amount:900, dueDate:'2026-06-01', paidDate:'2026-06-01', status:'paid', method:'direct_debit', reference:'REF-M-2026-06', invoiceNumber:'INV-M-2026-06' },
+    { id:'pay-403', tenantId:'tenant-5', type:'rent', description:'Monthly Rent - May 2026', amount:900, dueDate:'2026-05-01', paidDate:'2026-05-01', status:'paid', method:'direct_debit', reference:'REF-M-2026-05', invoiceNumber:'INV-M-2026-05' },
+    { id:'pay-404', tenantId:'tenant-5', type:'rent', description:'Monthly Rent - August 2026', amount:900, dueDate:'2026-08-01', status:'upcoming' },
+    { id:'pay-405', tenantId:'tenant-5', type:'utility', description:'Utility Bill - Q2 2026', amount:52, dueDate:'2026-07-20', status:'pending', invoiceNumber:'UTL-M-2026-Q2' },
+    { id:'pay-501', tenantId:'tenant-6', type:'rent', description:'Monthly Rent - July 2026', amount:750, dueDate:'2026-07-01', paidDate:'2026-07-01', status:'paid', method:'direct_debit', reference:'REF-R-2026-07', invoiceNumber:'INV-R-2026-07' },
+    { id:'pay-502', tenantId:'tenant-6', type:'rent', description:'Monthly Rent - June 2026', amount:750, dueDate:'2026-06-01', paidDate:'2026-06-01', status:'paid', method:'direct_debit', reference:'REF-R-2026-06', invoiceNumber:'INV-R-2026-06' },
+    { id:'pay-503', tenantId:'tenant-6', type:'rent', description:'Monthly Rent - August 2026', amount:750, dueDate:'2026-08-01', status:'upcoming' },
+  ];
+
+  // -- Documents ----------------------------------------------------------------
+  export const PORTAL_DOCUMENTS: PortalDocument[] = [
+    { id:'doc-001', tenantId:'tenant-1', name:'Tenancy Agreement 2024-2025', type:'Tenancy Agreement', category:'lease', uploadedAt:'2024-01-10', expiryDate:'2025-12-31', fileSize:'245 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1, description:'Assured Shorthold Tenancy Agreement for Room 1, Maple House' },
+    { id:'doc-002', tenantId:'tenant-1', name:'Tenancy Agreement 2025-2026 (Renewal)', type:'Tenancy Agreement', category:'lease', uploadedAt:'2025-11-20', expiryDate:'2026-12-31', fileSize:'248 KB', fileType:'pdf', status:'pending_signature', signatureRequired:true, signed:false, version:2, description:'Renewal agreement for 2026. Please sign by 31 January 2026.' },
+    { id:'doc-003', tenantId:'tenant-1', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2024-01-10', fileSize:'180 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1, description:'Room condition report signed at move-in' },
+    { id:'doc-004', tenantId:'tenant-1', name:'Asset Handover Certificate', type:'Certificate', category:'certificate', uploadedAt:'2024-01-10', fileSize:'120 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1, description:'Assets assigned to you at move-in' },
+    { id:'doc-005', tenantId:'tenant-1', name:'House Rules & Policies', type:'Policy', category:'policy', uploadedAt:'2024-01-10', fileSize:'95 KB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:3 },
+    { id:'doc-006', tenantId:'tenant-1', name:'Ceiling Hoist User Manual', type:'Manual', category:'manual', uploadedAt:'2024-01-15', fileSize:'2.4 MB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:1 },
+    { id:'doc-007', tenantId:'tenant-1', name:'July 2026 Rent Invoice', type:'Invoice', category:'invoice', uploadedAt:'2026-07-01', fileSize:'85 KB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:1 },
+    { id:'doc-101', tenantId:'tenant-2', name:'Tenancy Agreement 2023-2025', type:'Tenancy Agreement', category:'lease', uploadedAt:'2023-11-02', expiryDate:'2025-10-31', fileSize:'242 KB', fileType:'pdf', status:'expiring_soon', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-102', tenantId:'tenant-2', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2023-11-02', fileSize:'165 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-103', tenantId:'tenant-2', name:'House Rules & Policies', type:'Policy', category:'policy', uploadedAt:'2023-11-02', fileSize:'95 KB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:3 },
+    { id:'doc-104', tenantId:'tenant-2', name:'July 2026 Rent Invoice', type:'Invoice', category:'invoice', uploadedAt:'2026-07-01', fileSize:'85 KB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:1, description:'OVERDUE - payment required immediately' },
+    { id:'doc-201', tenantId:'tenant-3', name:'Tenancy Agreement 2025-2026', type:'Tenancy Agreement', category:'lease', uploadedAt:'2025-03-15', expiryDate:'2026-03-14', fileSize:'255 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-202', tenantId:'tenant-3', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2025-03-15', fileSize:'190 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-203', tenantId:'tenant-3', name:'House Rules & Policies', type:'Policy', category:'policy', uploadedAt:'2025-03-15', fileSize:'95 KB', fileType:'pdf', status:'current', signatureRequired:false, signed:false, version:3 },
+    { id:'doc-301', tenantId:'tenant-4', name:'Tenancy Agreement 2024-2025', type:'Tenancy Agreement', category:'lease', uploadedAt:'2024-08-20', expiryDate:'2025-08-19', fileSize:'240 KB', fileType:'pdf', status:'expiring_soon', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-302', tenantId:'tenant-4', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2024-08-20', fileSize:'175 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-303', tenantId:'tenant-4', name:'Care Equipment Agreement', type:'Certificate', category:'certificate', uploadedAt:'2024-08-20', fileSize:'110 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-401', tenantId:'tenant-5', name:'Tenancy Agreement 2022-2027', type:'Tenancy Agreement', category:'lease', uploadedAt:'2022-04-01', expiryDate:'2027-03-31', fileSize:'250 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-402', tenantId:'tenant-5', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2022-04-01', fileSize:'170 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-501', tenantId:'tenant-6', name:'Tenancy Agreement 2025-2026', type:'Tenancy Agreement', category:'lease', uploadedAt:'2025-01-05', expiryDate:'2026-01-04', fileSize:'238 KB', fileType:'pdf', status:'current', signatureRequired:true, signed:true, version:1 },
+    { id:'doc-502', tenantId:'tenant-6', name:'Move-in Inspection Checklist', type:'Inspection', category:'checklist', uploadedAt:'2025-01-05', fileSize:'165 KB', fileType:'pdf', status:'signed', signatureRequired:true, signed:true, version:1 },
+  ];
+
+  // -- Notices ------------------------------------------------------------------
+  export const NOTICES: Notice[] = [
+    { id:'ntc-001', title:'Planned Water Shutdown - 14 July 2026', content:'The mains water supply to all properties will be shut off on Monday 14th July between 9am and 1pm for essential pipe maintenance. Please ensure you store adequate water in advance. We apologise for any inconvenience.', type:'utility_shutdown', priority:'urgent', publishedAt:'2026-07-07T08:00:00Z', expiresAt:'2026-07-15T00:00:00Z', isPinned:true, readBy:['tenant-2'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['water','utilities','planned'] },
+    { id:'ntc-002', title:'Summer BBQ - Saturday 19 July', content:'Join us for our annual summer BBQ in the Maple House garden on Saturday 19th July from 2pm to 6pm! Food, drinks, and great company. Bring your own chair if you have one. RSVP to Sarah by 16th July.', type:'event', priority:'normal', publishedAt:'2026-07-05T10:00:00Z', expiresAt:'2026-07-20T00:00:00Z', isPinned:true, readBy:['tenant-1','tenant-2'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['social','event'] },
+    { id:'ntc-003', title:'Fire Alarm Test - Wednesday 10 July', content:'The monthly fire alarm test will take place on Wednesday 10th July at 10:00am. The alarm will sound for approximately 2 minutes. Please do not call emergency services during this time.', type:'maintenance', priority:'high', publishedAt:'2026-07-04T09:00:00Z', expiresAt:'2026-07-11T00:00:00Z', isPinned:false, readBy:['tenant-1'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['fire safety','test'] },
+    { id:'ntc-004', title:'Updated Visitor Policy from 1 August', content:'From 1st August 2026 all visitors must register using the Visitor Pass feature in this app before arriving. Drive-in visitors must also pre-register their vehicle. Full details are in the updated House Rules document.', type:'rules', priority:'normal', publishedAt:'2026-07-01T09:00:00Z', isPinned:false, readBy:[], author:'NorthBridge Management', authorRole:'Administration', tags:['policy','visitors'] },
+    { id:'ntc-005', title:'Car Park Resurfacing - 22-23 July', content:'The car park at Maple House will be resurfaced on 22nd and 23rd July. All vehicles must be moved by 7am on 22nd. Temporary parking is available on Maple Avenue side road. Please contact Sarah if you need accessible parking assistance.', type:'maintenance', priority:'high', publishedAt:'2026-07-03T11:00:00Z', expiresAt:'2026-07-24T00:00:00Z', isPinned:false, readBy:['tenant-1','tenant-2'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['parking','maintenance'] },
+    { id:'ntc-006', title:'New Communal Lounge Furniture Installed', content:"We've replaced all the communal lounge furniture with brand-new comfortable seating and a new smart TV. Come and enjoy the new space! Your feedback on the room helped shape our choices - thank you!", type:'news', priority:'normal', publishedAt:'2026-06-28T14:00:00Z', isPinned:false, readBy:['tenant-1','tenant-2'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['improvements'] },
+    { id:'ntc-007', title:'Emergency: Gas Leak Investigation (Resolved)', content:'RESOLVED: A suspected gas smell near the boiler room was investigated on 5th June and confirmed safe. No action is required from residents. As a precaution the boiler was shut off for 3 hours. We apologise for any disruption.', type:'emergency', priority:'urgent', publishedAt:'2026-06-05T16:00:00Z', isPinned:false, readBy:['tenant-1','tenant-2'], author:'NorthBridge Emergency', authorRole:'Emergency Response', tags:['gas','safety','resolved'] },
+    { id:'ntc-008', title:'Rent Review - No Increase for 2026', content:'Following our annual rent review, we are pleased to confirm that rent will remain unchanged for all current tenancies through to December 2026. We appreciate your continued residency with NorthBridge.', type:'general', priority:'normal', publishedAt:'2026-05-15T09:00:00Z', isPinned:false, readBy:['tenant-1','tenant-2'], author:'NorthBridge Management', authorRole:'Finance', tags:['rent','finance'] },
+    { id:'ntc-009', title:'Oak Lodge - Lift Service 16 July', content:'The lift at Oak Lodge will undergo scheduled maintenance on Wednesday 16th July between 9am and 12pm. First-floor residents: please plan accordingly. Emergency stair access is available.', type:'maintenance', priority:'high', publishedAt:'2026-07-09T08:00:00Z', expiresAt:'2026-07-17T00:00:00Z', isPinned:true, readBy:['tenant-3'], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['lift','maintenance','oak lodge'] },
+    { id:'ntc-010', title:'Welcome New Residents - July 2026', content:'A warm welcome to our newest residents at Pine House and Oak Lodge! We hope you settle in well. Please attend the new-residents induction on Friday 18th July at 2pm in the Maple House lounge.', type:'news', priority:'normal', publishedAt:'2026-07-06T10:00:00Z', isPinned:false, readBy:[], author:'Sarah Mitchell', authorRole:'Property Manager', tags:['welcome','new residents'] },
+  ];
+
+  // -- Visitor Passes ------------------------------------------------------------
+  export const VISITOR_PASSES: VisitorPass[] = [
+    { id:'vis-001', tenantId:'tenant-1', visitorName:'Dr. Alice Roberts', visitorPhone:'07700 555001', visitDate:'2026-07-12', visitTime:'10:00', visitEndTime:'11:30', purpose:'Medical appointment', parkingSlot:'Bay 3', status:'approved', qrCode:'VIS-001-QR', createdAt:'2026-07-08T10:00:00Z', notes:'Please buzz Flat 1 on arrival' },
+    { id:'vis-002', tenantId:'tenant-1', visitorName:'Michael Thornton', visitorPhone:'07700 555002', visitDate:'2026-07-14', visitTime:'14:00', visitEndTime:'17:00', purpose:'Family visit', vehicleReg:'MN23 XYZ', parkingSlot:'Bay 3', status:'approved', qrCode:'VIS-002-QR', createdAt:'2026-07-08T14:00:00Z' },
+    { id:'vis-003', tenantId:'tenant-1', visitorName:'CareFirst Nurse', visitDate:'2026-07-09', visitTime:'09:30', visitEndTime:'10:30', purpose:'Weekly care visit', status:'checked_in', qrCode:'VIS-003-QR', createdAt:'2026-07-06T08:00:00Z' },
+    { id:'vis-004', tenantId:'tenant-2', visitorName:'Mia Chang', visitorPhone:'07700 555003', visitDate:'2026-07-13', visitTime:'11:00', purpose:'Sister visit', status:'pending', qrCode:'VIS-004-QR', createdAt:'2026-07-09T09:00:00Z' },
+    { id:'vis-005', tenantId:'tenant-3', visitorName:'Mrs. Patel', visitorPhone:'07700 555004', visitDate:'2026-07-15', visitTime:'15:00', visitEndTime:'18:00', purpose:'Family visit', parkingSlot:'Bay 12', status:'approved', qrCode:'VIS-005-QR', createdAt:'2026-07-10T10:00:00Z' },
+    { id:'vis-006', tenantId:'tenant-4', visitorName:'Nurse Johnson', visitorPhone:'07700 555005', visitDate:'2026-07-10', visitTime:'08:00', visitEndTime:'09:00', purpose:'Daily health check', status:'checked_in', qrCode:'VIS-006-QR', createdAt:'2026-07-09T08:00:00Z' },
+    { id:'vis-007', tenantId:'tenant-5', visitorName:'Granddaughter Lucy', visitorPhone:'07700 555006', visitDate:'2026-07-14', visitTime:'14:00', visitEndTime:'16:00', purpose:'Family visit', parkingSlot:'Bay 2', status:'approved', qrCode:'VIS-007-QR', createdAt:'2026-07-11T09:00:00Z' },
+  ];
+
+  // -- Parcels ------------------------------------------------------------------
+  export const PARCELS: Parcel[] = [
+    { id:'prc-001', tenantId:'tenant-1', trackingNumber:'JD123456789GB', courier:'Royal Mail', description:'Amazon parcel (medium box)', weight:'1.2 kg', sender:'Amazon UK', receivedAt:'2026-07-08T10:30:00Z', status:'pending_collection', notificationSent:true, collectionCode:'RC-4821', location:'Reception desk', notes:'Ring bell for reception' },
+    { id:'prc-002', tenantId:'tenant-1', trackingNumber:'DPD7890123456', courier:'DPD', description:'Medical supplies - fragile', weight:'0.8 kg', sender:'Lloyds Pharmacy', receivedAt:'2026-07-05T14:00:00Z', collectedAt:'2026-07-06T11:00:00Z', status:'collected', notificationSent:true, collectionCode:'RC-4755', location:'Reception desk' },
+    { id:'prc-003', tenantId:'tenant-2', trackingNumber:'EVRI-987654321', courier:'Evri', description:'Clothing order', sender:'ASOS', receivedAt:'2026-07-07T16:00:00Z', status:'pending_collection', notificationSent:true, collectionCode:'RC-4812', location:'Birch Court reception' },
+    { id:'prc-004', tenantId:'tenant-3', trackingNumber:'RM-5544331122', courier:'Royal Mail', description:'Medical supplies delivery', weight:'2.1 kg', sender:'Boots Pharmacy', receivedAt:'2026-07-09T11:00:00Z', status:'pending_collection', notificationSent:true, collectionCode:'RC-4829', location:'Oak Lodge reception' },
+    { id:'prc-005', tenantId:'tenant-4', trackingNumber:'DPD-9988776655', courier:'DPD', description:'Oxygen tubing replacement kit', sender:'Philips Healthcare', receivedAt:'2026-07-08T09:00:00Z', status:'pending_collection', notificationSent:true, collectionCode:'RC-4830', location:'Willow Grove reception' },
+    { id:'prc-006', tenantId:'tenant-5', trackingNumber:'EVRI-1122334455', courier:'Evri', description:'Garden centre order', sender:'Dobbies Garden Centre', receivedAt:'2026-07-06T15:00:00Z', collectedAt:'2026-07-07T10:00:00Z', status:'collected', notificationSent:true, collectionCode:'RC-4815', location:'Cedar View reception' },
+  ];
+
+  // -- Utility Usage ------------------------------------------------------------
+  export const UTILITY_DATA: Record<string, UtilityMonth[]> = {
+    'tenant-1': [
+      { month:'Jan 2026', electricity:290, water:4.2, gas:38, electricityCost:78.30, waterCost:8.40, gasCost:51.30, total:138.00 },
+      { month:'Feb 2026', electricity:270, water:3.9, gas:35, electricityCost:72.90, waterCost:7.80, gasCost:47.25, total:127.95 },
+      { month:'Mar 2026', electricity:240, water:3.8, gas:28, electricityCost:64.80, waterCost:7.60, gasCost:37.80, total:110.20 },
+      { month:'Apr 2026', electricity:210, water:3.6, gas:18, electricityCost:56.70, waterCost:7.20, gasCost:24.30, total:88.20 },
+      { month:'May 2026', electricity:195, water:3.7, gas:10, electricityCost:52.65, waterCost:7.40, gasCost:13.50, total:73.55 },
+      { month:'Jun 2026', electricity:180, water:4.0, gas:5, electricityCost:48.60, waterCost:8.00, gasCost:6.75, total:63.35 },
     ],
-  },
-  {
-    id: 'tkt-002', tenantId: 'tenant-1', ticketNumber: 'TKT-2026-0018',
-    title: 'Bedroom light flickers intermittently', description: 'The ceiling light in my bedroom flickers every few minutes. Could be a loose connection.',
-    category: 'electrical', priority: 'low', status: 'resolved',
-    location: 'Bedroom', createdAt: '2026-05-14T14:00:00Z', updatedAt: '2026-05-20T16:30:00Z',
-    resolvedAt: '2026-05-20T16:30:00Z', assignedTo: 'Paul Evans (Electrician)',
-    estimatedResolution: '2026-05-20',
-    updates: [
-      { id: 'u4', author: 'James Thornton', authorRole: 'tenant', message: 'The bedroom ceiling light flickers randomly for about 30 seconds then stops.', timestamp: '2026-05-14T14:00:00Z' },
-      { id: 'u5', author: 'Sarah Mitchell', authorRole: 'staff', message: 'Scheduled for Paul Evans on 20th May.', timestamp: '2026-05-15T09:00:00Z' },
-      { id: 'u6', author: 'Paul Evans', authorRole: 'technician', message: 'Fixed a loose connection in the ceiling rose. All working normally.', timestamp: '2026-05-20T16:30:00Z' },
+    'tenant-2': [
+      { month:'Jan 2026', electricity:310, water:5.1, gas:42, electricityCost:83.70, waterCost:10.20, gasCost:56.70, total:150.60 },
+      { month:'Feb 2026', electricity:285, water:4.8, gas:38, electricityCost:76.95, waterCost:9.60, gasCost:51.30, total:137.85 },
+      { month:'Mar 2026', electricity:260, water:4.6, gas:31, electricityCost:70.20, waterCost:9.20, gasCost:41.85, total:121.25 },
+      { month:'Apr 2026', electricity:230, water:4.4, gas:20, electricityCost:62.10, waterCost:8.80, gasCost:27.00, total:97.90 },
+      { month:'May 2026', electricity:210, water:4.5, gas:12, electricityCost:56.70, waterCost:9.00, gasCost:16.20, total:81.90 },
+      { month:'Jun 2026', electricity:198, water:4.8, gas:6, electricityCost:53.46, waterCost:9.60, gasCost:8.10, total:71.16 },
     ],
-    rating: 5, feedback: 'Quick and professional repair. Very happy with the service.',
-  },
-  {
-    id: 'tkt-003', tenantId: 'tenant-1', ticketNumber: 'TKT-2026-0052',
-    title: 'Door hinge squeaking loudly', description: 'The hinge on my room door has started squeaking very loudly whenever I open or close it.',
-    category: 'maintenance', priority: 'low', status: 'submitted',
-    location: 'Room Door', createdAt: '2026-07-07T18:00:00Z', updatedAt: '2026-07-07T18:00:00Z',
-    updates: [
-      { id: 'u7', author: 'James Thornton', authorRole: 'tenant', message: 'The door squeaks very loudly, particularly at night. Please could someone oil the hinge?', timestamp: '2026-07-07T18:00:00Z' },
+    'tenant-3': [
+      { month:'Apr 2026', electricity:340, water:5.5, gas:45, electricityCost:91.80, waterCost:11.00, gasCost:60.75, total:163.55 },
+      { month:'May 2026', electricity:315, water:5.3, gas:30, electricityCost:85.05, waterCost:10.60, gasCost:40.50, total:136.15 },
+      { month:'Jun 2026', electricity:290, water:5.0, gas:15, electricityCost:78.30, waterCost:10.00, gasCost:20.25, total:108.55 },
     ],
-  },
-  {
-    id: 'tkt-004', tenantId: 'tenant-2', ticketNumber: 'TKT-2026-0044',
-    title: 'Kitchen tap dripping', description: 'The cold water kitchen tap has been dripping constantly for about a week now.',
-    category: 'plumbing', priority: 'medium', status: 'assigned',
-    location: 'Kitchen', createdAt: '2026-07-01T10:00:00Z', updatedAt: '2026-07-03T09:00:00Z',
-    assignedTo: 'Tom Harris (Plumber)', estimatedResolution: '2026-07-12',
-    updates: [
-      { id: 'u8', author: 'Emily Chang', authorRole: 'tenant', message: 'Kitchen tap has been dripping for a week. Washer needs replacing.', timestamp: '2026-07-01T10:00:00Z' },
-      { id: 'u9', author: 'Sarah Mitchell', authorRole: 'staff', message: 'Acknowledged. Assigned to Tom Harris who will visit on 12th July between 10am–12pm.', timestamp: '2026-07-03T09:00:00Z' },
+    'tenant-4': [
+      { month:'Jan 2026', electricity:320, water:5.0, gas:50, electricityCost:86.40, waterCost:10.00, gasCost:67.50, total:163.90 },
+      { month:'Feb 2026', electricity:295, water:4.7, gas:45, electricityCost:79.65, waterCost:9.40, gasCost:60.75, total:149.80 },
+      { month:'Mar 2026', electricity:265, water:4.5, gas:35, electricityCost:71.55, waterCost:9.00, gasCost:47.25, total:127.80 },
+      { month:'Apr 2026', electricity:235, water:4.3, gas:22, electricityCost:63.45, waterCost:8.60, gasCost:29.70, total:101.75 },
+      { month:'May 2026', electricity:215, water:4.4, gas:14, electricityCost:58.05, waterCost:8.80, gasCost:18.90, total:85.75 },
+      { month:'Jun 2026', electricity:200, water:4.7, gas:8, electricityCost:54.00, waterCost:9.40, gasCost:10.80, total:74.20 },
     ],
-  },
-  {
-    id: 'tkt-005', tenantId: 'tenant-2', ticketNumber: 'TKT-2025-0098',
-    title: 'Wi-Fi router not working', description: 'Internet went down completely. Router shows no broadband light.',
-    category: 'internet', priority: 'high', status: 'closed',
-    location: 'Living Area', createdAt: '2025-11-10T08:00:00Z', updatedAt: '2025-11-11T15:00:00Z',
-    resolvedAt: '2025-11-11T15:00:00Z', assignedTo: 'IT Support',
-    updates: [
-      { id: 'u10', author: 'Emily Chang', authorRole: 'tenant', message: 'No internet since this morning. Router shows solid red light on broadband.', timestamp: '2025-11-10T08:00:00Z' },
-      { id: 'u11', author: 'Sarah Mitchell', authorRole: 'staff', message: 'ISP fault in the area. Should be resolved by end of day.', timestamp: '2025-11-10T11:00:00Z' },
-      { id: 'u12', author: 'Sarah Mitchell', authorRole: 'staff', message: 'ISP has resolved the fault. Please let us know if the issue persists.', timestamp: '2025-11-11T15:00:00Z' },
+    'tenant-5': [
+      { month:'Jan 2026', electricity:300, water:4.8, gas:40, electricityCost:81.00, waterCost:9.60, gasCost:54.00, total:144.60 },
+      { month:'Feb 2026', electricity:275, water:4.5, gas:36, electricityCost:74.25, waterCost:9.00, gasCost:48.60, total:131.85 },
+      { month:'Mar 2026', electricity:250, water:4.3, gas:30, electricityCost:67.50, waterCost:8.60, gasCost:40.50, total:116.60 },
+      { month:'Apr 2026', electricity:220, water:4.1, gas:20, electricityCost:59.40, waterCost:8.20, gasCost:27.00, total:94.60 },
+      { month:'May 2026', electricity:205, water:4.2, gas:12, electricityCost:55.35, waterCost:8.40, gasCost:16.20, total:79.95 },
+      { month:'Jun 2026', electricity:190, water:4.5, gas:7, electricityCost:51.30, waterCost:9.00, gasCost:9.45, total:69.75 },
     ],
-    rating: 4, feedback: 'Good communication throughout.',
-  },
-];
-
-// ── Payments ──────────────────────────────────────────────────────────────────
-export const PORTAL_PAYMENTS: PortalPayment[] = [
-  // Tenant 1 - James (no arrears)
-  { id: 'pay-001', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - July 2026', amount: 850.00, dueDate: '2026-07-01', paidDate: '2026-07-01', status: 'paid', method: 'direct_debit', reference: 'REF-2026-07', invoiceNumber: 'INV-2026-07' },
-  { id: 'pay-002', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - June 2026', amount: 850.00, dueDate: '2026-06-01', paidDate: '2026-06-01', status: 'paid', method: 'direct_debit', reference: 'REF-2026-06', invoiceNumber: 'INV-2026-06' },
-  { id: 'pay-003', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - May 2026', amount: 850.00, dueDate: '2026-05-01', paidDate: '2026-05-01', status: 'paid', method: 'direct_debit', reference: 'REF-2026-05', invoiceNumber: 'INV-2026-05' },
-  { id: 'pay-004', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - April 2026', amount: 850.00, dueDate: '2026-04-01', paidDate: '2026-04-01', status: 'paid', method: 'direct_debit', reference: 'REF-2026-04', invoiceNumber: 'INV-2026-04' },
-  { id: 'pay-005', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - March 2026', amount: 850.00, dueDate: '2026-03-01', paidDate: '2026-03-01', status: 'paid', method: 'direct_debit', reference: 'REF-2026-03', invoiceNumber: 'INV-2026-03' },
-  { id: 'pay-006', tenantId: 'tenant-1', type: 'rent', description: 'Monthly Rent - August 2026', amount: 850.00, dueDate: '2026-08-01', status: 'upcoming' },
-  { id: 'pay-007', tenantId: 'tenant-1', type: 'utility', description: 'Utility Bill - Q2 2026', amount: 45.50, dueDate: '2026-07-15', status: 'pending', invoiceNumber: 'UTL-2026-Q2' },
-  // Tenant 2 - Emily (has outstanding balance)
-  { id: 'pay-101', tenantId: 'tenant-2', type: 'rent', description: 'Monthly Rent - July 2026', amount: 795.00, dueDate: '2026-07-01', status: 'overdue', invoiceNumber: 'INV-E-2026-07' },
-  { id: 'pay-102', tenantId: 'tenant-2', type: 'rent', description: 'Monthly Rent - June 2026', amount: 795.00, dueDate: '2026-06-01', paidDate: '2026-06-03', status: 'paid', method: 'bank_transfer', reference: 'REF-E-2026-06', invoiceNumber: 'INV-E-2026-06' },
-  { id: 'pay-103', tenantId: 'tenant-2', type: 'rent', description: 'Monthly Rent - May 2026', amount: 795.00, dueDate: '2026-05-01', paidDate: '2026-05-01', status: 'paid', method: 'direct_debit', reference: 'REF-E-2026-05', invoiceNumber: 'INV-E-2026-05' },
-  { id: 'pay-104', tenantId: 'tenant-2', type: 'rent', description: 'Monthly Rent - April 2026', amount: 795.00, dueDate: '2026-04-01', paidDate: '2026-04-01', status: 'paid', method: 'direct_debit', reference: 'REF-E-2026-04', invoiceNumber: 'INV-E-2026-04' },
-  { id: 'pay-105', tenantId: 'tenant-2', type: 'late_fee', description: 'Late Payment Fee - July 2026', amount: 25.00, dueDate: '2026-07-10', status: 'overdue', invoiceNumber: 'LF-E-2026-07' },
-  { id: 'pay-106', tenantId: 'tenant-2', type: 'rent', description: 'Monthly Rent - August 2026', amount: 795.00, dueDate: '2026-08-01', status: 'upcoming' },
-];
-
-// ── Documents ─────────────────────────────────────────────────────────────────
-export const PORTAL_DOCUMENTS: PortalDocument[] = [
-  { id: 'doc-001', tenantId: 'tenant-1', name: 'Tenancy Agreement 2024–2025', type: 'Tenancy Agreement', category: 'lease', uploadedAt: '2024-01-10', expiryDate: '2025-12-31', fileSize: '245 KB', fileType: 'pdf', status: 'current', signatureRequired: true, signed: true, version: 1, description: 'Assured Shorthold Tenancy Agreement for Room 1, Maple House' },
-  { id: 'doc-002', tenantId: 'tenant-1', name: 'Tenancy Agreement 2025–2026 (Renewal)', type: 'Tenancy Agreement', category: 'lease', uploadedAt: '2025-11-20', expiryDate: '2026-12-31', fileSize: '248 KB', fileType: 'pdf', status: 'pending_signature', signatureRequired: true, signed: false, version: 2, description: 'Renewal agreement for 2026. Please sign by 31 January 2026.' },
-  { id: 'doc-003', tenantId: 'tenant-1', name: 'Move-in Inspection Checklist', type: 'Inspection', category: 'checklist', uploadedAt: '2024-01-10', fileSize: '180 KB', fileType: 'pdf', status: 'signed', signatureRequired: true, signed: true, version: 1, description: 'Room condition report signed at move-in' },
-  { id: 'doc-004', tenantId: 'tenant-1', name: 'Asset Handover Certificate', type: 'Certificate', category: 'certificate', uploadedAt: '2024-01-10', fileSize: '120 KB', fileType: 'pdf', status: 'current', signatureRequired: true, signed: true, version: 1, description: 'Assets assigned to you at move-in' },
-  { id: 'doc-005', tenantId: 'tenant-1', name: 'House Rules & Policies', type: 'Policy', category: 'policy', uploadedAt: '2024-01-10', fileSize: '95 KB', fileType: 'pdf', status: 'current', signatureRequired: false, signed: false, version: 3 },
-  { id: 'doc-006', tenantId: 'tenant-1', name: 'Ceiling Hoist User Manual', type: 'Manual', category: 'manual', uploadedAt: '2024-01-15', fileSize: '2.4 MB', fileType: 'pdf', status: 'current', signatureRequired: false, signed: false, version: 1 },
-  { id: 'doc-007', tenantId: 'tenant-1', name: 'July 2026 Rent Invoice', type: 'Invoice', category: 'invoice', uploadedAt: '2026-07-01', fileSize: '85 KB', fileType: 'pdf', status: 'current', signatureRequired: false, signed: false, version: 1 },
-  // Tenant 2
-  { id: 'doc-101', tenantId: 'tenant-2', name: 'Tenancy Agreement 2023–2025', type: 'Tenancy Agreement', category: 'lease', uploadedAt: '2023-11-02', expiryDate: '2025-10-31', fileSize: '242 KB', fileType: 'pdf', status: 'expiring_soon', signatureRequired: true, signed: true, version: 1 },
-  { id: 'doc-102', tenantId: 'tenant-2', name: 'Move-in Inspection Checklist', type: 'Inspection', category: 'checklist', uploadedAt: '2023-11-02', fileSize: '165 KB', fileType: 'pdf', status: 'signed', signatureRequired: true, signed: true, version: 1 },
-  { id: 'doc-103', tenantId: 'tenant-2', name: 'House Rules & Policies', type: 'Policy', category: 'policy', uploadedAt: '2023-11-02', fileSize: '95 KB', fileType: 'pdf', status: 'current', signatureRequired: false, signed: false, version: 3 },
-  { id: 'doc-104', tenantId: 'tenant-2', name: 'July 2026 Rent Invoice', type: 'Invoice', category: 'invoice', uploadedAt: '2026-07-01', fileSize: '85 KB', fileType: 'pdf', status: 'current', signatureRequired: false, signed: false, version: 1, description: 'OVERDUE - payment required immediately' },
-];
-
-// ── Notices ───────────────────────────────────────────────────────────────────
-export const NOTICES: Notice[] = [
-  { id: 'ntc-001', title: 'Planned Water Shutdown – 14 July 2026', content: 'The mains water supply to all properties will be shut off on Monday 14th July between 9am and 1pm for essential pipe maintenance. Please ensure you store adequate water in advance. We apologise for any inconvenience.', type: 'utility_shutdown', priority: 'urgent', publishedAt: '2026-07-07T08:00:00Z', expiresAt: '2026-07-15T00:00:00Z', isPinned: true, readBy: ['tenant-2'], author: 'Sarah Mitchell', authorRole: 'Property Manager', tags: ['water', 'utilities', 'planned'] },
-  { id: 'ntc-002', title: 'Summer BBQ – Saturday 19 July', content: 'Join us for our annual summer BBQ in the Maple House garden on Saturday 19th July from 2pm to 6pm! Food, drinks, and great company. Bring your own chair if you have one. RSVP to Sarah by 16th July.', type: 'event', priority: 'normal', publishedAt: '2026-07-05T10:00:00Z', expiresAt: '2026-07-20T00:00:00Z', isPinned: true, readBy: ['tenant-1', 'tenant-2'], author: 'Sarah Mitchell', authorRole: 'Property Manager', tags: ['social', 'event'] },
-  { id: 'ntc-003', title: 'Fire Alarm Test – Wednesday 10 July', content: 'The monthly fire alarm test will take place on Wednesday 10th July at 10:00am. The alarm will sound for approximately 2 minutes. Please do not call emergency services during this time.', type: 'maintenance', priority: 'high', publishedAt: '2026-07-04T09:00:00Z', expiresAt: '2026-07-11T00:00:00Z', isPinned: false, readBy: ['tenant-1'], author: 'Sarah Mitchell', authorRole: 'Property Manager', tags: ['fire safety', 'test'] },
-  { id: 'ntc-004', title: 'Updated Visitor Policy from 1 August', content: 'From 1st August 2026 all visitors must register using the Visitor Pass feature in this app before arriving. Drive-in visitors must also pre-register their vehicle. Full details are in the updated House Rules document.', type: 'rules', priority: 'normal', publishedAt: '2026-07-01T09:00:00Z', isPinned: false, readBy: [], author: 'NorthBridge Management', authorRole: 'Administration', tags: ['policy', 'visitors'] },
-  { id: 'ntc-005', title: 'Car Park Resurfacing – 22–23 July', content: 'The car park at Maple House will be resurfaced on 22nd and 23rd July. All vehicles must be moved by 7am on 22nd. Temporary parking is available on Maple Avenue side road. Please contact Sarah if you need accessible parking assistance.', type: 'maintenance', priority: 'high', publishedAt: '2026-07-03T11:00:00Z', expiresAt: '2026-07-24T00:00:00Z', isPinned: false, readBy: ['tenant-1', 'tenant-2'], author: 'Sarah Mitchell', authorRole: 'Property Manager', tags: ['parking', 'maintenance'] },
-  { id: 'ntc-006', title: 'New Communal Lounge Furniture Installed', content: 'We\'ve replaced all the communal lounge furniture with brand-new comfortable seating and a new smart TV. Come and enjoy the new space! Your feedback on the room helped shape our choices – thank you!', type: 'news', priority: 'normal', publishedAt: '2026-06-28T14:00:00Z', isPinned: false, readBy: ['tenant-1', 'tenant-2'], author: 'Sarah Mitchell', authorRole: 'Property Manager', tags: ['improvements'] },
-  { id: 'ntc-007', title: 'Emergency: Gas Leak Investigation (Resolved)', content: 'RESOLVED: A suspected gas smell near the boiler room was investigated on 5th June and confirmed safe. No action is required from residents. As a precaution the boiler was shut off for 3 hours. We apologise for any disruption.', type: 'emergency', priority: 'urgent', publishedAt: '2026-06-05T16:00:00Z', isPinned: false, readBy: ['tenant-1', 'tenant-2'], author: 'NorthBridge Emergency', authorRole: 'Emergency Response', tags: ['gas', 'safety', 'resolved'] },
-  { id: 'ntc-008', title: 'Rent Review – No Increase for 2026', content: 'Following our annual rent review, we are pleased to confirm that rent will remain unchanged for all current tenancies through to December 2026. We appreciate your continued residency with NorthBridge.', type: 'general', priority: 'normal', publishedAt: '2026-05-15T09:00:00Z', isPinned: false, readBy: ['tenant-1', 'tenant-2'], author: 'NorthBridge Management', authorRole: 'Finance', tags: ['rent', 'finance'] },
-];
-
-// ── Visitor Passes ────────────────────────────────────────────────────────────
-export const VISITOR_PASSES: VisitorPass[] = [
-  { id: 'vis-001', tenantId: 'tenant-1', visitorName: 'Dr. Alice Roberts', visitorPhone: '07700 555001', visitDate: '2026-07-12', visitTime: '10:00', visitEndTime: '11:30', purpose: 'Medical appointment', parkingSlot: 'Bay 3', status: 'approved', qrCode: 'VIS-001-QR', createdAt: '2026-07-08T10:00:00Z', notes: 'Please buzz Flat 1 on arrival' },
-  { id: 'vis-002', tenantId: 'tenant-1', visitorName: 'Michael Thornton', visitorPhone: '07700 555002', visitDate: '2026-07-14', visitTime: '14:00', visitEndTime: '17:00', purpose: 'Family visit', vehicleReg: 'MN23 XYZ', parkingSlot: 'Bay 3', status: 'approved', qrCode: 'VIS-002-QR', createdAt: '2026-07-08T14:00:00Z' },
-  { id: 'vis-003', tenantId: 'tenant-1', visitorName: 'CareFirst Nurse', visitDate: '2026-07-09', visitTime: '09:30', visitEndTime: '10:30', purpose: 'Weekly care visit', status: 'checked_in', qrCode: 'VIS-003-QR', createdAt: '2026-07-06T08:00:00Z' },
-  { id: 'vis-004', tenantId: 'tenant-2', visitorName: 'Mia Chang', visitorPhone: '07700 555003', visitDate: '2026-07-13', visitTime: '11:00', purpose: 'Sister visit', status: 'pending', qrCode: 'VIS-004-QR', createdAt: '2026-07-09T09:00:00Z' },
-];
-
-// ── Parcels ────────────────────────────────────────────────────────────────────
-export const PARCELS: Parcel[] = [
-  { id: 'prc-001', tenantId: 'tenant-1', trackingNumber: 'JD123456789GB', courier: 'Royal Mail', description: 'Amazon parcel (medium box)', weight: '1.2 kg', sender: 'Amazon UK', receivedAt: '2026-07-08T10:30:00Z', status: 'pending_collection', notificationSent: true, collectionCode: 'RC-4821', location: 'Reception desk', notes: 'Ring bell for reception' },
-  { id: 'prc-002', tenantId: 'tenant-1', trackingNumber: 'DPD7890123456', courier: 'DPD', description: 'Medical supplies – fragile', weight: '0.8 kg', sender: 'Lloyds Pharmacy', receivedAt: '2026-07-05T14:00:00Z', collectedAt: '2026-07-06T11:00:00Z', status: 'collected', notificationSent: true, collectionCode: 'RC-4755', location: 'Reception desk' },
-  { id: 'prc-003', tenantId: 'tenant-2', trackingNumber: 'EVRI-987654321', courier: 'Evri', description: 'Clothing order', sender: 'ASOS', receivedAt: '2026-07-07T16:00:00Z', status: 'pending_collection', notificationSent: true, collectionCode: 'RC-4812', location: 'Birch Court reception' },
-];
-
-// ── Utility Usage ─────────────────────────────────────────────────────────────
-export const UTILITY_DATA: Record<string, UtilityMonth[]> = {
-  'tenant-1': [
-    { month: 'Jan 2026', electricity: 290, water: 4.2, gas: 38, electricityCost: 78.30, waterCost: 8.40, gasCost: 51.30, total: 138.00 },
-    { month: 'Feb 2026', electricity: 270, water: 3.9, gas: 35, electricityCost: 72.90, waterCost: 7.80, gasCost: 47.25, total: 127.95 },
-    { month: 'Mar 2026', electricity: 240, water: 3.8, gas: 28, electricityCost: 64.80, waterCost: 7.60, gasCost: 37.80, total: 110.20 },
-    { month: 'Apr 2026', electricity: 210, water: 3.6, gas: 18, electricityCost: 56.70, waterCost: 7.20, gasCost: 24.30, total: 88.20 },
-    { month: 'May 2026', electricity: 195, water: 3.7, gas: 10, electricityCost: 52.65, waterCost: 7.40, gasCost: 13.50, total: 73.55 },
-    { month: 'Jun 2026', electricity: 180, water: 4.0, gas: 5, electricityCost: 48.60, waterCost: 8.00, gasCost: 6.75, total: 63.35 },
-  ],
-  'tenant-2': [
-    { month: 'Jan 2026', electricity: 310, water: 5.1, gas: 42, electricityCost: 83.70, waterCost: 10.20, gasCost: 56.70, total: 150.60 },
-    { month: 'Feb 2026', electricity: 285, water: 4.8, gas: 38, electricityCost: 76.95, waterCost: 9.60, gasCost: 51.30, total: 137.85 },
-    { month: 'Mar 2026', electricity: 260, water: 4.6, gas: 31, electricityCost: 70.20, waterCost: 9.20, gasCost: 41.85, total: 121.25 },
-    { month: 'Apr 2026', electricity: 230, water: 4.4, gas: 20, electricityCost: 62.10, waterCost: 8.80, gasCost: 27.00, total: 97.90 },
-    { month: 'May 2026', electricity: 210, water: 4.5, gas: 12, electricityCost: 56.70, waterCost: 9.00, gasCost: 16.20, total: 81.90 },
-    { month: 'Jun 2026', electricity: 198, water: 4.8, gas: 6, electricityCost: 53.46, waterCost: 9.60, gasCost: 8.10, total: 71.16 },
-  ],
-};
-
-// ── Messages ──────────────────────────────────────────────────────────────────
-export const CONVERSATIONS: Conversation[] = [
-  {
-    id: 'conv-001', tenantId: 'tenant-1', recipientName: 'Sarah Mitchell', recipientRole: 'manager',
-    subject: 'Radiator repair update',
-    messages: [
-      { id: 'm1', conversationId: 'conv-001', senderName: 'James Thornton', senderRole: 'tenant', content: 'Hi Sarah, just wanted to follow up on the bathroom radiator. Is there any update on when Tom will return?', timestamp: '2026-07-07T14:00:00Z', read: true, isOwn: true },
-      { id: 'm2', conversationId: 'conv-001', senderName: 'Sarah Mitchell', senderRole: 'manager', content: 'Hi James! Tom has confirmed he\'ll be with you on Tuesday 15th July between 10am and noon. Parts have arrived. We\'ll send you a reminder the day before.', timestamp: '2026-07-07T15:30:00Z', read: true },
-      { id: 'm3', conversationId: 'conv-001', senderName: 'James Thornton', senderRole: 'tenant', content: 'That\'s great, thanks Sarah! I\'ll make sure I\'m in on Tuesday morning.', timestamp: '2026-07-07T16:00:00Z', read: true, isOwn: true },
+    'tenant-6': [
+      { month:'Mar 2026', electricity:260, water:4.5, gas:25, electricityCost:70.20, waterCost:9.00, gasCost:33.75, total:112.95 },
+      { month:'Apr 2026', electricity:230, water:4.3, gas:16, electricityCost:62.10, waterCost:8.60, gasCost:21.60, total:92.30 },
+      { month:'May 2026', electricity:210, water:4.4, gas:10, electricityCost:56.70, waterCost:8.80, gasCost:13.50, total:79.00 },
+      { month:'Jun 2026', electricity:195, water:4.7, gas:5, electricityCost:52.65, waterCost:9.40, gasCost:6.75, total:68.80 },
     ],
-    lastMessage: 'That\'s great, thanks Sarah! I\'ll make sure I\'m in on Tuesday morning.',
-    lastMessageTime: '2026-07-07T16:00:00Z', unreadCount: 0, isArchived: false,
-  },
-  {
-    id: 'conv-002', tenantId: 'tenant-1', recipientName: 'Sarah Mitchell', recipientRole: 'manager',
-    subject: 'Tenancy renewal query',
-    messages: [
-      { id: 'm4', conversationId: 'conv-002', senderName: 'Sarah Mitchell', senderRole: 'manager', content: 'Dear James, please remember to sign your tenancy renewal document. It\'s available in the Documents section and needs to be signed before 31 January 2026.', timestamp: '2026-07-01T09:00:00Z', read: false },
-    ],
-    lastMessage: 'Dear James, please remember to sign your tenancy renewal document.',
-    lastMessageTime: '2026-07-01T09:00:00Z', unreadCount: 1, isArchived: false,
-  },
-  {
-    id: 'conv-003', tenantId: 'tenant-2', recipientName: 'Sarah Mitchell', recipientRole: 'manager',
-    subject: 'July rent payment',
-    messages: [
-      { id: 'm5', conversationId: 'conv-003', senderName: 'Sarah Mitchell', senderRole: 'manager', content: 'Hi Emily, we notice your July rent payment hasn\'t come through yet. Could you let us know when you\'re able to pay? A late fee of £25 has been applied.', timestamp: '2026-07-05T10:00:00Z', read: false },
-      { id: 'm6', conversationId: 'conv-003', senderName: 'Emily Chang', senderRole: 'tenant', content: 'Hi Sarah, I\'m really sorry about the late payment. I\'ll arrange the bank transfer this week. My benefits payment was delayed.', timestamp: '2026-07-06T12:00:00Z', read: true, isOwn: true },
-      { id: 'm7', conversationId: 'conv-003', senderName: 'Sarah Mitchell', senderRole: 'manager', content: 'Thank you for letting us know Emily. Please pay as soon as possible. If you\'re having financial difficulties please speak to us and we can discuss support options.', timestamp: '2026-07-06T14:00:00Z', read: false },
-    ],
-    lastMessage: 'Thank you for letting us know Emily. Please pay as soon as possible.',
-    lastMessageTime: '2026-07-06T14:00:00Z', unreadCount: 1, isArchived: false,
-  },
-];
+  };
 
-// ── Community Events ──────────────────────────────────────────────────────────
-export const COMMUNITY_EVENTS: CommunityEvent[] = [
-  { id: 'evt-001', title: 'Summer BBQ 🍖', description: 'Annual summer BBQ in the Maple House garden. Food, drinks, and great company provided.', date: '2026-07-19', time: '14:00 – 18:00', location: 'Maple House Garden', type: 'social', organizer: 'Sarah Mitchell', maxAttendees: 30, registeredCount: 12, isRegistered: true, imageColor: 'from-orange-400 to-rose-500' },
-  { id: 'evt-002', title: 'Mindfulness & Yoga Class', description: 'Weekly mindfulness session with certified instructor. All abilities welcome.', date: '2026-07-16', time: '10:00 – 11:00', location: 'Communal Lounge, Maple House', type: 'class', organizer: 'CareFirst Wellness', maxAttendees: 8, registeredCount: 6, isRegistered: false, imageColor: 'from-purple-400 to-indigo-500' },
-  { id: 'evt-003', title: 'Residents\' Meeting – Q3 2026', description: 'Quarterly residents\' meeting to discuss property updates, feedback, and planned improvements.', date: '2026-07-23', time: '18:00 – 19:30', location: 'Communal Lounge, Maple House', type: 'meeting', organizer: 'NorthBridge Management', registeredCount: 8, isRegistered: false, imageColor: 'from-blue-400 to-cyan-500' },
-  { id: 'evt-004', title: 'Film Night: Summer Classics', description: 'Communal film screening in the lounge. Vote for your favourite film via the noticeboard.', date: '2026-07-25', time: '19:00', location: 'Communal Lounge, Maple House', type: 'social', organizer: 'Resident Committee', maxAttendees: 15, registeredCount: 7, isRegistered: true, imageColor: 'from-amber-400 to-yellow-500' },
-];
+  // -- Messages -----------------------------------------------------------------
+  export const CONVERSATIONS: Conversation[] = [
+    { id:'conv-001', tenantId:'tenant-1', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Radiator repair update', messages:[ {id:'m1',conversationId:'conv-001',senderName:'James Thornton',senderRole:'tenant',content:'Hi Sarah, just wanted to follow up on the bathroom radiator. Is there any update on when Tom will return?',timestamp:'2026-07-07T14:00:00Z',read:true,isOwn:true}, {id:'m2',conversationId:'conv-001',senderName:'Sarah Mitchell',senderRole:'manager',content:"Hi James! Tom has confirmed he will be with you on Tuesday 15th July between 10am and noon. Parts have arrived. We will send you a reminder the day before.",timestamp:'2026-07-07T15:30:00Z',read:true}, {id:'m3',conversationId:'conv-001',senderName:'James Thornton',senderRole:'tenant',content:"That's great, thanks Sarah! I will make sure I am in on Tuesday morning.",timestamp:'2026-07-07T16:00:00Z',read:true,isOwn:true} ], lastMessage:"That's great, thanks Sarah! I'll make sure I'm in on Tuesday morning.", lastMessageTime:'2026-07-07T16:00:00Z', unreadCount:0, isArchived:false },
+    { id:'conv-002', tenantId:'tenant-1', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Tenancy renewal query', messages:[ {id:'m4',conversationId:'conv-002',senderName:'Sarah Mitchell',senderRole:'manager',content:'Dear James, please remember to sign your tenancy renewal document. It is available in the Documents section and needs to be signed before 31 January 2026.',timestamp:'2026-07-01T09:00:00Z',read:false} ], lastMessage:'Dear James, please remember to sign your tenancy renewal document.', lastMessageTime:'2026-07-01T09:00:00Z', unreadCount:1, isArchived:false },
+    { id:'conv-003', tenantId:'tenant-2', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'July rent payment', messages:[ {id:'m5',conversationId:'conv-003',senderName:'Sarah Mitchell',senderRole:'manager',content:"Hi Emily, we notice your July rent payment has not come through yet. Could you let us know when you are able to pay? A late fee of 25 has been applied.",timestamp:'2026-07-05T10:00:00Z',read:false}, {id:'m6',conversationId:'conv-003',senderName:'Emily Chang',senderRole:'tenant',content:"Hi Sarah, I am really sorry about the late payment. I will arrange the bank transfer this week. My benefits payment was delayed.",timestamp:'2026-07-06T12:00:00Z',read:true,isOwn:true}, {id:'m7',conversationId:'conv-003',senderName:'Sarah Mitchell',senderRole:'manager',content:"Thank you for letting us know Emily. Please pay as soon as possible. If you are having financial difficulties please speak to us and we can discuss support options.",timestamp:'2026-07-06T14:00:00Z',read:false} ], lastMessage:'Thank you for letting us know Emily. Please pay as soon as possible.', lastMessageTime:'2026-07-06T14:00:00Z', unreadCount:1, isArchived:false },
+    { id:'conv-004', tenantId:'tenant-3', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Welcome to Oak Lodge', messages:[ {id:'m8',conversationId:'conv-004',senderName:'Sarah Mitchell',senderRole:'manager',content:'Welcome to Oak Lodge Aisha! If you need anything during your first weeks here, please do not hesitate to reach out. The lift induction is on Friday at 2pm.',timestamp:'2025-03-16T10:00:00Z',read:true} ], lastMessage:'Welcome to Oak Lodge Aisha! If you need anything during your first weeks here, please do not hesitate to reach out.', lastMessageTime:'2025-03-16T10:00:00Z', unreadCount:0, isArchived:false },
+    { id:'conv-005', tenantId:'tenant-4', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Oxygen concentrator service', messages:[ {id:'m9',conversationId:'conv-005',senderName:'David Okafor',senderRole:'tenant',content:'Hi Sarah, my oxygen concentrator needs its filter changed soon. Can you arrange for CareFirst to visit?',timestamp:'2026-06-20T09:00:00Z',read:true,isOwn:true}, {id:'m10',conversationId:'conv-005',senderName:'Sarah Mitchell',senderRole:'manager',content:'Absolutely David. I will book CareFirst for a routine service visit in early July. They will call you to arrange a convenient time.',timestamp:'2026-06-20T10:00:00Z',read:true} ], lastMessage:'Absolutely David. I will book CareFirst for a routine service visit in early July.', lastMessageTime:'2026-06-20T10:00:00Z', unreadCount:0, isArchived:false },
+    { id:'conv-006', tenantId:'tenant-5', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Garden maintenance query', messages:[ {id:'m11',conversationId:'conv-006',senderName:'Margaret Wilson',senderRole:'tenant',content:'Sarah, could we get some new compost for the patio planters? The tomatoes are looking a bit sad.',timestamp:'2026-07-01T14:00:00Z',read:true,isOwn:true}, {id:'m12',conversationId:'conv-006',senderName:'Sarah Mitchell',senderRole:'manager',content:'Of course Margaret! I will order a bag of organic compost with this week\'s supplies. Should be with you by Thursday.',timestamp:'2026-07-01T15:00:00Z',read:true} ], lastMessage:"Of course Margaret! I will order a bag of organic compost with this week's supplies.", lastMessageTime:'2026-07-01T15:00:00Z', unreadCount:0, isArchived:false },
+    { id:'conv-007', tenantId:'tenant-6', recipientName:'Sarah Mitchell', recipientRole:'manager', subject:'Wi-Fi password', messages:[ {id:'m13',conversationId:'conv-007',senderName:'Raj Mehta',senderRole:'tenant',content:'Hi Sarah, I cannot find the Wi-Fi password in my welcome pack. Could you share it please?',timestamp:'2026-07-02T11:00:00Z',read:true,isOwn:true}, {id:'m14',conversationId:'conv-007',senderName:'Sarah Mitchell',senderRole:'manager',content:'Hi Raj! The network is NorthBridge-Residents and the password is MapleHouse2025!. Let me know if you have any trouble connecting.',timestamp:'2026-07-02T11:30:00Z',read:true} ], lastMessage:'Hi Raj! The network is NorthBridge-Residents and the password is MapleHouse2025!.', lastMessageTime:'2026-07-02T11:30:00Z', unreadCount:0, isArchived:false },
+  ];
 
-// ── FAQs ──────────────────────────────────────────────────────────────────────
-export const FAQS: FAQ[] = [
-  { id: 'faq-001', question: 'How do I report a maintenance issue?', answer: 'Go to the Maintenance section and tap "New Request". Fill in the details and we\'ll get back to you within 24 hours.', category: 'Maintenance' },
-  { id: 'faq-002', question: 'When is my rent due?', answer: 'Rent is due on the 1st of each month. You\'ll receive a reminder notification 5 days before.', category: 'Payments' },
-  { id: 'faq-003', question: 'How do I add a visitor?', answer: 'Go to Visitors and tap "Create Pass". Fill in your visitor\'s details and they\'ll receive a QR code by SMS.', category: 'Visitors' },
-  { id: 'faq-004', question: 'How do I collect a parcel?', answer: 'Check the Parcels section for your collection code. Bring the code to reception during staffed hours (8am–6pm weekdays).', category: 'Parcels' },
-  { id: 'faq-005', question: 'How do I access the Wi-Fi?', answer: 'Broadband is included in your rent. Connect to the "NorthBridge-Residents" network. The password is on your welcome pack.', category: 'Internet' },
-  { id: 'faq-006', question: 'Who do I contact in an emergency?', answer: 'Call the emergency number: 0161 555 0199. For fire or medical emergencies call 999 first.', category: 'Emergency' },
-];
+  // -- Community Events ---------------------------------------------------------
+  export const COMMUNITY_EVENTS: CommunityEvent[] = [
+    { id:'evt-001', title:'Summer BBQ', description:'Annual summer BBQ in the Maple House garden. Food, drinks, and great company provided.', date:'2026-07-19', time:'14:00 - 18:00', location:'Maple House Garden', type:'social', organizer:'Sarah Mitchell', maxAttendees:30, registeredCount:12, isRegistered:true, imageColor:'from-orange-400 to-rose-500' },
+    { id:'evt-002', title:'Mindfulness & Yoga Class', description:'Weekly mindfulness session with certified instructor. All abilities welcome.', date:'2026-07-16', time:'10:00 - 11:00', location:'Communal Lounge, Maple House', type:'class', organizer:'CareFirst Wellness', maxAttendees:8, registeredCount:6, isRegistered:false, imageColor:'from-purple-400 to-indigo-500' },
+    { id:'evt-003', title:"Residents' Meeting - Q3 2026", description:"Quarterly residents' meeting to discuss property updates, feedback, and planned improvements.", date:'2026-07-23', time:'18:00 - 19:30', location:'Communal Lounge, Maple House', type:'meeting', organizer:'NorthBridge Management', registeredCount:8, isRegistered:false, imageColor:'from-blue-400 to-cyan-500' },
+    { id:'evt-004', title:'Film Night: Summer Classics', description:'Communal film screening in the lounge. Vote for your favourite film via the noticeboard.', date:'2026-07-25', time:'19:00', location:'Communal Lounge, Maple House', type:'social', organizer:'Resident Committee', maxAttendees:15, registeredCount:7, isRegistered:true, imageColor:'from-amber-400 to-yellow-500' },
+    { id:'evt-005', title:'New Residents Induction', description:'Welcome session for new tenants covering building facilities, emergency procedures, and community rules.', date:'2026-07-18', time:'14:00 - 15:30', location:'Maple House Lounge', type:'meeting', organizer:'Sarah Mitchell', maxAttendees:10, registeredCount:4, isRegistered:false, imageColor:'from-emerald-400 to-green-500' },
+  ];
 
-// ── Helper functions ───────────────────────────────────────────────────────────
-export function getTenantData(userId: string) {
-  const user = PORTAL_USERS.find(u => u.id === userId);
-  const unit = TENANT_UNITS.find(u => u.tenantId === userId);
-  const assets = PORTAL_ASSETS.filter(a => a.tenantId === userId);
-  const tickets = MAINTENANCE_TICKETS.filter(t => t.tenantId === userId);
-  const payments = PORTAL_PAYMENTS.filter(p => p.tenantId === userId);
-  const documents = PORTAL_DOCUMENTS.filter(d => d.tenantId === userId);
-  const visitors = VISITOR_PASSES.filter(v => v.tenantId === userId);
-  const parcels = PARCELS.filter(p => p.tenantId === userId);
-  const utilities = UTILITY_DATA[userId] ?? [];
-  const conversations = CONVERSATIONS.filter(c => c.tenantId === userId);
-  return { user, unit, assets, tickets, payments, documents, visitors, parcels, utilities, conversations };
-}
+  // -- FAQs ---------------------------------------------------------------------
+  export const FAQS: FAQ[] = [
+    { id:'faq-001', question:'How do I report a maintenance issue?', answer:'Go to the Maintenance section and tap "New Request". Fill in the details and we will get back to you within 24 hours.', category:'Maintenance' },
+    { id:'faq-002', question:'When is my rent due?', answer:'Rent is due on the 1st of each month. You will receive a reminder notification 5 days before.', category:'Payments' },
+    { id:'faq-003', question:'How do I add a visitor?', answer:'Go to Visitors and tap "Create Pass". Fill in your visitor details and they will receive a QR code by SMS.', category:'Visitors' },
+    { id:'faq-004', question:'How do I collect a parcel?', answer:'Check the Parcels section for your collection code. Bring the code to reception during staffed hours (8am-6pm weekdays).', category:'Parcels' },
+    { id:'faq-005', question:'How do I access the Wi-Fi?', answer:'Broadband is included in your rent. Connect to the "NorthBridge-Residents" network. The password is on your welcome pack.', category:'Internet' },
+    { id:'faq-006', question:'Who do I contact in an emergency?', answer:'Call the emergency number: 0161 555 0199. For fire or medical emergencies call 999 first.', category:'Emergency' },
+    { id:'faq-007', question:'How do I update my care plan?', answer:'Contact Sarah Mitchell or your assigned care coordinator. Changes are reviewed within 48 hours.', category:'Care' },
+    { id:'faq-008', question:'Can I have overnight guests?', answer:'Yes, up to 2 overnight guests per week. Please register them in the Visitors section beforehand.', category:'Visitors' },
+  ];
+
+  // -- Helper functions ---------------------------------------------------------
+  export function getTenantData(userId: string) {
+    const user = PORTAL_USERS.find(u => u.id === userId);
+    const unit = TENANT_UNITS.find(u => u.tenantId === userId);
+    const assets = PORTAL_ASSETS.filter(a => a.tenantId === userId);
+    const tickets = MAINTENANCE_TICKETS.filter(t => t.tenantId === userId);
+    const payments = PORTAL_PAYMENTS.filter(p => p.tenantId === userId);
+    const documents = PORTAL_DOCUMENTS.filter(d => d.tenantId === userId);
+    const visitors = VISITOR_PASSES.filter(v => v.tenantId === userId);
+    const parcels = PARCELS.filter(p => p.tenantId === userId);
+    const utilities = UTILITY_DATA[userId] ?? [];
+    const conversations = CONVERSATIONS.filter(c => c.tenantId === userId);
+    return { user, unit, assets, tickets, payments, documents, visitors, parcels, utilities, conversations };
+  }
+  

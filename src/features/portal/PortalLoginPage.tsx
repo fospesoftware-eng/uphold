@@ -11,10 +11,15 @@ import { useAuth } from '../../lib/auth';
 import { users } from '../../data/mockData';
 
 const DEMO_ACCOUNTS = [
-  { email: 'tenant1@demo.com', name: 'James Thornton', role: 'Maple House · Room 1',  color: 'from-[#075DE8] to-[#0797D8]',   initials: 'JT' },
-  { email: 'tenant2@demo.com', name: 'Emily Chang',    role: 'Birch Court · Unit 5',   color: 'from-violet-500 to-purple-600', initials: 'EC' },
-  { email: 'manager@demo.com', name: 'Sarah Mitchell', role: 'Property Manager',        color: 'from-emerald-500 to-teal-500',  initials: 'SM' },
-  { email: 'admin@demo.com',   name: 'Admin User',     role: 'System Administrator',    color: 'from-rose-500 to-orange-500',   initials: 'AU' },
+  { email: 'tenant1@demo.com',  name: 'James Thornton',  role: 'Maple House · Room 1',       color: 'from-[#075DE8] to-[#0797D8]',     initials: 'JT' },
+  { email: 'tenant2@demo.com',  name: 'Emily Chang',     role: 'Birch Court · Unit 5',         color: 'from-violet-500 to-purple-600',   initials: 'EC' },
+  { email: 'tenant3@demo.com',  name: 'Aisha Patel',     role: 'Oak Lodge · Flat 2A',          color: 'from-amber-500 to-orange-500',    initials: 'AP' },
+  { email: 'tenant4@demo.com',  name: 'David Okafor',    role: 'Willow Grove · Room 7',        color: 'from-sky-500 to-cyan-500',        initials: 'DO' },
+  { email: 'tenant5@demo.com',  name: 'Margaret Wilson', role: 'Cedar View · Studio 3',        color: 'from-emerald-500 to-teal-500',    initials: 'MW' },
+  { email: 'tenant6@demo.com',  name: 'Raj Mehta',       role: 'Pine House · Flat 1B',         color: 'from-rose-500 to-pink-500',       initials: 'RM' },
+  { email: 'manager@demo.com',  name: 'Sarah Mitchell',  role: 'Property Manager',             color: 'from-indigo-500 to-violet-600',   initials: 'SM' },
+  { email: 'support@demo.com',  name: 'Lisa Carter',     role: 'Support Staff',                color: 'from-lime-500 to-green-500',      initials: 'LC' },
+  { email: 'admin@demo.com',    name: 'Admin User',      role: 'System Administrator',         color: 'from-rose-500 to-red-600',        initials: 'AU' },
 ];
 
 const PREVIEW_STATS = [
@@ -216,14 +221,14 @@ export function PortalLoginPage() {
               <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">Demo Accounts</p>
               <span className="text-[9px] text-white/15 font-mono">password123</span>
             </div>
-            <div className="flex gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {DEMO_ACCOUNTS.map(acc => (
                 <motion.button
                   key={acc.email}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.96 }}
                   onClick={() => quickLogin(acc)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl text-left transition-all flex-1"
+                  className="flex items-center gap-2 p-2.5 rounded-xl text-left transition-all"
                   style={{
                     background: selectedDemo === acc.email ? 'rgba(7,93,232,0.15)' : 'rgba(255,255,255,0.04)',
                     border: `1px solid ${selectedDemo === acc.email ? 'rgba(7,93,232,0.38)' : 'rgba(255,255,255,0.07)'}`,
