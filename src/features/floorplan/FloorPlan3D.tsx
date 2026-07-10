@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { RotateCcw, RotateCw, ZoomIn, ZoomOut, Maximize2, Move3d, X, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getFloorPlan, ROOM_STYLE, type Furniture } from './floorPlanData';
@@ -77,18 +78,20 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
   const roomAssets = activeRoom ? allAssets.filter((a: any) => a.room === activeRoom.name) : [];
 
   return (
-    <div className="relative select-none rounded-2xl overflow-hidden border border-[#E6EEF5] dark:border-[#1E2D45]"
+    <div className="relative select-none rounded-2xl border border-[#E6EEF5] dark:border-[#1E2D45]"
       style={{ background: 'radial-gradient(120% 120% at 50% 0%, #F3F7FC 0%, #E7EEF6 55%, #DCE6F1 100%)' }}>
 
-      {/* Stage */}
-      <div
-        className="relative cursor-grab active:cursor-grabbing"
-        style={{ height, perspective: '1400px', touchAction: 'none' }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
-      >
+      {/* Stage - with overflow-hidden only for the viewport */}
+      <div className="relative overflow-hidden" style={{ height }}>
+        {/* Stage */}
+        <div
+          className="relative cursor-grab active:cursor-grabbing"
+          style={{ height, perspective: '1400px', touchAction: 'none' }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
+        >
         <div
           className="absolute left-1/2 top-1/2"
           style={{
@@ -156,6 +159,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
           {/* perimeter walls (low, translucent — dollhouse cutaway) */}
           <Walls w={boardW} h={boardH} />
         </div>
+        </div>
       </div>
 
       {/* top-left hint */}
@@ -164,7 +168,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
       </div>
 
       {/* controls */}
-      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+      <div className="absolute top-3 right-3 flex items-center gap-1.5 z-20">
         {[
           { icon: <RotateCcw size={15} />, fn: () => setRot(r => r - 30), title: 'Rotate left' },
           { icon: <RotateCw size={15} />,  fn: () => setRot(r => r + 30), title: 'Rotate right' },
@@ -184,7 +188,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-3 left-3 px-3.5 py-2.5 rounded-xl bg-white/90 dark:bg-[#0F172A]/85 backdrop-blur border border-white/60 dark:border-white/10 shadow-lg hover:shadow-xl hover:bg-white dark:hover:bg-[#1A2640] transition-all cursor-pointer"
+          className="absolute bottom-3 left-3 px-3.5 py-2.5 rounded-xl bg-white/90 dark:bg-[#0F172A]/85 backdrop-blur border border-white/60 dark:border-white/10 shadow-lg hover:shadow-xl hover:bg-white dark:hover:bg-[#1A2640] transition-all cursor-pointer z-20"
           onClick={() => setShowModal(true)}
           type="button"
         >
@@ -197,24 +201,23 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
         </motion.button>
       )}
 
-      {/* Beautiful Assets Modal */}
-      <AnimatePresence>
-        {showModal && activeRoom && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowModal(false)}
-              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            >
+      {/* Beautiful Assets Modal - rendered as portal */}
+      {showModal && activeRoom && createPortal(
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowModal(false)}
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          >
               <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl">
                 {/* Header gradient */}
                 <div className="absolute inset-0 h-32 bg-gradient-to-br from-[#075DE8] via-[#0797D8] to-[#0EA5E9]" />
@@ -269,7 +272,7 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-semibold text-[#0F172A] dark:text-white truncate">{asset.name}</p>
-                            <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">{asset.category}</p>
+                            <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">{typeof asset.category === 'object' ? asset.category?.name : asset.category}</p>
                             <div className="flex items-center gap-2 mt-1.5">
                               <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
                                 asset.condition === 'excellent' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
@@ -300,9 +303,9 @@ export function FloorPlan3D({ propertyId, highlightRoom, height = 440 }: Props) 
                 </div>
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          </>,
+          document.body
+      )}
     </div>
   );
 }

@@ -419,36 +419,33 @@ export function PropertyDetailPage() {
       </div>
 
       {/* ── Tab Content ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.2 }}
-        >
-          {activeTab === 'overview'    && <OverviewTab    property={property} rooms={propRooms} amenities={AMENITIES} />}
-          {activeTab === 'floorplan'   && (
-            <div className="bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] rounded-2xl p-4 sm:p-5">
-              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <div>
-                  <h3 className="text-sm font-semibold text-[#0F172A] dark:text-white">3D Floor Plan</h3>
-                  <p className="text-xs text-[#64748B] dark:text-[#94A3B8]">Interactive dollhouse view · drag to rotate, tap a room for details</p>
-                </div>
+      <motion.div
+        key={activeTab}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        {activeTab === 'overview'    && <OverviewTab    property={property} rooms={propRooms} amenities={AMENITIES} />}
+        {activeTab === 'floorplan'   && (
+          <div className="bg-white dark:bg-[#111827] border border-[#E6EEF5] dark:border-[#1E2D45] rounded-2xl p-4 sm:p-5">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <div>
+                <h3 className="text-sm font-semibold text-[#0F172A] dark:text-white">3D Floor Plan</h3>
+                <p className="text-xs text-[#64748B] dark:text-[#94A3B8]">Interactive dollhouse view · drag to rotate, tap a room for details</p>
               </div>
-              <FloorPlan3D propertyId={property.id} height={520} />
             </div>
-          )}
-          {activeTab === 'tenants'     && <TenantsTab     tenants={propTenants} rooms={propRooms} />}
-          {activeTab === 'assets'      && <AssetsTab      assets={DEMO_ASSETS} />}
-          {activeTab === 'maintenance' && <MaintenanceTab tickets={DEMO_TICKETS} monthly={MAINTENANCE_MONTHLY} byType={MAINTENANCE_BY_TYPE} />}
-          {activeTab === 'financials'  && <FinancialsTab  tenants={propTenants} revenue={REVENUE_TREND} />}
-          {activeTab === 'compliance'  && <ComplianceTab  certs={propCerts} />}
-          {activeTab === 'documents'   && <DocumentsTab />}
-          {activeTab === 'analytics'   && <AnalyticsTab   revenue={REVENUE_TREND} occupancy={OCCUPANCY_TREND} assetsByCategory={ASSET_BY_CATEGORY} />}
-          {activeTab === 'activity'    && <ActivityTab    feed={ACTIVITY_FEED} />}
-        </motion.div>
-      </AnimatePresence>
+            <FloorPlan3D propertyId={property.id} height={520} />
+          </div>
+        )}
+        {activeTab === 'tenants'     && <TenantsTab     tenants={propTenants} rooms={propRooms} />}
+        {activeTab === 'assets'      && <AssetsTab      assets={DEMO_ASSETS} />}
+        {activeTab === 'maintenance' && <MaintenanceTab tickets={DEMO_TICKETS} monthly={MAINTENANCE_MONTHLY} byType={MAINTENANCE_BY_TYPE} />}
+        {activeTab === 'financials'  && <FinancialsTab  tenants={propTenants} revenue={REVENUE_TREND} />}
+        {activeTab === 'compliance'  && <ComplianceTab  certs={propCerts} />}
+        {activeTab === 'documents'   && <DocumentsTab />}
+        {activeTab === 'analytics'   && <AnalyticsTab   revenue={REVENUE_TREND} occupancy={OCCUPANCY_TREND} assetsByCategory={ASSET_BY_CATEGORY} />}
+        {activeTab === 'activity'    && <ActivityTab    feed={ACTIVITY_FEED} />}
+      </motion.div>
     </div>
   );
 }

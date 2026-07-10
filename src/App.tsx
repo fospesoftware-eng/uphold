@@ -19,6 +19,12 @@ import { ReportsPage } from './features/reports/ReportsPage';
 import { AdministrationPage } from './features/administration/AdministrationPage';
 import { AssetsPage } from './features/assets/AssetsPage';
 import { AssetDetailPage } from './features/assets/AssetDetailPage';
+// Marketplace
+import { MarketplaceLayout } from './features/marketplace/MarketplaceLayout';
+import { MarketplaceHome } from './features/marketplace/pages/MarketplaceHome';
+import { SearchResults } from './features/marketplace/pages/SearchResults';
+import { ListingDetail } from './features/marketplace/pages/ListingDetail';
+import { MarketplaceAdminPage } from './features/marketplace/admin/MarketplaceAdminPage';
 // Tenant Portal
 import { TenantPortalProvider } from './features/portal/context';
 import { PortalLayout } from './features/portal/PortalLayout';
@@ -58,6 +64,13 @@ function AppRoutes() {
         <Route path="/about" element={<AboutPage />} />
       </Route>
 
+      {/* Public Marketplace (no auth) */}
+      <Route path="/marketplace" element={<MarketplaceLayout />}>
+        <Route index element={<MarketplaceHome />} />
+        <Route path="search" element={<SearchResults />} />
+        <Route path="property/:id" element={<ListingDetail />} />
+      </Route>
+
       {/* Auth */}
       <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <AuthPage />} />
 
@@ -80,6 +93,7 @@ function AppRoutes() {
         <Route path="reports" element={<ReportsPage />} />
         <Route path="assets" element={<AssetsPage />} />
         <Route path="assets/:id" element={<AssetDetailPage />} />
+        <Route path="marketplace/admin" element={<MarketplaceAdminPage />} />
         <Route path="administration" element={<AdministrationPage />} />
       </Route>
 
