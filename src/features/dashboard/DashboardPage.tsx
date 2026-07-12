@@ -9,6 +9,7 @@ import {
   Tooltip as RechartTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { StatCard, Card, SkeletonCard, Avatar, StatusPill, PageHeader, ProgressBar } from '../../components/ui';
+import { InsightsWidget } from '../insights/InsightsWidget';
 import { dashboardService } from '../../services';
 import { tenants, activityFeed, notifications } from '../../data/mockData';
 import type { DashboardKPI, ActivityEvent, AppNotification } from '../../types';
@@ -87,6 +88,11 @@ export function DashboardPage() {
           </div>
         }
       />
+
+      {/* AI Insights — full-width horizontal band */}
+      <div className="mb-6">
+        <InsightsWidget />
+      </div>
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">

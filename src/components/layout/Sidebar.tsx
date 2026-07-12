@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Users, Building2, HeartHandshake, DollarSign,
   FileText, BarChart3, Settings, ChevronLeft, ChevronRight,
-  HelpCircle, LogOut, X, Package, Store
+  HelpCircle, LogOut, X, Package, Store, Sparkles
 } from 'lucide-react';
 import { useAuth, useCanAccess } from '../../lib/auth';
 import { Avatar } from '../ui';
@@ -19,6 +19,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 'dashboard',      label: 'Dashboard',       icon: <LayoutDashboard size={18} />, href: '/dashboard' },
+  { id: 'insights',       label: 'AI Insights',      icon: <Sparkles size={18} />,        href: '/insights' },
   { id: 'tenants',        label: 'Tenants',          icon: <Users size={18} />,           href: '/tenants' },
   { id: 'properties',     label: 'Properties',       icon: <Building2 size={18} />,       href: '/properties' },
   { id: 'marketplace',    label: 'Marketplace',      icon: <Store size={18} />,           href: '/marketplace/admin' },
@@ -51,6 +52,7 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
   const accessibleItems = navItems.filter(item => {
     const access: Record<string, string[]> = {
       dashboard:      ['super_admin', 'admin', 'board'],
+      insights:       ['super_admin', 'admin', 'board'],
       tenants:        ['super_admin', 'admin', 'support_staff'],
       properties:     ['super_admin', 'admin'],
       marketplace:    ['super_admin', 'admin'],

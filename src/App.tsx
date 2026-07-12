@@ -25,6 +25,7 @@ import { MarketplaceHome } from './features/marketplace/pages/MarketplaceHome';
 import { SearchResults } from './features/marketplace/pages/SearchResults';
 import { ListingDetail } from './features/marketplace/pages/ListingDetail';
 import { MarketplaceAdminPage } from './features/marketplace/admin/MarketplaceAdminPage';
+import { AIInsightsPage } from './features/insights/AIInsightsPage';
 // Tenant Portal
 import { TenantPortalProvider } from './features/portal/context';
 import { PortalLayout } from './features/portal/PortalLayout';
@@ -83,6 +84,7 @@ function AppRoutes() {
         }
       >
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="insights" element={<AIInsightsPage />} />
         <Route path="tenants" element={<TenantsPage />} />
         <Route path="tenants/:id" element={<TenantProfilePage />} />
         <Route path="properties" element={<PropertiesPage />} />
