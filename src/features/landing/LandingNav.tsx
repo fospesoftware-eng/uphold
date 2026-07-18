@@ -8,12 +8,12 @@ const navLinks = [
   { label: 'How it Works', href: '/how-it-works' },
   { label: 'Schedule Demo', href: '/login' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
+  { label: 'Who we are', href: '/about' },
 ];
 
 const aboutDropdownItems = [
   {
-    title: 'About Us',
+    title: 'Who we are',
     desc: 'Our mission, story, and why we exist.',
     href: '/about',
     image: '/about.jpg'
@@ -75,7 +75,7 @@ export function LandingNav() {
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-0.5">
-              {navLinks.filter(l => l.label !== 'About').map(link => (
+              {navLinks.filter(l => l.label !== 'Who we are').map(link => (
                 <NavLink
                   key={link.href}
                   to={link.href}
@@ -104,7 +104,7 @@ export function LandingNav() {
                       : 'text-white/65 hover:text-white hover:bg-white/8'
                   }`}
                 >
-                  About
+                  Who we are
                   <svg className={`w-3 h-3 transition-transform duration-200 ${aboutOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -184,14 +184,14 @@ export function LandingNav() {
           >
             <div className="px-6 py-4 space-y-1">
               {navLinks.map(link => {
-                if (link.label === 'About') {
+                if (link.label === 'Who we are') {
                   return (
                     <div key={link.href} className="space-y-1">
                       <button
                         onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
                         className="flex items-center justify-between w-full px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium"
                       >
-                        <span>About</span>
+                        <span>Who we are</span>
                         <svg className={`w-4 h-4 transition-transform duration-200 ${mobileAboutOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
