@@ -69,13 +69,13 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className={`flex items-center gap-3 px-4 py-0 border-b border-[#E6EEF5] dark:border-[#1E2D45] ${collapsed ? 'justify-center' : ''}`}>
+      <div className={`flex items-center gap-3 px-4 py-3.5 border-b border-[#E6EEF5] dark:border-[#1E2D45] ${collapsed ? 'justify-center' : ''}`}>
         {collapsed ? (
-          <div className="w-9 h-9 flex-shrink-0">
+          <div className="w-8 h-8 flex-shrink-0">
             <img src="/uphold-icon.png" alt="Uphold" className="w-full h-full object-contain" />
           </div>
         ) : (
-          <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-[108px] w-auto object-contain" />
+          <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-10 w-auto object-contain" />
         )}
         <button
           onClick={onToggle}
