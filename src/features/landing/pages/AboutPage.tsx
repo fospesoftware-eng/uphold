@@ -66,6 +66,9 @@ export function AboutPage() {
   const { ref: heroRef, isInView: heroInView } = useReveal();
   const { ref: valuesRef, isInView: valuesInView } = useReveal();
   const { ref: testimonialsRef, isInView: testimonialsInView } = useReveal();
+  const { ref: leadershipRef, isInView: leadershipInView } = useReveal();
+  const { ref: visionRef, isInView: visionInView } = useReveal();
+  const { ref: locationsRef, isInView: locationsInView } = useReveal();
   const navigate = useNavigate();
 
   return (
@@ -210,6 +213,167 @@ export function AboutPage() {
                     <p className="text-xs text-[#64748B]">{t.role}</p>
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Leadership Section */}
+      <div id="leadership" className="py-24 bg-[#F8FAFC] border-t border-[#E6EEF5]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div ref={leadershipRef} className="text-center mb-16">
+            <motion.h2
+              variants={fadeUp} initial="hidden" animate={leadershipInView ? 'visible' : 'hidden'}
+              className="text-3xl font-bold font-display text-[#0F172A]"
+            >
+              Our Leadership Team
+            </motion.h2>
+            <motion.p
+              variants={fadeUp} custom={1} initial="hidden" animate={leadershipInView ? 'visible' : 'hidden'}
+              className="text-[#64748B] max-w-xl mx-auto mt-3 text-sm leading-relaxed"
+            >
+              Meet the specialists leading Uphold in bridging the gap between care work and compliance technology.
+            </motion.p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Alex Patel',
+                role: 'CEO & Co-Founder',
+                bio: 'Formerly built housing compliance tools for UK councils. Passionate about sector efficiency and security.',
+                initials: 'AP',
+                color: 'from-[#075DE8] to-[#0797D8]'
+              },
+              {
+                name: 'Dorota Dominika',
+                role: 'Head of Compliance & Co-Founder',
+                bio: '15+ years managing supported housing associations. Ex-commissioner for Manchester City Council.',
+                initials: 'DD',
+                color: 'from-[#15C6B8] to-[#32E6A4]'
+              },
+              {
+                name: 'Sarah Mitchell',
+                role: 'Head of Product',
+                bio: 'Designed customer experiences at leading UK SaaS companies. Focused on care team empowerment.',
+                initials: 'SM',
+                color: 'from-[#6366F1] to-[#8B5CF6]'
+              }
+            ].map((member, i) => (
+              <motion.div
+                key={member.name}
+                variants={fadeUp} custom={i * 0.1}
+                initial="hidden" animate={leadershipInView ? 'visible' : 'hidden'}
+                className="p-6 bg-white rounded-2xl border border-[#E6EEF5] hover:shadow-lg transition-all"
+              >
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${member.color} flex items-center justify-center text-white text-lg font-bold mb-4 shadow-md`}>
+                  {member.initials}
+                </div>
+                <h3 className="text-lg font-bold text-[#0F172A]">{member.name}</h3>
+                <p className="text-xs font-semibold text-[#075DE8] mt-0.5">{member.role}</p>
+                <p className="text-sm text-[#64748B] leading-relaxed mt-3">{member.bio}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Vision Section */}
+      <div id="vision" className="py-24 bg-white border-t border-[#E6EEF5]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div ref={visionRef} className="text-center mb-16">
+            <motion.h2
+              variants={fadeUp} initial="hidden" animate={visionInView ? 'visible' : 'hidden'}
+              className="text-3xl font-bold font-display text-[#0F172A]"
+            >
+              Our Vision
+            </motion.h2>
+            <motion.p
+              variants={fadeUp} custom={1} initial="hidden" animate={visionInView ? 'visible' : 'hidden'}
+              className="text-[#64748B] max-w-xl mx-auto mt-3 text-sm leading-relaxed"
+            >
+              Our roadmap is built in close alignment with housing legislation, providing automated care pathways.
+            </motion.p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                phase: 'Q3 2026',
+                title: 'AI Risk Insights',
+                desc: 'Automated predictive warnings for tenant risk profiles and STAR score drop-offs.'
+              },
+              {
+                phase: 'Q4 2026',
+                title: 'Offline Field Access',
+                desc: 'Mobile support session logging with offline database syncing for remote staff.'
+              },
+              {
+                phase: 'Q1 2027',
+                title: 'Commissioner Portal',
+                desc: 'Read-only dashboard for local authorities to check audit logs instantly.'
+              }
+            ].map((step, i) => (
+              <motion.div
+                key={step.title}
+                variants={fadeUp} custom={i * 0.1}
+                initial="hidden" animate={visionInView ? 'visible' : 'hidden'}
+                className="p-6 bg-[#F8FAFC] rounded-2xl border border-[#E6EEF5] hover:shadow-md transition-all relative overflow-hidden"
+              >
+                <span className="absolute top-4 right-4 text-[10px] font-bold text-[#075DE8] bg-blue-50 px-2 py-1 rounded-full uppercase tracking-wider">
+                  {step.phase}
+                </span>
+                <h3 className="text-lg font-bold text-[#0F172A] mt-2">{step.title}</h3>
+                <p className="text-sm text-[#64748B] leading-relaxed mt-3">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Locations Section */}
+      <div id="locations" className="py-24 bg-[#F8FAFC] border-t border-[#E6EEF5]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div ref={locationsRef} className="text-center mb-16">
+            <motion.h2
+              variants={fadeUp} initial="hidden" animate={locationsInView ? 'visible' : 'hidden'}
+              className="text-3xl font-bold font-display text-[#0F172A]"
+            >
+              Our Locations
+            </motion.h2>
+            <motion.p
+              variants={fadeUp} custom={1} initial="hidden" animate={locationsInView ? 'visible' : 'hidden'}
+              className="text-[#64748B] max-w-xl mx-auto mt-3 text-sm leading-relaxed"
+            >
+              We support housing associations and local care teams from regional hubs across the UK.
+            </motion.p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                city: 'London HQ',
+                address: '88 Kingsway, London, WC2B 6AA',
+                desc: 'Central administration, sales, and executive team.'
+              },
+              {
+                city: 'Manchester Office',
+                address: '14 Maple Avenue, Manchester, M4 1AB',
+                desc: 'Engineering, customer support, and local training hub.'
+              },
+              {
+                city: 'Birmingham Hub',
+                address: '22 Oak Street, Birmingham, B1 2WE',
+                desc: 'Compliance consulting and regional customer success.'
+              }
+            ].map((loc, i) => (
+              <motion.div
+                key={loc.city}
+                variants={fadeUp} custom={i * 0.1}
+                initial="hidden" animate={locationsInView ? 'visible' : 'hidden'}
+                className="p-6 bg-white rounded-2xl border border-[#E6EEF5] hover:shadow-lg transition-all"
+              >
+                <h3 className="text-lg font-bold text-[#0F172A]">{loc.city}</h3>
+                <p className="text-xs text-[#075DE8] font-semibold mt-1">{loc.address}</p>
+                <p className="text-sm text-[#64748B] leading-relaxed mt-3">{loc.desc}</p>
               </motion.div>
             ))}
           </div>

@@ -11,9 +11,38 @@ const navLinks = [
   { label: 'About', href: '/about' },
 ];
 
+const aboutDropdownItems = [
+  {
+    title: 'About Us',
+    desc: 'Our mission, story, and why we exist.',
+    href: '/about',
+    image: '/about.jpg'
+  },
+  {
+    title: 'Leadership',
+    desc: 'Meet the team behind Uphold.',
+    href: '/about#leadership',
+    image: '/leadership.jpg'
+  },
+  {
+    title: 'Vision',
+    desc: 'Where we are heading and product roadmap.',
+    href: '/about#vision',
+    image: '/vision.jpg'
+  },
+  {
+    title: 'Locations',
+    desc: 'Our hubs and regional supported areas.',
+    href: '/about#locations',
+    image: '/locations.jpg'
+  }
+];
+
 export function LandingNav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +64,7 @@ export function LandingNav() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[120px]">
+          <div className="flex items-center justify-between h-[120px]">
             <Link to="/" className="flex items-center group flex-shrink-0">
               <img
                 src="/uphold-logo-transparent.png"
@@ -46,14 +75,14 @@ export function LandingNav() {
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-0.5">
-              {navLinks.map(link => (
+              {navLinks.filter(l => l.label !== 'About').map(link => (
                 <NavLink
                   key={link.href}
                   to={link.href}
                   className={({ isActive }) =>
                     `px-3.5 py-2 text-sm rounded-lg font-medium transition-all duration-200 ${
                       isActive
-                        ? 'text-white bg-white/10'
+                        ? 'text-white bg-white/15'
                         : 'text-white/65 hover:text-white hover:bg-white/8'
                     }`
                   }
@@ -61,6 +90,55 @@ export function LandingNav() {
                   {link.label}
                 </NavLink>
               ))}
+
+              {/* About with Dropdown */}
+              <div
+                className="relative py-2"
+                onMouseEnter={() => setAboutOpen(true)}
+                onMouseLeave={() => setAboutOpen(false)}
+              >
+                <button
+                  className={`px-3.5 py-2 text-sm rounded-lg font-medium transition-all duration-200 flex items-center gap-1 cursor-pointer ${
+                    aboutOpen || window.location.pathname.startsWith('/about')
+                      ? 'text-white bg-white/15'
+                      : 'text-white/65 hover:text-white hover:bg-white/8'
+                  }`}
+                >
+                  About
+                  <svg className={`w-3 h-3 transition-transform duration-200 ${aboutOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                <AnimatePresence>
+                  {aboutOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 12, scale: 0.96 }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                      className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-[560px] p-4 bg-[#060B18]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] z-50 grid grid-cols-2 gap-3"
+                    >
+                      {aboutDropdownItems.map(item => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          onClick={() => setAboutOpen(false)}
+                          className="flex items-center gap-3.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-200 group"
+                        >
+                          <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-white/10">
+                            <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-white group-hover:text-[#075DE8] transition-colors">{item.title}</p>
+                            <p className="text-xs text-white/50 line-clamp-2 mt-0.5 leading-normal">{item.desc}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Desktop CTAs */}
@@ -105,16 +183,55 @@ export function LandingNav() {
             className="fixed top-[72px] left-0 right-0 z-40 bg-[#060B18]/96 backdrop-blur-xl border-b border-white/10"
           >
             <div className="px-6 py-4 space-y-1">
-              {navLinks.map(link => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block w-full text-left px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map(link => {
+                if (link.label === 'About') {
+                  return (
+                    <div key={link.href} className="space-y-1">
+                      <button
+                        onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                        className="flex items-center justify-between w-full px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium"
+                      >
+                        <span>About</span>
+                        <svg className={`w-4 h-4 transition-transform duration-200 ${mobileAboutOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      <AnimatePresence>
+                        {mobileAboutOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-4 space-y-1 overflow-hidden"
+                          >
+                            {aboutDropdownItems.map(item => (
+                              <Link
+                                key={item.title}
+                                to={item.href}
+                                onClick={() => { setMobileOpen(false); setMobileAboutOpen(false); }}
+                                className="flex items-center gap-3 px-4 py-2.5 text-xs text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <img src={item.image} alt={item.title} className="w-8 h-6 rounded object-cover" />
+                                <span>{item.title}</span>
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block w-full text-left px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                 <Link
                   to="/login"
