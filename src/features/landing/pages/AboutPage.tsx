@@ -286,7 +286,7 @@ export function AboutPage() {
               variants={fadeUp} initial="hidden" animate={visionInView ? 'visible' : 'hidden'}
               className="text-3xl font-bold font-display text-[#0F172A]"
             >
-              Our Vision
+              Vision 2030
             </motion.h2>
             <motion.p
               variants={fadeUp} custom={1} initial="hidden" animate={visionInView ? 'visible' : 'hidden'}
@@ -338,7 +338,7 @@ export function AboutPage() {
               variants={fadeUp} initial="hidden" animate={locationsInView ? 'visible' : 'hidden'}
               className="text-3xl font-bold font-display text-[#0F172A]"
             >
-              Our Locations
+              Location
             </motion.h2>
             <motion.p
               variants={fadeUp} custom={1} initial="hidden" animate={locationsInView ? 'visible' : 'hidden'}

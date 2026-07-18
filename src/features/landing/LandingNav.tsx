@@ -13,7 +13,7 @@ const navLinks = [
 
 const aboutDropdownItems = [
   {
-    title: 'Who we are',
+    title: 'About',
     desc: 'Our mission, story, and why we exist.',
     href: '/about',
     image: '/about.jpg'
@@ -25,13 +25,13 @@ const aboutDropdownItems = [
     image: '/leadership.jpg'
   },
   {
-    title: 'Vision',
+    title: 'Vision 2030',
     desc: 'Where we are heading and product roadmap.',
     href: '/about#vision',
     image: '/vision.jpg'
   },
   {
-    title: 'Locations',
+    title: 'Location',
     desc: 'Our hubs and regional supported areas.',
     href: '/about#locations',
     image: '/locations.jpg'
@@ -124,14 +124,29 @@ export function LandingNav() {
                           key={item.title}
                           to={item.href}
                           onClick={() => setAboutOpen(false)}
-                          className="flex items-center gap-3.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-200 group"
+                          className="relative aspect-[16/10] rounded-xl overflow-hidden group border border-white/5 shadow-md flex flex-col justify-end p-4 transition-all duration-300 hover:border-white/20"
                         >
-                          <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-white/10">
-                            <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-white group-hover:text-[#075DE8] transition-colors">{item.title}</p>
-                            <p className="text-xs text-white/50 line-clamp-2 mt-0.5 leading-normal">{item.desc}</p>
+                          {/* Image background */}
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+
+                          {/* Dark overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+                          {/* Text content */}
+                          <div className="relative z-10 min-w-0">
+                            <p className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors flex items-center gap-1">
+                              {item.title}
+                              <svg className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7-7" />
+                              </svg>
+                            </p>
+                            <p className="text-[10px] text-white/60 line-clamp-2 mt-1 leading-normal group-hover:text-white/80 transition-colors">
+                              {item.desc}
+                            </p>
                           </div>
                         </Link>
                       ))}
