@@ -72,10 +72,10 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
       <div className={`flex items-center gap-3 px-4 py-5 border-b border-[#E6EEF5] dark:border-[#1E2D45] ${collapsed ? 'justify-center' : ''}`}>
         {collapsed ? (
           <div className="w-9 h-9 flex-shrink-0">
-            <img src="/granville-logo.svg" alt="Granville Community Homes" className="w-full h-full object-contain" />
+            <img src="/uphold-icon.png" alt="Uphold" className="w-full h-full object-contain" />
           </div>
         ) : (
-          <img src="/granville-logo.svg" alt="Granville Community Homes" className="h-12 w-auto object-contain" />
+          <img src="/uphold-logo-transparent.png" alt="Uphold" className="h-9 w-auto object-contain" />
         )}
         <button
           onClick={onToggle}
